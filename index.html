@@ -288,9 +288,9 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 .emptyState h4{color:var(--txt); font-size:15px; margin-bottom:6px;}
 .emptyState p{font-size:12px; line-height:1.6; margin-bottom:12px;}
 .emptyState .acts{display:flex; gap:8px; justify-content:center;}
-#cropWarn{position:absolute; top:48px; left:50%; transform:translateX(-50%); background:var(--danger); color:#fff; padding:4px 14px; border-radius:20px; font-size:12px; display:none; z-index:12; box-shadow:var(--sh2);}
-#cropWarn.show{display:flex; align-items:center; gap:8px;}
-#cropWarn button{background:rgba(255,255,255,.2); border:none; color:#fff; border-radius:12px; padding:1px 8px; font-size:11px;}
+#cropWarn,#trCropWarn{position:absolute; top:48px; left:50%; transform:translateX(-50%); background:var(--danger); color:#fff; padding:4px 14px; border-radius:20px; font-size:12px; display:none; z-index:12; box-shadow:var(--sh2);}
+#cropWarn.show,#trCropWarn.show{display:flex; align-items:center; gap:8px;}
+#cropWarn button,#trCropWarn button{background:rgba(255,255,255,.2); border:none; color:#fff; border-radius:12px; padding:1px 8px; font-size:11px;}
 #boardHint{position:absolute; top:48px; left:50%; transform:translateX(-50%); background:var(--bg2); border:1px solid var(--accLine); color:var(--acc2); padding:4px 14px; border-radius:20px; font-size:12px; display:none; z-index:12; pointer-events:none;}
 .stageBar .grp.boardPill{display:none; border-color:var(--accLine); background:rgba(20,34,60,.92);}
 .stageBar .grp.boardPill.show{display:inline-flex;}
@@ -432,7 +432,7 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 
 <!-- ============================ 頂部工具列 ============================ -->
 <div id="tabBar">
-  <div class="brand"><span class="logo"><svg class="i sm" style="stroke:#fff"><use href="#i-spark"/></svg></span>EdgeFX Studio<span class="ver" id="buildStamp" data-tip="建置時間 10/01 16:06｜若這個時間不是最新的，請按 Ctrl+Shift+R 重新載入">v3</span></div>
+  <div class="brand"><span class="logo"><svg class="i sm" style="stroke:#fff"><use href="#i-spark"/></svg></span>EdgeFX Studio<span class="ver" id="buildStamp" data-tip="建置時間 11/09 14:48｜若這個時間不是最新的，請按 Ctrl+Shift+R 重新載入">v3</span></div>
   <div class="tabs">
     <button class="tab on" data-mode="edge" data-tour="tabs"><svg class="i sm"><use href="#i-sun"/></svg>邊光 EdgeFX</button>
     <button class="tab" data-mode="trail"><svg class="i sm"><use href="#i-path"/></svg>拖尾 TrailFX</button>
@@ -662,6 +662,51 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
             <button class="btn sm szBtn" data-w="512" data-h="512">512×512</button>
             <button class="btn sm szBtn" data-w="1920" data-h="1080">1920×1080</button>
           </div>
+          <div class="row">
+            <label>外擴量<span class="q" data-help="trPadding"></span></label>
+            <input type="number" id="trPadBox" min="0" max="1024" step="8" value="64" style="width:62px">
+            <button class="btn sm" id="trAutofitBtn"><svg class="i sm"><use href="#i-fit"/></svg>自動外擴</button>
+          </div>
+          <div class="szRow">
+            <button class="btn sm ghost" id="trSzFit" data-tip="把畫布改成剛好容納光暈＋外擴量，可以縮小">貼合光暈（縮到剛好）</button>
+          </div>
+          <div class="row"><span class="badge" id="trMarginInfo">留白：尚無路徑</span></div>
+          <div class="sub adv">
+            <div class="t"><svg class="i sm"><use href="#i-fit"/></svg>外擴行為</div>
+            <div class="row">
+              <label>縮放錨點<span class="q" data-help="trAnchor"></span></label>
+              <select id="trAnchor">
+                <option value="0.5,0.5">中心（路徑跟著置中）</option>
+                <option value="0,0">左上（路徑固定不動）</option>
+                <option value="0.5,0">上中</option>
+                <option value="1,0">右上</option>
+                <option value="0,0.5">左中</option>
+                <option value="1,0.5">右中</option>
+                <option value="0,1">左下</option>
+                <option value="0.5,1">下中</option>
+                <option value="1,1">右下</option>
+              </select>
+            </div>
+            <div class="row">
+              <label>對齊<span class="q" data-help="trPadAlign"></span></label>
+              <select id="trPadAlign">
+                <option value="4">4 的倍數</option>
+                <option value="8" selected>8 的倍數</option>
+                <option value="16">16 的倍數</option>
+                <option value="pow2">2 的次方</option>
+                <option value="1">不對齊</option>
+              </select>
+            </div>
+            <div class="row">
+              <label class="switch"><input type="checkbox" id="trPadGrow" checked><i></i>只放大不縮小</label>
+            </div>
+            <div class="row">
+              <label class="switch"><input type="checkbox" id="trAutoPad"><i></i>被裁到就自動外擴</label>
+            </div>
+            <div class="row">
+              <label class="switch"><input type="checkbox" id="trBleedShow" checked><i></i>畫布外的光暈用淡色畫出來<span class="q" data-help="trBleed"></span></label>
+            </div>
+          </div>
           <div class="sub adv">
             <div class="t"><svg class="i sm"><use href="#i-img"/></svg>背景底圖（只給預覽對位）</div>
             <div class="row">
@@ -685,6 +730,12 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
             <button class="btn pathPreset" data-p="circle"><svg class="i"><ellipse cx="12" cy="8" rx="8" ry="6"/></svg>圓形</button>
             <button class="btn pathPreset" data-p="fig8"><svg class="i"><path d="M12 8c-3-5-9-5-9 0s6 5 9 0 9-5 9 0-6 5-9 0z"/></svg>8 字</button>
             <button class="btn pathPreset" data-p="spiral"><svg class="i"><path d="M12 8a2 2 0 0 1 2 2 4 4 0 0 1-4 4 6 6 0 0 1-6-6 8 8 0 0 1 8-8 10 10 0 0 1 10 10"/></svg>螺旋</button>
+            <button class="btn pathPreset" data-p="rrect"><svg class="i"><rect x="2.5" y="2" width="19" height="12" rx="4"/></svg>圓角矩形</button>
+          </div>
+          <div class="row" id="trRRectRow">
+            <label>圓角半徑<span class="q" data-help="trRRadius"></span></label>
+            <input type="number" id="trRRadius" min="0" max="2048" step="4" value="48" style="width:62px">
+            <button class="btn sm ghost" id="trRRedo">重新產生</button>
           </div>
           <div id="trPathList" style="display:flex;flex-direction:column;gap:2px"></div>
           <div class="row">
@@ -703,7 +754,28 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
             <button class="btn sm ghost" id="trClearPath">清除路徑</button>
             <button class="btn sm ghost" id="trReversePath">反轉方向</button>
           </div>
-          <div class="hint adv">拖控制點＝微調；右鍵控制點＝刪除。每條路徑有自己的圖層與動態設定。</div>
+          <div class="sub adv">
+            <div class="t"><svg class="i sm"><use href="#i-path"/></svg>位置與尺寸<span class="q" data-help="trPathRect"></span></div>
+            <div class="row">
+              <label>位置</label>
+              <input type="number" id="trPathX" step="1" style="width:62px">
+              <span style="color:var(--dim)">,</span>
+              <input type="number" id="trPathY" step="1" style="width:62px">
+            </div>
+            <div class="row">
+              <label>尺寸</label>
+              <input type="number" id="trPathW" min="1" step="1" style="width:62px">
+              <span style="color:var(--dim)">×</span>
+              <input type="number" id="trPathH" min="1" step="1" style="width:62px">
+              <label class="switch"><input type="checkbox" id="trPathLock" checked><i></i>鎖比例</label>
+            </div>
+            <div class="row">
+              <button class="btn sm" id="trPathCenter">置中</button>
+              <button class="btn sm" id="trPathFill">填滿畫布</button>
+              <button class="btn sm ghost" id="trPathMove" data-tip="開啟後在畫布上拖曳＝移動整條路徑；平常按住 Shift 拖曳也可以">移動整條</button>
+            </div>
+          </div>
+          <div class="hint adv">拖控制點＝微調；右鍵控制點＝刪除；按住 Shift 拖曳＝移動整條。控制點可以拉到畫布外。</div>
         </div>
       </div>
 
@@ -775,6 +847,7 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
           <p>或在左側「路徑」按一個內建形狀直接開始。</p>
         </div>
       </div>
+      <div id="trCropWarn"><svg class="i sm"><use href="#i-warn"/></svg><span id="trCropTxt">拖尾被畫布邊緣裁到了</span><button id="trCropFix">自動外擴</button></div>
       <div id="trDragOverlay" class="dragOverlay">放開以載入物件圖</div>
     </div>
     <div class="timeline">
@@ -3565,7 +3638,7 @@ $('trPathDup').onclick=()=>{
   trStashCur();
   const src=TR.paths[TR.cur];
   const cp=JSON.parse(JSON.stringify({...src,_path:null}));
-  cp.raw=cp.raw.map(pt=>({x:clamp(pt.x+30,0,TR.W), y:clamp(pt.y+30,0,TR.H)}));  // 錯開一點避免全疊
+  cp.raw=cp.raw.map(pt=>({x:pt.x+30, y:pt.y+30}));  // 錯開一點避免全疊
   cp.layers=cp.layers.map(l=>({...l, id:trLayerUid++}));
   cp.seed=(cp.seed+1)|0;
   TR.paths.splice(TR.cur+1,0,cp);
@@ -4355,7 +4428,7 @@ trOv.addEventListener('pointerdown', ev=>{
 trOv.addEventListener('pointermove', ev=>{
   const p=trPt(ev);
   if(trDragIdx>=0){
-    TR.raw[trDragIdx]={x:clamp(p.x,0,TR.W), y:clamp(p.y,0,TR.H)};
+    TR.raw[trDragIdx]={x:p.x, y:p.y};
     trRebuildPath(); trSaveDebounced();
     return;
   }
@@ -4951,6 +5024,7 @@ async function trExportSeq(){
       W=A.width; H=A.height;
       const nm=base+'_'+String(i).padStart(pad,'0');
       names.push(nm);
+      if(window.TRSCAN) window.TRSCAN(A);
       files.push({name:'images/'+nm+'.png', data:await canvasToU8(A)});
     }
     files.push({name:base+'.json', data:new TextEncoder().encode(spineJson(base,names,W,H,fps))});
@@ -8005,6 +8079,980 @@ function bgUnderSync(){
 }
 const _uiFrame_noBgUnder = uiFrame;
 uiFrame = function(){ _uiFrame_noBgUnder(); bgUnderSync(); };
+
+// ============================================================
+//  拖尾畫布外擴（提案必要變更 1～3）
+//  1. 畫布縮放時，依錨點位移所有路徑的控制點（寫 TR.paths[].raw）
+//  2. 外擴量與自動外擴：光暈範圍＝路徑 bounds＋該條路徑最大的圖層外擴；
+//     畫布＝光暈範圍＋外擴×2、對齊指定倍數、路徑置中
+//  3. 裁切警告橫幅（比照邊光分頁）、被裁的畫布邊標紅、每邊留白讀數
+//
+//  外擴設定自己存一支 localStorage 鍵，完全不動引擎的持久化與復原快照：
+//  真正需要復原的是 TR.W/H 與控制點座標，那兩樣本來就在 trailSnap 裡。
+//  所有會改到 TR.paths[].raw 的地方都遵守工作副本規則：
+//  trStashCur() → 改清單 → trLoadCur() → trRebuildAllPaths()。
+// ============================================================
+(function(){
+  if(!$('trPadBox')) return;
+  const PAD_KEY = 'edgefx_v3_trailpad';
+  Object.assign(TR, { padding:64, padAlign:'8', padGrow:true, autoPad:false, anchorX:0.5, anchorY:0.5, bleed:true });
+  try{
+    const s = JSON.parse(localStorage.getItem(PAD_KEY) || 'null');
+    if(s) Object.assign(TR, {
+      padding: clamp(Math.round(+s.padding || 0), 0, 1024),
+      padAlign: String(s.padAlign || '8'),
+      padGrow: s.padGrow !== false,
+      autoPad: !!s.autoPad,
+      anchorX: typeof s.anchorX === 'number' ? s.anchorX : 0.5,
+      anchorY: typeof s.anchorY === 'number' ? s.anchorY : 0.5,
+      bleed: s.bleed !== false,
+    });
+  }catch(e){}
+  function padSave(){
+    try{ localStorage.setItem(PAD_KEY, JSON.stringify({ padding:TR.padding, padAlign:TR.padAlign,
+      padGrow:TR.padGrow, autoPad:TR.autoPad, anchorX:TR.anchorX, anchorY:TR.anchorY,
+      bleed:TR.bleed })); }catch(e){}
+  }
+
+  // ---- 一個圖層從路徑往外畫多遠（畫布座標 px）----
+  // blur 走 canvas filter，實際擴散約 2.5 倍半徑。
+  function trLayerReach(L){
+    if(!L || !L.on) return 0;
+    const b = (L.blur || 0) * 2.5;
+    const imgR = trImg ? Math.hypot(trImg.width, trImg.height) / 2 : 0;
+    switch(L.type){
+      case 'ribbon': case 'glow':
+        return Math.max(L.wHead||0, L.wTail||0)/2 + (L.wobble||0) + b;
+      case 'texband':
+        return Math.max(L.wHead||0, L.wTail||0)/2 + b;
+      case 'dots':
+        return (L.size||0)/2*(1+(L.sizeVar||0)) + (L.jitter||0) + b;
+      case 'spark': {
+        const life = L.life || 0.4;
+        const v = Math.max(L.spread||0, L.speed||0) * life;
+        const g = Math.abs(L.gravity||0) * life * life * 0.5;
+        return Math.max(v, g) + (L.size||0)*4 + (L.trail||0) + b;
+      }
+      case 'echo':
+        return imgR * Math.max(L.scale0||1, 1) + b;
+      case 'head': {
+        const R = Math.max(1, L.radius||0);
+        let r = Math.max(R, (L.rays||0) > 0 ? R*(L.rayLen||0) : 0);
+        if(L.imgOn && trImg) r = Math.max(r, imgR*(L.imgScale||1));
+        return r + b;
+      }
+      case 'bolt':
+        return (L.len||0) + (L.glowW||0) + (L.jitter||0) + Math.max(L.impactR||0, 0) + b;
+      case 'burst':
+        return (L.radius||0) + (L.shardLen||0)*0.85 + (L.ringW||0) + b;
+      default:
+        return b;
+    }
+  }
+
+  // ---- 光暈範圍：所有可見路徑的 bounds 聯集，各自加上自己圖層的最大外擴 ----
+  function trGlowBounds(){
+    trStashCur();
+    let x0=Infinity, y0=Infinity, x1=-Infinity, y1=-Infinity;
+    for(const p of TR.paths){
+      if(!p.visible) continue;
+      const pts = (p._path && p._path.pts && p._path.pts.length) ? p._path.pts : p.raw;
+      if(!pts || !pts.length) continue;
+      let r = 0;
+      for(const L of (p.layers || [])) r = Math.max(r, trLayerReach(L));
+      let a0=Infinity, b0=Infinity, a1=-Infinity, b1=-Infinity;
+      for(const q of pts){
+        if(q.x < a0) a0 = q.x;
+        if(q.x > a1) a1 = q.x;
+        if(q.y < b0) b0 = q.y;
+        if(q.y > b1) b1 = q.y;
+      }
+      x0 = Math.min(x0, a0-r); x1 = Math.max(x1, a1+r);
+      y0 = Math.min(y0, b0-r); y1 = Math.max(y1, b1+r);
+    }
+    if(!isFinite(x0)) return null;
+    return { x0:x0, y0:y0, x1:x1, y1:y1, w:x1-x0, h:y1-y0 };
+  }
+
+  function trAlignUp(v){
+    v = Math.max(64, Math.ceil(v));
+    if(TR.padAlign === 'pow2'){ let p = 64; while(p < v) p *= 2; return p; }
+    const n = Math.max(1, +TR.padAlign || 1);
+    return Math.ceil(v / n) * n;
+  }
+
+  // ---- 位移所有路徑的控制點 ----
+  function trShiftAll(dx, dy){
+    if(!dx && !dy) return;
+    trStashCur();
+    for(const p of TR.paths) p.raw = (p.raw || []).map(q => ({ x:q.x + dx, y:q.y + dy }));
+    trLoadCur();
+    trRebuildAllPaths();
+  }
+
+  // ---- 換畫布尺寸，控制點依錨點加權位移 ----
+  function trApplySize(W, H, ax, ay){
+    W = clamp(Math.round(+W) || TR.W, 64, 4096);
+    H = clamp(Math.round(+H) || TR.H, 64, 4096);
+    const dW = W - TR.W, dH = H - TR.H;
+    if(dW || dH){
+      $('trW').value = W; $('trH').value = H;
+      trResizeCanvas();
+      trShiftAll(Math.round(dW * ax), Math.round(dH * ay));
+    }
+    $('trW').value = TR.W; $('trH').value = TR.H;
+    if(dW || dH) trCropCheck(true);     // 畫布一換就重算，不要等節流那 220ms
+    return !!(dW || dH);
+  }
+
+  // ---- 裁切偵測、橫幅、每邊留白讀數 ----
+  let lastCheck = 0, cropM = null, autoPadSig = '';
+  function trCropCheck(force){
+    const now = performance.now();
+    if(!force && now - lastCheck < 220) return cropM;
+    lastCheck = now;
+    const g = trGlowBounds();
+    cropM = g ? { l:Math.round(g.x0), t:Math.round(g.y0),
+                  r:Math.round(TR.W - g.x1), b:Math.round(TR.H - g.y1) } : null;
+    const bad = !!cropM && (cropM.l < 0 || cropM.r < 0 || cropM.t < 0 || cropM.b < 0);
+    const info = $('trMarginInfo');
+    if(info){
+      info.textContent = cropM
+        ? '留白 左' + cropM.l + ' 右' + cropM.r + ' 上' + cropM.t + ' 下' + cropM.b + '　負值＝被裁掉'
+        : '留白：尚無路徑';
+      info.style.color = bad ? 'var(--danger)' : '';
+      info.style.borderColor = bad ? 'var(--danger)' : '';
+    }
+    const warn = $('trCropWarn'), txt = $('trCropTxt');
+    if(warn){
+      warn.classList.toggle('show', bad);
+      if(bad && txt){
+        const sides = [];
+        if(cropM.l < 0) sides.push('左 ' + (-cropM.l));
+        if(cropM.r < 0) sides.push('右 ' + (-cropM.r));
+        if(cropM.t < 0) sides.push('上 ' + (-cropM.t));
+        if(cropM.b < 0) sides.push('下 ' + (-cropM.b));
+        txt.textContent = '拖尾被畫布裁掉：' + sides.join('、') + ' px';
+      }
+    }
+    if(bad && TR.autoPad && !UI.restoring){
+      const sig = TR.W + 'x' + TR.H + '|' + cropM.l + ',' + cropM.r + ',' + cropM.t + ',' + cropM.b;
+      if(sig !== autoPadSig){ autoPadSig = sig; trAutoFit(false); }
+    }
+    return cropM;
+  }
+
+  // ---- 自動外擴：畫布＝光暈範圍＋外擴×2，對齊後把路徑擺正中央 ----
+  function trAutoFit(allowShrink){
+    const g = trGlowBounds();
+    if(!g){ toast('還沒有路徑，先畫一條或套個內建形狀', 'warn'); return false; }
+    const pad = TR.padding;
+    let W = trAlignUp(g.w + pad*2), H = trAlignUp(g.h + pad*2);
+    if(allowShrink !== true && TR.padGrow){ W = Math.max(W, TR.W); H = Math.max(H, TR.H); }
+    W = clamp(W, 64, 4096); H = clamp(H, 64, 4096);
+    $('trW').value = W; $('trH').value = H;
+    trResizeCanvas();
+    trShiftAll(Math.round(W/2 - (g.x0 + g.x1)/2), Math.round(H/2 - (g.y0 + g.y1)/2));
+    autoPadSig = '';
+    trCropCheck(true);
+    trSaveState();
+    toast('畫布 ' + TR.W + '×' + TR.H + '，外擴 ' + pad + 'px', 'ok');
+    return true;
+  }
+
+  // ---- 被裁的畫布邊標紅（掛在每幀都會跑的 overlay 上，不受「顯示路徑」影響）----
+  const _trDrawOverlay_noCrop = trDrawOverlay;
+  trDrawOverlay = function(headS){
+    _trDrawOverlay_noCrop(headS);
+    if(activeTab !== 'trail') return;
+    const m = trCropCheck(false);
+    if(!m) return;
+    const T = Math.max(4, Math.round(Math.min(TR.W, TR.H) * 0.012));
+    const c = trOvCtx;
+    c.save();
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.fillStyle = 'rgba(255,77,88,.30)';
+    if(m.l < 0) c.fillRect(0, 0, T, TR.H);
+    if(m.r < 0) c.fillRect(TR.W - T, 0, T, TR.H);
+    if(m.t < 0) c.fillRect(0, 0, TR.W, T);
+    if(m.b < 0) c.fillRect(0, TR.H - T, TR.W, T);
+    c.strokeStyle = 'rgba(255,77,88,.95)';
+    c.lineWidth = 2;
+    if(m.l < 0){ c.beginPath(); c.moveTo(1, 0); c.lineTo(1, TR.H); c.stroke(); }
+    if(m.r < 0){ c.beginPath(); c.moveTo(TR.W-1, 0); c.lineTo(TR.W-1, TR.H); c.stroke(); }
+    if(m.t < 0){ c.beginPath(); c.moveTo(0, 1); c.lineTo(TR.W, 1); c.stroke(); }
+    if(m.b < 0){ c.beginPath(); c.moveTo(0, TR.H-1); c.lineTo(TR.W, TR.H-1); c.stroke(); }
+    c.restore();
+  };
+
+  // ---- 控制項 ----
+  function syncPadUI(){
+    $('trPadBox').value = TR.padding;
+    $('trPadAlign').value = TR.padAlign;
+    $('trPadGrow').checked = TR.padGrow;
+    $('trAutoPad').checked = TR.autoPad;
+    $('trAnchor').value = TR.anchorX + ',' + TR.anchorY;
+  }
+  syncPadUI();
+
+  $('trPadBox').onchange = e => {
+    TR.padding = clamp(Math.round(+e.target.value) || 0, 0, 1024);
+    e.target.value = TR.padding; padSave(); trCropCheck(true);
+  };
+  $('trPadAlign').onchange = e => { TR.padAlign = e.target.value; padSave(); };
+  $('trPadGrow').onchange = e => { TR.padGrow = e.target.checked; padSave(); };
+  $('trAutoPad').onchange = e => { TR.autoPad = e.target.checked; padSave(); if(TR.autoPad) trCropCheck(true); };
+  $('trAnchor').onchange = e => {
+    const v = e.target.value.split(',').map(Number);
+    TR.anchorX = v[0]; TR.anchorY = v[1]; padSave();
+  };
+  $('trAutofitBtn').onclick = () => trAutoFit(false);
+  $('trCropFix').onclick = () => trAutoFit(false);
+  $('trSzFit').onclick = () => trAutoFit(true);
+
+  // 尺寸輸入與預設尺寸改走錨點位移（覆寫引擎原本「只換畫布、路徑不動」的綁定）
+  $('trW').onchange = () => { trApplySize($('trW').value, TR.H, TR.anchorX, TR.anchorY); trSaveState(); };
+  $('trH').onchange = () => { trApplySize(TR.W, $('trH').value, TR.anchorX, TR.anchorY); trSaveState(); };
+  document.querySelectorAll('.szBtn').forEach(b => b.onclick = () => {
+    trApplySize(b.dataset.w, b.dataset.h, TR.anchorX, TR.anchorY); trSaveState();
+  });
+
+  Object.assign(HELP, {
+    trPadding: ['外擴量', '畫布在光暈範圍之外多留幾像素。按「自動外擴」會把畫布算成「光暈範圍＋外擴×2」，並把路徑擺到正中央。'],
+    trAnchor:  ['縮放錨點', '改畫布尺寸時，路徑要跟著哪個位置走。中心＝路徑保持置中；左上＝路徑原地不動（跟舊版行為一樣）。'],
+    trPadAlign:['對齊', '自動外擴算出的畫布尺寸要進位到幾的倍數。做序列幀或貼圖時常要 8 或 16 的倍數。'],
+  });
+
+  // 對外留一手，之後第二、三階段會用到
+  window.TRPAD = { bounds:trGlowBounds, reach:trLayerReach, autoFit:trAutoFit,
+                   check:function(){ return trCropCheck(true); }, shift:trShiftAll, size:trApplySize,
+                   margins:function(){ return cropM; }, save:padSave };
+})();
+
+// ============================================================
+//  畫布外的光暈（提案建議變更 4）
+//  被裁到的時候，在畫布外面把溢出去的那一圈用淡色畫出來，
+//  讓人一眼看出「裁掉的是什麼、要外擴多少」。純預覽，不進匯出。
+//
+//  做法：另外一組 scratch＋輸出畫布，尺寸是「畫布＋M 的邊」，
+//  渲染時把 scratch 的原點平移 M，讓引擎原本的繪圖座標直接落在中間；
+//  算完把中間那塊挖掉，只留外圈。引擎的 trScratchCtx／trComposite
+//  用同一支共用畫布，所以兩個都要包，避免每幀重設尺寸造成抖動。
+//  只在真的被裁到時才跑，沒裁到就完全沒有成本。
+// ============================================================
+(function(){
+  const stage = $('trStage');
+  if(!stage || !window.TRPAD) return;
+
+  const BS = 0.5;            // 外溢預覽用半解析度就夠，省一半算圖成本
+  const MAXM = 512;          // 單邊最多畫到多遠
+  let bleedOn = false, bleedDevM = 0;
+
+  const bleedScratch = document.createElement('canvas');
+  const bleedCv = document.createElement('canvas');
+  bleedCv.id = 'trBleed';
+  bleedCv.style.cssText = 'position:absolute; pointer-events:none; opacity:.6; display:none;';
+  stage.insertBefore(bleedCv, $('trOverlay'));
+  const bleedCtx = bleedCv.getContext('2d');
+
+  // 引擎的兩支共用 scratch 函式：外溢模式改用自己的畫布與平移過的原點
+  const _trScratchCtx_noBleed = trScratchCtx;
+  trScratchCtx = function(W, H){
+    if(!bleedOn) return _trScratchCtx_noBleed(W, H);
+    const M = bleedDevM, w = W + M*2, h = H + M*2;
+    if(bleedScratch.width !== w || bleedScratch.height !== h){ bleedScratch.width = w; bleedScratch.height = h; }
+    const c = bleedScratch.getContext('2d');
+    c.setTransform(1, 0, 0, 1, M, M);
+    c.globalCompositeOperation = 'source-over';
+    c.globalAlpha = 1; c.filter = 'none';
+    c.clearRect(-M, -M, w, h);
+    c.globalCompositeOperation = 'lighter';
+    return c;
+  };
+
+  const _trComposite_noBleed = trComposite;
+  trComposite = function(ctx, L, amount, blurPx){
+    if(!bleedOn) return _trComposite_noBleed(ctx, L, amount, blurPx);
+    if(amount <= 0.004) return;
+    ctx.save();
+    ctx.globalCompositeOperation = L.blend || 'lighter';
+    if(blurPx > 0.1) ctx.filter = 'blur(' + blurPx.toFixed(2) + 'px)';
+    let rem = amount, guard = 0;
+    while(rem > 0.004 && guard++ < 6){
+      ctx.globalAlpha = Math.min(1, rem);
+      ctx.drawImage(bleedScratch, 0, 0);
+      rem -= 1;
+    }
+    ctx.restore();
+  };
+
+  function hide(){ if(bleedCv.style.display !== 'none') bleedCv.style.display = 'none'; }
+
+  function renderBleed(m){
+    if(!TR.bleed || !m){ hide(); return; }
+    const over = Math.max(0, -m.l, -m.r, -m.t, -m.b);
+    if(over <= 0){ hide(); return; }
+    const M = Math.min(MAXM, Math.ceil(over) + 16);
+
+    const dW = Math.round(TR.W * BS), dH = Math.round(TR.H * BS);
+    bleedDevM = Math.round(M * BS);
+    const w = dW + bleedDevM*2, h = dH + bleedDevM*2;
+    if(bleedCv.width !== w || bleedCv.height !== h){ bleedCv.width = w; bleedCv.height = h; }
+    bleedCtx.setTransform(1, 0, 0, 1, 0, 0);
+    bleedCtx.clearRect(0, 0, w, h);
+
+    bleedOn = true;
+    try{ trRenderTo(bleedCtx, TR.t, BS, true); }      // forExport=true：跳過背景底圖
+    finally{ bleedOn = false; }
+
+    // 中間那塊是真畫布的範圍，交給真畫布去畫，這裡只留外圈
+    bleedCtx.setTransform(1, 0, 0, 1, 0, 0);
+    bleedCtx.clearRect(bleedDevM, bleedDevM, dW, dH);
+
+    const z = (UI.z && UI.z.t ? UI.z.t.z : 1) || 1;
+    const st = bleedCv.style;
+    st.display = 'block';
+    st.left = (-M * z) + 'px';
+    st.top  = (-M * z) + 'px';
+    st.width  = ((TR.W + M*2) * z) + 'px';
+    st.height = ((TR.H + M*2) * z) + 'px';
+  }
+
+  // 掛在 overlay 之後：裁切量已經在那裡算好了，直接拿來用
+  const _trDrawOverlay_noBleed = trDrawOverlay;
+  trDrawOverlay = function(headS){
+    _trDrawOverlay_noBleed(headS);
+    if(activeTab !== 'trail'){ hide(); return; }
+    renderBleed(TRPAD.margins());
+  };
+
+  $('trBleedShow').checked = TR.bleed !== false;
+  $('trBleedShow').onchange = e => {
+    TR.bleed = e.target.checked;
+    TRPAD.save();
+    if(!TR.bleed) hide();
+  };
+
+  HELP.trBleed = ['畫布外的光暈',
+    '被裁到的時候，把畫布外那一圈光用淡色畫出來，看得到裁掉的是什麼。只是預覽，不會進匯出，也不影響序列幀。沒被裁到就不會畫，也不花效能。'];
+})();
+
+// ============================================================
+//  路徑定位與圓角矩形（提案建議變更 5、6）
+//  5. 數值輸入位置與尺寸＋鎖比例、置中、填滿畫布、整條移動
+//     （控制點的畫布夾限已經在 build.py 由引擎補丁解除）
+//  6. 圓角矩形路徑工具：寬高自動算成「畫布－外擴量－圖層外擴」，
+//     直接就是一條不會被裁到的繞框路徑，圓角半徑可調。
+//
+//  移動整條的手勢掛在 #trStage 的捕捉階段：引擎的拖曳監聽器是
+//  addEventListener 掛在 #trOverlay 上、拿不掉，而同一個元素上的
+//  capture 監聽器在 AT_TARGET 階段並不會比較早跑（是照註冊順序），
+//  所以必須掛在上層元素才攔得到。
+// ============================================================
+(function(){
+  const stage = $('trStage');
+  if(!stage || !$('trPathX') || !window.TRPAD) return;
+
+  function rawBounds(){
+    const r = TR.raw;
+    if(!r || !r.length) return null;
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for(const p of r){
+      if(p.x < x0) x0 = p.x;
+      if(p.x > x1) x1 = p.x;
+      if(p.y < y0) y0 = p.y;
+      if(p.y > y1) y1 = p.y;
+    }
+    return { x0:x0, y0:y0, x1:x1, y1:y1, w:x1-x0, h:y1-y0 };
+  }
+
+  // 目前這條路徑的圖層往外畫多遠
+  function pathReach(){
+    let r = 0;
+    for(const L of (TR.layers || [])) r = Math.max(r, TRPAD.reach(L));
+    return r;
+  }
+
+  function commit(){
+    trRebuildPath();
+    trStashCur();
+    TRPAD.check();
+    trSaveState();
+    syncFields(true);
+  }
+
+  // 以 bounds 為基準平移＋縮放整條路徑
+  function setRect(x, y, w, h){
+    const b = rawBounds();
+    if(!b) return;
+    const sx = b.w > 0.01 ? w / b.w : 1;
+    const sy = b.h > 0.01 ? h / b.h : 1;
+    TR.raw = TR.raw.map(p => ({ x: x + (p.x - b.x0) * sx, y: y + (p.y - b.y0) * sy }));
+    commit();
+  }
+
+  function moveBy(dx, dy){
+    if(!TR.raw || !TR.raw.length) return;
+    TR.raw = TR.raw.map(p => ({ x:p.x + dx, y:p.y + dy }));
+  }
+
+  // ---- 數值欄位 ----
+  const fX = $('trPathX'), fY = $('trPathY'), fW = $('trPathW'), fH = $('trPathH');
+  const fields = [fX, fY, fW, fH];
+  let syncAt = 0;
+  function syncFields(force){
+    const now = performance.now();
+    if(!force && now - syncAt < 200) return;
+    syncAt = now;
+    const b = rawBounds();
+    if(!b){ fields.forEach(f => { f.value = ''; f.disabled = true; }); return; }
+    fields.forEach(f => { f.disabled = false; });
+    if(fields.indexOf(document.activeElement) >= 0) return;   // 正在輸入就不要蓋掉
+    fX.value = Math.round(b.x0); fY.value = Math.round(b.y0);
+    fW.value = Math.round(b.w);  fH.value = Math.round(b.h);
+  }
+
+  fX.onchange = () => { const b = rawBounds(); if(b) setRect(+fX.value || 0, b.y0, b.w, b.h); };
+  fY.onchange = () => { const b = rawBounds(); if(b) setRect(b.x0, +fY.value || 0, b.w, b.h); };
+  fW.onchange = () => {
+    const b = rawBounds(); if(!b) return;
+    const w = Math.max(1, +fW.value || 1);
+    const h = ($('trPathLock').checked && b.w > 0.01) ? b.h * (w / b.w) : b.h;
+    setRect(b.x0, b.y0, w, h);
+  };
+  fH.onchange = () => {
+    const b = rawBounds(); if(!b) return;
+    const h = Math.max(1, +fH.value || 1);
+    const w = ($('trPathLock').checked && b.h > 0.01) ? b.w * (h / b.h) : b.w;
+    setRect(b.x0, b.y0, w, h);
+  };
+
+  $('trPathCenter').onclick = () => {
+    const b = rawBounds();
+    if(!b){ toast('這條路徑還沒有控制點', 'warn'); return; }
+    setRect(TR.W/2 - b.w/2, TR.H/2 - b.h/2, b.w, b.h);
+    toast('路徑已置中', 'ok');
+  };
+
+  // 填滿畫布：扣掉外擴量與圖層外擴，縮放到剛好不會被裁到
+  $('trPathFill').onclick = () => {
+    const b = rawBounds();
+    if(!b){ toast('這條路徑還沒有控制點', 'warn'); return; }
+    const mg = Math.max(0, TR.padding) + pathReach();
+    const availW = Math.max(16, TR.W - mg*2), availH = Math.max(16, TR.H - mg*2);
+    let w = b.w, h = b.h;
+    if($('trPathLock').checked){
+      const kx = b.w > 0.01 ? availW / b.w : Infinity;
+      const ky = b.h > 0.01 ? availH / b.h : Infinity;
+      const k = Math.min(kx, ky);
+      if(isFinite(k)){ w = b.w * k; h = b.h * k; }
+    } else {
+      if(b.w > 0.01) w = availW;
+      if(b.h > 0.01) h = availH;
+    }
+    setRect(TR.W/2 - w/2, TR.H/2 - h/2, w, h);
+    toast('已縮放到剛好容納光暈', 'ok');
+  };
+
+  // ---- 移動整條：按鈕模式，或隨時按住 Shift ----
+  let moveMode = false, drag = null;
+  const btnMove = $('trPathMove');
+  btnMove.onclick = () => {
+    moveMode = !moveMode;
+    btnMove.classList.toggle('primary', moveMode);
+    btnMove.classList.toggle('ghost', !moveMode);
+    $('trOverlay').style.cursor = moveMode ? 'move' : '';
+    toast(moveMode ? '拖曳畫布＝移動整條路徑' : '恢復成拖控制點', 'info', 1600);
+  };
+
+  stage.addEventListener('pointerdown', ev => {
+    if(ev.button !== 0) return;
+    if(!(ev.shiftKey || moveMode)) return;
+    if(!TR.raw || !TR.raw.length) return;
+    ev.stopPropagation(); ev.preventDefault();
+    try{ stage.setPointerCapture(ev.pointerId); }catch(e){}
+    drag = { last: trPt(ev) };
+  }, true);
+
+  stage.addEventListener('pointermove', ev => {
+    if(!drag) return;
+    ev.stopPropagation();
+    const p = trPt(ev);
+    moveBy(p.x - drag.last.x, p.y - drag.last.y);
+    drag.last = p;
+    trRebuildPath();
+    syncFields();
+  });
+
+  function endDrag(ev){
+    if(!drag) return;
+    drag = null;
+    try{ stage.releasePointerCapture(ev.pointerId); }catch(e){}
+    commit();
+  }
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+
+  // ---- 圓角矩形 ----
+  const _trMakePath_noRRect = trMakePath;
+  trMakePath = function(kind){
+    if(kind !== 'rrect') return _trMakePath_noRRect(kind);
+    const mg = Math.max(8, TR.padding + pathReach());
+    let w = TR.W - mg*2, h = TR.H - mg*2;
+    if(w < 32 || h < 32){ w = TR.W * 0.84; h = TR.H * 0.84; }   // 擠不下就退回固定比例
+    const r = clamp(+$('trRRadius').value || 0, 0, Math.min(w, h) / 2);
+    const cx = TR.W/2, cy = TR.H/2;
+    const x0 = cx - w/2, y0 = cy - h/2, x1 = cx + w/2, y1 = cy + h/2;
+    const pts = [];
+    if(r <= 0.5){
+      pts.push({x:x0,y:y0}, {x:x1,y:y0}, {x:x1,y:y1}, {x:x0,y:y1});
+    } else {
+      const SEG = 8;
+      const arc = (ax, ay, a0, a1) => {
+        for(let i = 0; i <= SEG; i++){
+          const a = a0 + (a1 - a0) * i / SEG;
+          pts.push({ x: ax + Math.cos(a)*r, y: ay + Math.sin(a)*r });
+        }
+      };
+      arc(x1-r, y0+r, -Math.PI/2, 0);
+      arc(x1-r, y1-r, 0, Math.PI/2);
+      arc(x0+r, y1-r, Math.PI/2, Math.PI);
+      arc(x0+r, y0+r, Math.PI, Math.PI*1.5);
+    }
+    return { pts: pts, closed: true };
+  };
+
+  function applyRRect(){
+    const r = trMakePath('rrect');
+    TR.raw = r.pts; TR.closed = r.closed;
+    $('trClosed').checked = true;
+    commit();     // 平滑度不用動：直邊上的點共線，chaikin 不會改到外框
+  }
+  $('trRRedo').onclick = applyRRect;
+  // 形狀鈕也走同一條路，才會一起更新欄位與裁切偵測
+  const rrBtn = document.querySelector('.pathPreset[data-p="rrect"]');
+  if(rrBtn) rrBtn.onclick = applyRRect;
+  $('trRRadius').onchange = e => {
+    e.target.value = clamp(Math.round(+e.target.value) || 0, 0, 2048);
+  };
+
+  // 每幀把欄位同步回目前路徑（拖控制點、換路徑、復原都會反映）
+  const _trDrawOverlay_noFields = trDrawOverlay;
+  trDrawOverlay = function(headS){
+    _trDrawOverlay_noFields(headS);
+    if(activeTab === 'trail') syncFields(false);
+  };
+  syncFields(true);
+
+  Object.assign(HELP, {
+    trPathRect: ['位置與尺寸',
+      '這條路徑所有控制點的外框。改數值＝整條平移或縮放。「填滿畫布」會扣掉外擴量與圖層的光暈範圍，縮到剛好不會被裁到。控制點可以放在畫布外。'],
+    trRRadius: ['圓角半徑',
+      '圓角矩形四個角的半徑。按「圓角矩形」或「重新產生」時會用這個值，矩形大小自動算成「畫布－外擴量－光暈範圍」，直接就是一條不會被裁到的繞框路徑。'],
+  });
+})();
+
+// ============================================================
+//  匯出時掃最外圈像素（提案建議變更 8：最後防線）
+//  光暈範圍是用參數估算的，估得再準也只是估算；真正會不會被裁到，
+//  只有匯出的那張圖知道。所以每一幀編碼前掃一圈最外側像素，
+//  不是全透明就代表被切掉了，匯出完直接報給使用者。
+//
+//  序列幀的掛勾在引擎裡（build.py 補的 window.TRSCAN），位置在
+//  交叉淡化「之後」、編碼之前 —— sweep 模式的尾幀是 A 與 B 混出來的，
+//  在 trExportCanvas 裡掃會掃到混之前的圖，數字不對。
+//  canvasToU8 是 const 箭頭函式、包不起來，所以走引擎補丁。
+// ============================================================
+(function(){
+  const pngBtn = $('trExportPngBtn'), seqBtn = $('trExportSeqBtn');
+  if(!pngBtn || !seqBtn) return;
+
+  const THRESH = 4;          // 容許一點點去鋸齒／交叉淡化的殘值
+  const SIDE_NAME = { l:'左', r:'右', t:'上', b:'下' };
+  let acc = null, lastExp = null;
+
+  function reset(){ acc = { frames:0, bad:0, l:0, r:0, t:0, b:0, worst:-1, worstA:0 }; }
+
+  function edgeMax(cv){
+    const c = cv.getContext('2d'), W = cv.width, H = cv.height;
+    const mx = (x, y, w, h) => {
+      const d = c.getImageData(x, y, w, h).data;
+      let m = 0;
+      for(let i = 3; i < d.length; i += 4) if(d[i] > m) m = d[i];
+      return m;
+    };
+    return { t:mx(0,0,W,1), b:mx(0,H-1,W,1), l:mx(0,0,1,H), r:mx(W-1,0,1,H) };
+  }
+
+  function scan(cv){
+    if(!acc || !cv || !cv.width) return;
+    let s;
+    try{ s = edgeMax(cv); }catch(e){ return; }      // 跨來源汙染之類的就安靜跳過
+    const i = acc.frames++;
+    const worst = Math.max(s.l, s.r, s.t, s.b);
+    for(const k of ['l','r','t','b']) if(s[k] > acc[k]) acc[k] = s[k];
+    if(worst >= THRESH){
+      acc.bad++;
+      if(worst > acc.worstA){ acc.worstA = worst; acc.worst = i; }
+    }
+  }
+  window.TRSCAN = scan;                              // 引擎的序列幀迴圈會呼叫
+
+  function report(){
+    if(!acc || !acc.frames) return;
+    const a = acc;
+    if(!a.bad){
+      toast('邊緣檢查通過：' + a.frames + ' 幀最外圈都是全透明', 'ok', 2600);
+      return;
+    }
+    let side = 'l';
+    for(const k of ['r','t','b']) if(a[k] > a[side]) side = k;
+    const sides = ['l','r','t','b'].filter(k => a[k] >= THRESH)
+      .map(k => SIDE_NAME[k] + ' ' + a[k]).join('、');
+    const many = a.frames > 1;
+    toast('⚠ 邊緣沒有全透明：' + (many ? a.frames + ' 幀裡有 ' + a.bad + ' 幀被切到' : '這一幀被切到')
+      + '（' + sides + '／255，最嚴重在'
+      + (many && a.worst >= 0 ? '第 ' + a.worst + ' 幀的' : '') + SIDE_NAME[side] + '側）'
+      + '。光效超出畫布了，按「自動外擴」或「填滿畫布」再匯出一次。', 'warn', 9000);
+    TRPAD.check();                                   // 順便把紅邊與橫幅叫出來
+  }
+
+  // 單幀 PNG：引擎同步拿 trExportCanvas 的結果，這裡把它留下來掃
+  const _trExportCanvas_noScan = trExportCanvas;
+  trExportCanvas = function(t, scale){
+    const c = _trExportCanvas_noScan(t, scale);
+    lastExp = c;
+    return c;
+  };
+
+  const _png = pngBtn.onclick;
+  pngBtn.onclick = function(ev){
+    reset(); lastExp = null;
+    const r = _png ? _png.call(this, ev) : undefined;
+    if(lastExp){ scan(lastExp); report(); }          // 沒路徑時引擎會先 alert 並 return
+    acc = null;
+    return r;
+  };
+
+  const _seq = seqBtn.onclick;
+  seqBtn.onclick = function(ev){
+    reset();
+    const done = () => { report(); acc = null; };
+    let r;
+    try{ r = _seq ? _seq.call(this, ev) : undefined; }
+    catch(e){ acc = null; throw e; }
+    Promise.resolve(r).then(done, done);
+    return r;
+  };
+
+  HELP.trEdgeScan = ['邊緣檢查',
+    '每次匯出都會掃每一幀最外圈的像素。只要不是全透明就代表光效被畫布切掉了，會跳警告並告訴你哪一側、第幾幀最嚴重。這是估算之外的最後一道防線。'];
+})();
+
+// ============================================================
+//  修掉既有 bug：重載後拖尾畫布尺寸掉回 1024×576
+//  引擎啟動順序是 trRestoreState() → trResizeCanvas() → trSyncUI()。
+//  trRestoreState() 只設 TR.W/H、沒同步 #trW/#trH 這兩個輸入框，
+//  trResizeCanvas() 又是從輸入框讀值，於是存檔的畫布尺寸被 HTML 的
+//  預設值蓋掉。改動前的備份版本實測也一樣，是本來就有的問題；
+//  但自動外擴之後尺寸本來就不會是預設值，不修的話每次重開都要重按。
+//  存檔裡的控制點座標是配那個尺寸存的，所以只還原尺寸、不位移控制點。
+// ============================================================
+(function(){
+  let s = null;
+  try{ s = JSON.parse(localStorage.getItem('trailfx_state_v3')); }catch(e){}
+  if(!s) return;
+  const W = clamp(Math.round(+s.W) || 0, 64, 4096);
+  const H = clamp(Math.round(+s.H) || 0, 64, 4096);
+  if(!W || !H || (W === TR.W && H === TR.H)) return;
+  $('trW').value = W; $('trH').value = H;
+  trResizeCanvas();                 // 引擎原版，不會動到控制點
+  if(window.TRPAD) TRPAD.check();
+})();
+
+// ============================================================
+//  多連通輪廓：彼此分離的字母／符號各自成一圈
+//  引擎的 traceBoundary 只追「掃描時第一個遇到的」邊界迴圈，所以像
+//  「YOU WIN」這種分成好幾塊的圖，只有最先掃到的那一塊會長出雷電、
+//  星塵與貼圖邊光，其他字完全沒有（外發光走 SDF，不受影響，所以
+//  看起來只有部分字有電）。這裡改成先做連通元件標記，每一塊各追
+//  一圈、各自等距重取樣，串成同一個 contour 陣列，並記錄每段的
+//  起訖（window.CSEG）給沿線效果用。
+//  沿線效果（貼圖邊光）必須逐段畫，否則會在兩塊之間牽出一條帶子。
+// ============================================================
+(function(){
+  if(typeof rebuildContour !== 'function') return;
+  const _origRebuild = rebuildContour;
+
+  // 8 連通元件標記
+  function labelComponents(mask, w, h){
+    const lab = new Int32Array(w*h).fill(-1);
+    const sizes = [], starts = [];
+    const stack = new Int32Array(w*h);
+    let id = 0;
+    for(let y=0;y<h;y++) for(let x=0;x<w;x++){
+      const i = y*w+x;
+      if(!mask[i] || lab[i] >= 0) continue;
+      let sp = 0, cnt = 0;
+      stack[sp++] = i; lab[i] = id;
+      while(sp > 0){
+        const p = stack[--sp]; cnt++;
+        const px = p % w, py = (p - px) / w;
+        for(let dy=-1;dy<=1;dy++) for(let dx=-1;dx<=1;dx++){
+          if(!dx && !dy) continue;
+          const nx = px+dx, ny = py+dy;
+          if(nx<0||ny<0||nx>=w||ny>=h) continue;
+          const q = ny*w+nx;
+          if(mask[q] && lab[q] < 0){ lab[q] = id; stack[sp++] = q; }
+        }
+      }
+      sizes.push(cnt); starts.push(i); id++;
+    }
+    return {lab, sizes, starts, count:id};
+  }
+
+  // Moore 邊界追蹤，限制在單一元件內（引擎原版的元件版）
+  function traceComp(lab, id, w, h, start){
+    const sx = start % w, sy = (start - sx) / w;
+    const dirs = [[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]];
+    const pts = [[sx,sy]];
+    let cx = sx, cy = sy, backtrack = 4;
+    for(let step=0; step<w*h*4; step++){
+      let found = false;
+      for(let i=0;i<8;i++){
+        const di = (backtrack+1+i) % 8;
+        const nx = cx+dirs[di][0], ny = cy+dirs[di][1];
+        if(nx>=0 && ny>=0 && nx<w && ny<h && lab[ny*w+nx] === id){
+          backtrack = (di+4) % 8; cx = nx; cy = ny; found = true;
+          pts.push([cx,cy]); break;
+        }
+      }
+      if(!found) break;
+      if(cx === sx && cy === sy && pts.length > 4) break;
+    }
+    return pts.length > 8 ? pts : null;
+  }
+
+  function loopLength(loop){
+    let per = 0;
+    for(let i=1;i<=loop.length;i++){
+      const a = loop[i-1], b = loop[i % loop.length];
+      per += Math.hypot(b[0]-a[0], b[1]-a[1]);
+    }
+    return per;
+  }
+
+  // 等距重取樣成 n 點，並在該圈內算外向法線
+  function resample(loop, n, mask, mw, mh){
+    const segs = [0];
+    let per = 0;
+    for(let i=1;i<=loop.length;i++){
+      const a = loop[i-1], b = loop[i % loop.length];
+      per += Math.hypot(b[0]-a[0], b[1]-a[1]); segs.push(per);
+    }
+    const pts = [];
+    for(let k=0;k<n;k++){
+      const target = per*k/n;
+      let i = 1; while(segs[i] < target && i < segs.length-1) i++;
+      const a = loop[i-1], b = loop[i % loop.length];
+      const f = (target - segs[i-1]) / Math.max(1e-6, segs[i]-segs[i-1]);
+      pts.push({x:a[0]+(b[0]-a[0])*f, y:a[1]+(b[1]-a[1])*f, nx:0, ny:0});
+    }
+    for(let k=0;k<n;k++){
+      const p0 = pts[(k-2+n)%n], p1 = pts[(k+2)%n];
+      let tx = p1.x-p0.x, ty = p1.y-p0.y;
+      const L = Math.hypot(tx,ty) || 1;
+      let nx = -ty/L, ny = tx/L;
+      const sx = Math.round(clamp(pts[k].x+nx*4, 0, mw-1));
+      const sy = Math.round(clamp(pts[k].y+ny*4, 0, mh-1));
+      if(mask[sy*mw+sx]){ nx = -nx; ny = -ny; }
+      pts[k].nx = nx; pts[k].ny = ny;
+    }
+    return pts;
+  }
+
+  window.CSEG = [];      // [{s,n}] contour 裡每一圈的起點與點數
+
+  function fallback(){
+    _origRebuild();
+    window.CSEG = [{s:0, n:(contour ? contour.length : 0)}];
+  }
+
+  rebuildContour = function(){
+    if(state.maskMode !== 'alpha'){ fallback(); return; }
+    if(!alphaMask || sdfDirty) rebuildSDF();
+    if(!alphaMask){ fallback(); return; }
+
+    const w = alphaMaskW, h = alphaMaskH;
+    const {lab, sizes, starts, count} = labelComponents(alphaMask, w, h);
+    if(count === 0){ fallback(); return; }
+
+    const maxArea = Math.max.apply(null, sizes);
+    const minArea = Math.max(16, maxArea*0.002);   // 濾掉去背雜點
+    const loops = [];
+    for(let id=0; id<count; id++){
+      if(sizes[id] < minArea) continue;
+      const lp = traceComp(lab, id, w, h, starts[id]);
+      if(!lp) continue;
+      const len = loopLength(lp);
+      if(len < 12) continue;
+      loops.push({lp, len});
+    }
+    if(loops.length === 0){ fallback(); return; }
+
+    const totalLen = loops.reduce((a,b)=>a+b.len, 0);
+    const maxLen = Math.max.apply(null, loops.map(l=>l.len));
+    // 最大的一圈維持原本 512 點的密度，其餘依周長等密度加點，總數封頂
+    const NTOTAL = clamp(Math.round(512*totalLen/Math.max(1,maxLen)), 512, 3072);
+    const pts = [], segs = [];
+    for(const l of loops){
+      const n = Math.max(24, Math.round(NTOTAL*l.len/totalLen));
+      const rp = resample(l.lp, n, alphaMask, w, h);
+      segs.push({s:pts.length, n:rp.length});
+      const li = segs.length-1;
+      for(const p of rp){ p.li = li; pts.push(p); }
+    }
+    window.CSEG = segs;
+    contour = pts; contourDirty = false; contourVer++;
+    boltCache.clear();
+  };
+
+  const CSEGS = ()=> (window.CSEG && window.CSEG.length) ? window.CSEG
+                   : [{s:0, n:(contour ? contour.length : 0)}];
+
+  // ---- 貼圖邊光（2D 版）：逐圈畫，貼圖各自環繞一圈 ----
+  if(typeof drawBand === 'function'){
+    drawBand = function(cx, layer, fIdx, scale){
+      const e = bandTile(layer);
+      if(!e || !contour || contour.length < 8) return;
+      const t = fIdx/60;
+      const C = contour;
+      const imgW = e.strip.width, imgH = e.strip.height;
+      const bandW = Math.max(layer.bandW,2), off = layer.offset||0;
+      const mir = layer.bandMirror !== false;
+      let rep = layer.repeat>0 ? Math.round(layer.repeat) : (mir?2:1);
+      if(mir) rep = Math.max(2, 2*Math.round(rep/2));
+      const period = mir ? imgW*2 : imgW;
+      const tile = mir ? e.tileM : e.tile;
+      for(const sg of CSEGS()){
+        const s0 = sg.s, n = sg.n;
+        if(n < 8) continue;
+        let Len = 0;
+        for(let k=0;k<n;k++){ const a=C[s0+k], b=C[s0+(k+1)%n]; Len += Math.hypot(b.x-a.x, b.y-a.y); }
+        if(Len < 1) continue;
+        const ds = Len/n;
+        const srcPerPx = imgW*rep/Len;
+        const dwSrc = ds*srcPerPx;
+        const uOff = ((t*layer.speed*imgW)%period+period)%period;
+        for(let k=0;k<n;k++){
+          const a = C[s0+k], b = C[s0+(k+1)%n];
+          let tx = b.x-a.x, ty = b.y-a.y;
+          const l = Math.hypot(tx,ty)||1; tx/=l; ty/=l;
+          const nx = a.nx, ny = a.ny;
+          const sx = (k*dwSrc+uOff)%period;
+          const px = a.x+nx*(off+(layer.bandFlip?0:bandW));
+          const py = a.y+ny*(off+(layer.bandFlip?0:bandW));
+          const fy = layer.bandFlip?1:-1;
+          cx.setTransform(scale,0,0,scale,0,0);
+          cx.transform(tx*(l+1.5), ty*(l+1.5), fy*nx*bandW, fy*ny*bandW, px, py);
+          cx.drawImage(tile, sx,0,Math.max(dwSrc,0.5),imgH, 0,0,1,1);
+        }
+      }
+      cx.setTransform(scale,0,0,scale,0,0);
+      cx.globalCompositeOperation = 'source-over';
+    };
+  }
+
+  // ---- 貼圖邊光（GL 版）：每圈一條三角帶，平滑窗口不跨圈 ----
+  if(typeof drawBandGL === 'function'){
+    drawBandGL = function(L, be){
+      const {w:bw, h:bh} = baseSize();
+      const C = contour;
+      const mir = L.bandMirror !== false;
+      let rep = L.repeat>0 ? Math.round(L.repeat) : (mir?2:1);
+      if(mir) rep = Math.max(2, 2*Math.round(rep/2));
+      let m = bandMeshes.get(L.id);
+      if(!m){ m = {vao:gl.createVertexArray(), posBuf:gl.createBuffer(), uvBuf:gl.createBuffer(), n:0, key:null, segs:[]}; bandMeshes.set(L.id,m); }
+      const key = [contourVer, L.bandW, L.offset||0, rep, L.bandFlip?1:0, L.bandHug!==undefined?L.bandHug:0.5].join('|');
+      if(m.key !== key){
+        m.key = key;
+        const off = L.offset||0, w2 = Math.max(L.bandW,2);
+        const hug = (L.bandHug!==undefined) ? L.bandHug : 0.5;
+        const kk = 1.6-1.35*clamp(hug,0,1);
+        const segs = CSEGS().filter(s=>s.n >= 8);
+        let vTotal = 0;
+        for(const sg of segs) vTotal += (sg.n+1)*2;
+        const pos = new Float32Array(vTotal*2), uv = new Float32Array(vTotal*2);
+        const drawSegs = [];
+        let vi = 0;
+        for(const sg of segs){
+          const s0 = sg.s, n = sg.n;
+          let Len = 0;
+          for(let k=0;k<n;k++){ const a=C[s0+k], b=C[s0+(k+1)%n]; Len += Math.hypot(b.x-a.x, b.y-a.y); }
+          const SW = clamp(Math.round((Math.abs(off)+w2)*kk/Math.max(1e-3,Len/n)), 2, Math.max(2, Math.floor(n/4)));
+          const sxA = new Float32Array(n), syA = new Float32Array(n);
+          for(let k=0;k<n;k++){
+            let ax=0, ay=0;
+            for(let j=-SW;j<=SW;j++){ const p = C[s0+((k+j+n*4)%n)]; ax+=p.x; ay+=p.y; }
+            sxA[k] = ax/(2*SW+1); syA[k] = ay/(2*SW+1);
+          }
+          const vStart = vi/2;
+          for(let k=0;k<=n;k++){
+            const ki = k%n, u = rep*k/n;
+            const p0 = (ki-1+n)%n, p1 = (ki+1)%n;
+            let tx = sxA[p1]-sxA[p0], ty = syA[p1]-syA[p0];
+            const tl = Math.hypot(tx,ty)||1;
+            let nx = -ty/tl, ny = tx/tl;
+            if(nx*C[s0+ki].nx + ny*C[s0+ki].ny < 0){ nx=-nx; ny=-ny; }
+            pos[vi]   = sxA[ki]+nx*off;        pos[vi+1] = syA[ki]+ny*off;
+            pos[vi+2] = sxA[ki]+nx*(off+w2);   pos[vi+3] = syA[ki]+ny*(off+w2);
+            uv[vi]   = u; uv[vi+1] = L.bandFlip?0:1;
+            uv[vi+2] = u; uv[vi+3] = L.bandFlip?1:0;
+            vi += 4;
+          }
+          drawSegs.push({first:vStart, count:(n+1)*2});
+        }
+        gl.bindVertexArray(m.vao);
+        gl.bindBuffer(gl.ARRAY_BUFFER, m.posBuf);
+        gl.bufferData(gl.ARRAY_BUFFER, pos, gl.DYNAMIC_DRAW);
+        gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, m.uvBuf);
+        gl.bufferData(gl.ARRAY_BUFFER, uv, gl.DYNAMIC_DRAW);
+        gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1,2,gl.FLOAT,false,0,0);
+        gl.bindVertexArray(vao);
+        m.segs = drawSegs;
+        m.n = vTotal;
+      }
+      let te = bandGLTex.get(L.id);
+      if(!te){ te = {tex:makeTex(), key:null}; bandGLTex.set(L.id, te); }
+      const tkey = L.bandSrc.length+L.bandSrc.slice(-12)+'|'+Math.round(L.bandAngle||0)+'|'+(L.bandFade!==false?1:0);
+      if(te.key !== tkey){
+        gl.bindTexture(gl.TEXTURE_2D, te.tex);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,gl.RGBA,gl.UNSIGNED_BYTE, be.strip);
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        te.key = tkey;
+      }
+      gl.useProgram(progBand.prog);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, te.tex);
+      gl.uniform1i(progBand.u.uTex, 0);
+      gl.uniform2f(progBand.u.uBase, bw, bh);
+      gl.uniform1f(progBand.u.uFlow, state.t*(L.speed||0));
+      gl.uniform1i(progBand.u.uMirror, mir?1:0);
+      gl.uniform1i(progBand.u.uKeepColor, L.bandKeepColor?1:0);
+      gl.uniform1f(progBand.u.uIntensity, L.intensity);
+      const hs = state.hueShift;
+      gl.uniform3fv(progBand.u.uC0, hexToRgb(hueShiftHex(L.c0,hs)));
+      gl.uniform3fv(progBand.u.uC2, hexToRgb(hueShiftHex(L.c2,hs)));
+      gl.bindVertexArray(m.vao);
+      for(const s of (m.segs||[])) gl.drawArrays(gl.TRIANGLE_STRIP, s.first, s.count);
+      gl.bindVertexArray(vao);
+    };
+  }
+
+  if(typeof HELP !== 'undefined') HELP.multiContour = ['多塊輪廓',
+    '圖裡彼此分離的字或符號，現在每一塊都會各自長出雷電、星塵與貼圖邊光，不再只有其中一塊有。'];
+})();
 </script>
 </body>
 </html>
