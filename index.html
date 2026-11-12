@@ -181,6 +181,26 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 
 /* ---------- 風格庫（Preset 縮圖） ---------- */
 .presetGrid{display:grid; grid-template-columns:1fr 1fr; gap:7px;}
+/* 動態：模板按鈕格 */
+.motGrid{display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:8px;}
+.mbtn{display:block; width:100%; text-align:left; padding:6px 8px; font-size:11.5px; border:1px solid var(--line); border-radius:6px; background:var(--bg3); color:var(--txt2); cursor:pointer; transition:border-color .12s, background .12s;}
+.mbtn:hover{background:var(--bg4); color:var(--txt);}
+.mbtn.on{border-color:var(--acc); background:var(--accDim); color:#fff;}
+.mbtn.none{grid-column:1/-1; text-align:center; color:var(--dim);}
+.motLab{font-size:10.5px; letter-spacing:.6px; text-transform:uppercase; color:var(--faint); margin:2px 0 5px; font-weight:600;}
+.motSum{font-size:10.5px; color:var(--dim); text-transform:none; letter-spacing:0; font-weight:400; max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.motTune{border-top:1px solid var(--line); margin-top:6px; padding-top:6px;}
+.motTune.hide{display:none;}
+.motMore{width:100%; margin-top:4px; font-size:11px; color:var(--dim); background:none; border:1px dashed var(--line2); border-radius:6px; padding:5px; cursor:pointer;}
+.motMore:hover{color:var(--txt2); border-color:var(--line3);}
+/* 圖層群組列 */
+.lgrp{display:flex; align-items:center; gap:6px; padding:5px 8px; margin:3px 0 1px; font-size:11px; color:var(--txt2); background:var(--bg3); border:1px solid var(--line); border-radius:6px; cursor:pointer; user-select:none;}
+.lgrp:hover{background:var(--bg4);}
+.lgrp .gchev{transition:transform .15s; color:var(--faint);}
+.lgrp.closed .gchev{transform:rotate(-90deg);}
+.lgrp .gn{flex:1; font-weight:600;}
+.lgrp .gc{font:10px/1 var(--mono); color:var(--faint);}
+.lrow.ghide{display:none;}
 .pcard{position:relative; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--bg0); cursor:pointer; padding:0; text-align:left; transition:border-color .12s, transform .12s;}
 .pcard:hover{border-color:var(--line3); transform:translateY(-1px);}
 .pcard.on{border-color:var(--acc); box-shadow:0 0 0 2px var(--accDim);}
@@ -312,6 +332,65 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 .timeline .fld{display:flex; align-items:center; gap:5px; font-size:11px; color:var(--dim);}
 .timeline .fld input[type=number]{width:54px; height:26px;}
 .timeline .sep{width:1px; height:24px; background:var(--line2);}
+.timeline .tbtn.on{background:var(--accDim); border-color:var(--acc); color:#fff;}
+
+/* ---------- 圖層時間軸（多軌） ---------- */
+.trTracks{flex:none; display:none; flex-direction:column; background:var(--bg1); border-top:1px solid var(--line); max-height:244px;}
+.trTracks.show{display:flex;}
+.ttBar{display:flex; align-items:center; gap:10px; padding:6px 14px; font-size:11.5px; color:var(--txt2); border-bottom:1px solid var(--line);}
+.ttBar b{font-size:11.5px; color:var(--txt);}
+.ttHelp{color:var(--faint); font-size:10.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.ttBar .grow{flex:1;}
+.ttSnap{display:inline-flex; align-items:center; gap:5px; color:var(--dim); cursor:pointer; white-space:nowrap;}
+.ttBody{overflow-y:auto; padding:5px 14px 8px;}
+.ttRow{display:flex; align-items:center; gap:8px; height:26px;}
+.ttRow+.ttRow{margin-top:3px;}
+.ttName{width:104px; flex:none; font-size:11px; color:var(--txt2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer; display:flex; align-items:center; gap:5px;}
+.ttRow.sel .ttName{color:var(--acc);}
+.ttName .dot{width:7px; height:7px; border-radius:50%; flex:none;}
+.ttRow.off .ttName{opacity:.45; text-decoration:line-through;}
+.ttLane{position:relative; flex:1; height:20px; background:var(--bg3); border:1px solid var(--line); border-radius:5px; overflow:hidden;}
+.ttLane .grid{position:absolute; inset:0; background-image:repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px calc(100% / var(--n,30))); opacity:.55; pointer-events:none;}
+.ttBlock{position:absolute; top:1px; bottom:1px; background:var(--accDim); border:1px solid var(--acc); border-radius:4px; cursor:grab; display:flex; align-items:center; justify-content:center; min-width:4px;}
+.ttBlock:active{cursor:grabbing;}
+.ttRow.sel .ttBlock{background:rgba(77,163,255,.34); box-shadow:0 0 0 1px rgba(255,255,255,.22) inset;}
+.ttBlock .lap{font:10px var(--mono); color:#fff; opacity:.85; pointer-events:none; user-select:none;}
+.ttBlock .h{position:absolute; top:-1px; bottom:-1px; width:7px; cursor:ew-resize; background:rgba(255,255,255,.18);}
+.ttBlock .h.l{left:-1px; border-radius:4px 0 0 4px;}
+.ttBlock .h.r{right:-1px; border-radius:0 4px 4px 0;}
+.ttBlock .h:hover{background:rgba(255,255,255,.4);}
+.ttHead{position:absolute; top:0; bottom:0; width:1px; background:#fff; opacity:.8; pointer-events:none; z-index:3;}
+.ttNum{width:150px; flex:none; display:flex; align-items:center; gap:3px; justify-content:flex-end;}
+.ttNum .lapBtn{width:18px; height:18px; line-height:1; padding:0; font-size:11px;}
+.ttNum .txt{font:10px var(--mono); color:var(--dim); min-width:62px; text-align:right;}
+.ttEmpty{padding:10px 2px; font-size:11px; color:var(--faint);}
+.warnHint{color:var(--warn, #ffb347);}
+
+/* ---------- 搜尋功能（命令面板） ---------- */
+#cmdDlg{align-items:flex-start;}
+#cmdDlg .cmdBox{width:620px; margin-top:12vh; display:flex; flex-direction:column; max-height:68vh; overflow:hidden;}
+.cmdTop{display:flex; align-items:center; gap:10px; padding:12px 16px; border-bottom:1px solid var(--line);}
+.cmdTop .i{color:var(--faint); flex:none;}
+.cmdTop input{flex:1; background:none; border:none; outline:none; color:var(--txt); font-size:15px; padding:2px 0;}
+.cmdTop input::placeholder{color:var(--faint);}
+.cmdHint{font:11px var(--mono); color:var(--faint); flex:none;}
+.cmdList{overflow-y:auto; padding:6px; flex:1; min-height:80px;}
+.cmdItem{display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:7px; cursor:pointer;}
+.cmdItem.on{background:var(--accDim); box-shadow:0 0 0 1px var(--accLine) inset;}
+.cmdItem:hover{background:var(--bg3);}
+.cmdItem .kind{flex:none; font-size:10px; padding:2px 6px; border-radius:4px; background:var(--bg4); color:var(--dim); min-width:48px; text-align:center;}
+.cmdItem .mid{flex:1; min-width:0;}
+.cmdItem .t{font-size:13px; color:var(--txt); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.cmdItem .t em{font-style:normal; color:var(--acc); font-weight:600;}
+.cmdItem .d{font-size:11px; color:var(--faint); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.cmdItem .loc{flex:none; font-size:10.5px; color:var(--dim); max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.cmdEmpty{padding:26px 14px; text-align:center; color:var(--faint); font-size:12px; line-height:1.9;}
+.cmdFoot{display:flex; align-items:center; gap:4px; padding:8px 16px; border-top:1px solid var(--line); font-size:11px; color:var(--faint);}
+.cmdFoot b{color:var(--txt2); font-weight:600; font-family:var(--mono);}
+.cmdFoot .grow{flex:1;}
+/* 跳過去之後閃一下，讓眼睛找得到 */
+@keyframes cmdFlash{0%,100%{box-shadow:0 0 0 0 rgba(77,163,255,0);} 18%,62%{box-shadow:0 0 0 3px rgba(77,163,255,.85);}}
+.cmdFlash{animation:cmdFlash 1.5s ease-in-out 2; border-radius:7px; position:relative; z-index:2;}
 
 /* ---------- 對話框 / Toast / 導覽 ---------- */
 .modal{position:fixed; inset:0; background:rgba(4,6,10,.62); backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; z-index:100;}
@@ -411,6 +490,13 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 17l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></symbol>
 <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L3 14h8l-1 8 10-12h-8z"/></symbol>
 <symbol id="i-path" viewBox="0 0 24 24"><path d="M4 18c4 0 4-12 8-12s4 12 8 12"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4L21 21"/></symbol>
+<symbol id="i-once" viewBox="0 0 24 24"><path d="M3 12h13"/><path d="M12 7l5 5-5 5"/><path d="M21 5v14"/></symbol>
+<symbol id="i-tracks" viewBox="0 0 24 24"><rect x="2.5" y="4" width="12" height="4" rx="1.5"/><rect x="7.5" y="10" width="14" height="4" rx="1.5"/><rect x="4.5" y="16" width="9" height="4" rx="1.5"/></symbol>
+<symbol id="i-cursor" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.6L10.4 19z" fill="currentColor" stroke="none"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 2l5 9-5 5-5-5z"/><path d="M12 16v6"/></symbol>
+<symbol id="i-brush" viewBox="0 0 24 24"><path d="M3 21c3 0 5-1.5 5-4 0-1.4-1.1-2.5-2.5-2.5S3 15.6 3 17z"/><path d="M8.5 15.5L19 5a2.1 2.1 0 0 0-3-3L5.5 12.5"/></symbol>
+<symbol id="i-anchor-c" viewBox="0 0 24 24"><path d="M3 20L12 5l9 15"/></symbol>
 <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
 <symbol id="i-solo" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></symbol>
 <symbol id="i-panel-l" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
@@ -432,7 +518,7 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 
 <!-- ============================ 頂部工具列 ============================ -->
 <div id="tabBar">
-  <div class="brand"><span class="logo"><svg class="i sm" style="stroke:#fff"><use href="#i-spark"/></svg></span>EdgeFX Studio<span class="ver" id="buildStamp" data-tip="建置時間 11/09 14:48｜若這個時間不是最新的，請按 Ctrl+Shift+R 重新載入">v3</span></div>
+  <div class="brand"><span class="logo"><svg class="i sm" style="stroke:#fff"><use href="#i-spark"/></svg></span>EdgeFX Studio<span class="ver" id="buildStamp" data-tip="建置時間 11/12 14:29｜若這個時間不是最新的，請按 Ctrl+Shift+R 重新載入">v3</span></div>
   <div class="tabs">
     <button class="tab on" data-mode="edge" data-tour="tabs"><svg class="i sm"><use href="#i-sun"/></svg>邊光 EdgeFX</button>
     <button class="tab" data-mode="trail"><svg class="i sm"><use href="#i-path"/></svg>拖尾 TrailFX</button>
@@ -447,6 +533,7 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
   <div class="grow"></div>
   <button class="tbtn" id="uiToggleLeft" data-tip="顯示／隱藏左側面板"><svg class="i"><use href="#i-panel-l"/></svg></button>
   <button class="tbtn" id="uiToggleRight" data-tip="顯示／隱藏右側面板"><svg class="i"><use href="#i-panel-r"/></svg></button>
+  <button class="tbtn" id="uiFind" data-tip="搜尋功能：打幾個字就跳到那個設定|Ctrl+K"><svg class="i"><use href="#i-search"/></svg></button>
   <button class="tbtn" id="uiKeys" data-tip="鍵盤快捷鍵|?"><svg class="i"><use href="#i-kbd"/></svg></button>
   <button class="tbtn" id="uiTour" data-tip="重新播放新手導覽"><svg class="i"><use href="#i-help"/></svg></button>
   <span class="sep"></span>
@@ -541,6 +628,10 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
             </div>
           </div>
         </div>
+      </div>
+      <div class="sec" id="secMotion" data-tour="motion">
+        <h3><span class="num">4</span>動態<span class="q" data-help="motion"></span><span class="grow"></span><span class="motSum" id="motSum"></span><svg class="i sm chev"><use href="#i-chev"/></svg></h3>
+        <div class="body" id="motionBody"></div>
       </div>
     </div>
   </div>
@@ -722,7 +813,7 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
       <div class="sec" id="secTrPath">
         <h3><span class="num">2</span>路徑<span class="q" data-help="path"></span><span class="grow"></span><svg class="i sm chev"><use href="#i-chev"/></svg></h3>
         <div class="body">
-          <div class="hint">在畫布上<b>按住拖曳</b>畫一條線，或直接套用內建形狀：</div>
+          <div class="hint">先套一個內建形狀，再用畫面左上角的<b>選取</b>／<b>鋼筆</b>工具修錨點：</div>
           <div class="pathBtns">
             <button class="btn pathPreset" data-p="line"><svg class="i"><path d="M2 8h20"/></svg>直線</button>
             <button class="btn pathPreset" data-p="scurve"><svg class="i"><path d="M2 12c6 0 6-8 11-8s5 8 9 8"/></svg>S 曲線</button>
@@ -732,11 +823,6 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
             <button class="btn pathPreset" data-p="spiral"><svg class="i"><path d="M12 8a2 2 0 0 1 2 2 4 4 0 0 1-4 4 6 6 0 0 1-6-6 8 8 0 0 1 8-8 10 10 0 0 1 10 10"/></svg>螺旋</button>
             <button class="btn pathPreset" data-p="rrect"><svg class="i"><rect x="2.5" y="2" width="19" height="12" rx="4"/></svg>圓角矩形</button>
           </div>
-          <div class="row" id="trRRectRow">
-            <label>圓角半徑<span class="q" data-help="trRRadius"></span></label>
-            <input type="number" id="trRRadius" min="0" max="2048" step="4" value="48" style="width:62px">
-            <button class="btn sm ghost" id="trRRedo">重新產生</button>
-          </div>
           <div id="trPathList" style="display:flex;flex-direction:column;gap:2px"></div>
           <div class="row">
             <button class="btn sm" id="trPathAdd"><svg class="i sm"><use href="#i-plus"/></svg>新路徑</button>
@@ -745,8 +831,10 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
             <span class="grow"></span>
             <span class="badge" id="trPathInfo">無路徑</span>
           </div>
-          <div class="ctl"><span class="lab">平滑度<span class="q" data-help="smooth"></span></span><input type="range" id="trSmooth" min="0" max="5" step="1" value="2"><span class="val" id="trSmoothVal">2</span><span></span></div>
-          <div class="ctl adv"><span class="lab">出發延遲<span class="q" data-help="delay"></span></span><input type="range" id="trDelay" min="0" max="95" step="5" value="0"><span class="val" id="trDelayVal">0%</span><span></span></div>
+          <div class="row">
+            <label class="switch"><input type="checkbox" id="trBez"><i></i>貝茲曲線（控制桿）<span class="q" data-help="trBez"></span></label>
+          </div>
+          <div class="ctl" id="trSmoothCtl"><span class="lab">平滑度<span class="q" data-help="smooth"></span></span><input type="range" id="trSmooth" min="0" max="5" step="1" value="2"><span class="val" id="trSmoothVal">2</span><span></span></div>
           <div class="row">
             <label class="switch"><input type="checkbox" id="trClosed"><i></i>封閉路徑（頭尾相接）</label>
           </div>
@@ -754,8 +842,9 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
             <button class="btn sm ghost" id="trClearPath">清除路徑</button>
             <button class="btn sm ghost" id="trReversePath">反轉方向</button>
           </div>
-          <div class="sub adv">
-            <div class="t"><svg class="i sm"><use href="#i-path"/></svg>位置與尺寸<span class="q" data-help="trPathRect"></span></div>
+          <button class="motMore" id="trPathMore">位置、尺寸與對齊…</button>
+          <div class="motTune hide" id="trPathTune">
+            <div class="motLab">位置與尺寸<span class="q" data-help="trPathRect"></span></div>
             <div class="row">
               <label>位置</label>
               <input type="number" id="trPathX" step="1" style="width:62px">
@@ -774,8 +863,28 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
               <button class="btn sm" id="trPathFill">填滿畫布</button>
               <button class="btn sm ghost" id="trPathMove" data-tip="開啟後在畫布上拖曳＝移動整條路徑；平常按住 Shift 拖曳也可以">移動整條</button>
             </div>
+            <div class="motLab" style="margin-top:8px">選取的錨點<span class="motSum" id="penSel2">　未選取</span></div>
+            <div class="row">
+              <button class="btn sm ghost" id="penAll" data-tip="選取這條路徑的全部錨點|Ctrl+A">全選</button>
+              <button class="btn sm ghost" id="penAlignH" data-tip="把選取的錨點對齊到同一個 Y（水平線）">水平對齊</button>
+              <button class="btn sm ghost" id="penAlignV" data-tip="把選取的錨點對齊到同一個 X（垂直線）">垂直對齊</button>
+            </div>
+            <div class="row">
+              <button class="btn sm ghost" id="penDistrib" data-tip="讓選取的錨點沿著長邊等距分布（至少三點）">等距分布</button>
+              <button class="btn sm ghost" id="penSmoothSel" data-tip="把選取的錨點的控制桿重算成順滑切線">平滑化</button>
+            </div>
+            <div class="row">
+              <button class="btn sm ghost" id="penSetStart" data-tip="把選取的那一顆錨點變成路徑的第一顆（畫面上的綠點）。封閉路徑可以任選一顆，終點會落在它前面那一顆">設為起點<span class="q" data-help="penSetStart"></span></button>
+            </div>
+            <div class="motLab" style="margin-top:8px">圓角矩形</div>
+            <div class="row" id="trRRectRow">
+              <label>圓角半徑<span class="q" data-help="trRRadius"></span></label>
+              <input type="number" id="trRRadius" min="0" max="2048" step="4" value="48" style="width:62px">
+              <button class="btn sm ghost" id="trRRedo">重新產生</button>
+            </div>
+            <div class="ctl"><span class="lab">出發延遲<span class="q" data-help="delay"></span></span><input type="range" id="trDelay" min="0" max="95" step="5" value="0"><span class="val" id="trDelayVal">0%</span><span></span></div>
           </div>
-          <div class="hint adv">拖控制點＝微調；右鍵控制點＝刪除；按住 Shift 拖曳＝移動整條。控制點可以拉到畫布外。</div>
+          <div class="hint adv" id="trPathKeys">A 選取／P 鋼筆／D 手繪。選取模式：拖錨點＝移動、空白處拖＝框選、Shift 點＝加選、雙擊＝角點⇄平滑、Alt 點線段＝插入、Alt 點錨點＝刪除、方向鍵＝微調、Shift 拖曳＝移動整條。</div>
         </div>
       </div>
 
@@ -834,7 +943,16 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
         <button class="bgsw imgsw" id="tBgImgSw" data-tip="背景圖片"></button>
         <input type="color" id="tBgColor" value="#204060" style="width:0;height:0;opacity:0;position:absolute">
       </div>
-      <div class="grp"><button class="tbtn" id="uiPath" data-tip="顯示／隱藏路徑與控制點（不影響匯出）|P"><svg class="i sm"><use href="#i-path"/></svg>路徑</button></div>
+      <div class="grp"><button class="tbtn" id="uiPath" data-tip="顯示／隱藏路徑與控制點（不影響匯出）|Shift+P"><svg class="i sm"><use href="#i-path"/></svg>路徑</button></div>
+      <div class="grp" id="tPenBar">
+        <button class="tbtn on" id="penSel" data-tip="選取／編輯錨點：拖錨點、拖控制桿、空白處框選多點|A"><svg class="i sm"><use href="#i-cursor"/></svg></button>
+        <button class="tbtn" id="penPen" data-tip="鋼筆：點一下加角點、拖曳加平滑點；點線段＝插入錨點、點錨點＝刪除、點回起點＝封閉|P"><svg class="i sm"><use href="#i-pen"/></svg></button>
+        <button class="tbtn" id="penFree" data-tip="手繪：在畫布上拖曳重畫整條路徑（會蓋掉現有錨點）|D"><svg class="i sm"><use href="#i-brush"/></svg></button>
+        <span class="bgsep"></span>
+        <button class="tbtn" id="penCorner" data-tip="把選取的錨點切換成 角點 ⇄ 平滑點（也可以直接雙擊錨點）"><svg class="i sm"><use href="#i-anchor-c"/></svg></button>
+        <button class="tbtn" id="penDel" data-tip="刪除選取的錨點|Delete"><svg class="i sm"><use href="#i-trash"/></svg></button>
+        <span class="zoomv" id="penInfo" data-tip="已選取的錨點數／總錨點數">0/0</span>
+      </div>
       <div class="grow"></div>
       <div class="grp"><span class="badge" id="tCanvasInfo">1024×576</span></div>
     </div>
@@ -850,9 +968,22 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
       <div id="trCropWarn"><svg class="i sm"><use href="#i-warn"/></svg><span id="trCropTxt">拖尾被畫布邊緣裁到了</span><button id="trCropFix">自動外擴</button></div>
       <div id="trDragOverlay" class="dragOverlay">放開以載入物件圖</div>
     </div>
+    <div class="trTracks" id="trTracks">
+      <div class="ttBar">
+        <b>圖層時間軸</b>
+        <span class="ttHelp">拖區塊＝移動；拖左右邊＝改長度；×N＝在自己的窗內跑幾圈；雙擊＝整條還原</span>
+        <span class="grow"></span>
+        <label class="ttSnap"><input type="checkbox" id="ttSnap" checked><i></i>吸附到幀</label>
+        <button class="btn sm ghost" id="ttReset">全部還原</button>
+        <button class="btn sm ghost" id="ttClose">收起</button>
+      </div>
+      <div class="ttBody" id="trTrackBody"></div>
+    </div>
     <div class="timeline">
       <div class="tgrp">
         <button class="tbtn play" id="uiTrPlay" data-tip="播放／暫停|Space"><svg class="i"><use href="#i-pause"/></svg></button>
+        <button class="tbtn" id="uiTrOnce" data-tip="播一遍就停：跑到最後一幀停住，不自動回頭（只影響預覽，不影響匯出）"><svg class="i"><use href="#i-once"/></svg></button>
+        <button class="tbtn" id="uiTrTracks" data-tip="展開／收起圖層時間軸：每一層可以有自己的起點、長度與圈數"><svg class="i"><use href="#i-tracks"/></svg></button>
       </div>
       <div class="scrub">
         <input type="range" id="trSlider" min="0" max="1" step="0.001" value="0">
@@ -895,8 +1026,10 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
           <div class="ctlSel"><span class="lab">模式<span class="q" data-help="mode"></span></span>
             <select id="trMode">
               <option value="sweep">一次掃過（進場／出場）</option>
+              <option value="lap">繞完一圈（封閉路徑）</option>
               <option value="cycle">循環繞行（無縫 loop）</option>
             </select></div>
+          <div class="hint warnHint hidden" id="trLapWarn">「繞完一圈」要配封閉路徑，頭才接得回起點。現在這條沒有封閉，效果會跟「一次掃過」差不多。</div>
           <div class="ctl"><span class="lab">拖尾長度<span class="q" data-help="tailLen"></span></span><input type="range" id="trTailLen" min="2" max="100" step="1" value="35"><span class="val" id="trTailLenVal">35%</span><span></span></div>
           <div class="ctlSel"><span class="lab">速度曲線<span class="q" data-help="ease"></span></span>
             <select id="trEase">
@@ -991,6 +1124,21 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
     <div class="hd"><h2 id="promptTitle">名稱</h2><button class="x" data-close><svg class="i"><use href="#i-x"/></svg></button></div>
     <div class="bd"><input type="text" id="promptInput" style="height:32px;font-size:13px"></div>
     <div class="ft"><span class="grow"></span><button class="btn" data-close>取消</button><button class="btn primary" id="promptOk">確定</button></div>
+  </div>
+</div>
+
+<!-- ============================ 搜尋功能（Ctrl+K） ============================ -->
+<div class="modal" id="cmdDlg">
+  <div class="box cmdBox">
+    <div class="cmdTop">
+      <svg class="i"><use href="#i-search"/></svg>
+      <input id="cmdInput" type="text" autocomplete="off" spellcheck="false"
+             placeholder="搜尋功能、參數、配方…　例如：呼吸、繞行、起點、外擴、彗星">
+      <span class="cmdHint" id="cmdCount"></span>
+    </div>
+    <div class="cmdList" id="cmdList"></div>
+    <div class="cmdFoot"><b>↑↓</b> 選擇　<b>Enter</b> 前往　<b>Esc</b> 關閉<span class="grow"></span>
+      <span>找到的項目會在畫面上閃一下</span></div>
   </div>
 </div>
 
@@ -1178,6 +1326,38 @@ uniform int uType;          // 0 glow, 1 wave, 2 fire
 uniform int uFill, uRainbow;
 uniform float uWidth, uIntensity, uSoft, uNScale, uSpeed, uRainbowPhase, uRise, uSwirl;
 uniform vec3 uC0, uC1, uC2; uniform float uUseC2;
+uniform sampler2D uUMap;
+uniform vec4 uSeg;          // x=尾端位置 0..1, y=長度 0..1, z=頭部羽化, w=開關
+uniform vec4 uSeg2;         // x=尾巴漸層佔比 0..1, y=頭部加亮, z=加亮範圍佔比, w=尾巴曲線
+uniform int uSegInv, uSegMirror;
+float segOne(float d, float len, float soft){
+  if(len>=0.999) return 1.0;
+  if(d<0.0||d>len+soft) return 0.0;
+  float fh=max(uSeg.z,0.0008)+soft;
+  float tail=clamp(uSeg2.x,0.0,1.0)*len+soft;
+  float a=tail>0.0001 ? pow(clamp(d/tail,0.0,1.0), max(uSeg2.w,0.05)) : 1.0;
+  float b=1.0-smoothstep(len-fh,len,d);
+  float m=a*b;
+  float hr=max(uSeg2.z,0.0001)*len;
+  if(uSeg2.y>0.0 && d>len-hr) m*=1.0+uSeg2.y*smoothstep(len-hr, len-hr*0.2, d);
+  return m;
+}
+float segMaskRaw(vec2 pp, float dist){
+  if(uSeg.w<0.5) return 1.0;
+  vec2 e=texture(uUMap, pp/uRes).rg*2.0-1.0;
+  if(dot(e,e)<0.0001) return 1.0;
+  float u=atan(e.y,e.x)*0.15915494+0.5;
+  float len=clamp(uSeg.y,0.0,1.0);
+  // 離輪廓越遠，「在框上的哪個位置」本來就越模糊（寬光暈會蓋到框內深處），
+  // 所以讓段落邊界隨距離自動變柔，否則框內會出現一條弧形的硬邊。
+  float soft=clamp(dist/(uRes.x+uRes.y)*1.6, 0.0, 0.35);
+  float m=segOne(fract(u-uSeg.x),len,soft);
+  if(uSegMirror==1) m=max(m, segOne(fract(uSeg.x-u),len,soft));
+  if(uSegInv==1) m=1.0-clamp(m,0.0,1.0);
+  return m;
+}
+vec4 segApply(vec4 c, vec2 pp, float dist){ c*=segMaskRaw(pp,dist); c.a=min(c.a,1.0); return c; }
+
 ${NOISE_GLSL}
 float sdBox(vec2 p, vec2 b){ vec2 d=abs(p)-b; return length(max(d,0.))+min(max(d.x,d.y),0.); }
 float sd(vec2 p){
@@ -1260,7 +1440,7 @@ void main(){
   v+= (hash21(p+fract(uT)*13.7)-0.5)*0.006;  // 抖色去帶狀
   v=clamp(v,0.0,1.0);
   float a=clamp(v*uIntensity,0.0,1.0);
-  o=vec4(c*v*uIntensity, a);   // premultiplied
+  o=segApply(vec4(c*v*uIntensity, a), p, abs(sd(p)));   // premultiplied，乘沿框遮罩
 }`;
 
 // 雷電合成（CPU 折線畫進 2D canvas，這裡上色）
@@ -1268,15 +1448,48 @@ const FS_BOLT=`#version 300 es
 precision highp float;
 in vec2 vUV; out vec4 o;
 uniform sampler2D uTex;
+uniform vec2 uRes;
 uniform vec3 uC0, uC1, uC2;
 uniform float uIntensity;
+uniform sampler2D uUMap;
+uniform vec4 uSeg;          // x=尾端位置 0..1, y=長度 0..1, z=頭部羽化, w=開關
+uniform vec4 uSeg2;         // x=尾巴漸層佔比 0..1, y=頭部加亮, z=加亮範圍佔比, w=尾巴曲線
+uniform int uSegInv, uSegMirror;
+float segOne(float d, float len, float soft){
+  if(len>=0.999) return 1.0;
+  if(d<0.0||d>len+soft) return 0.0;
+  float fh=max(uSeg.z,0.0008)+soft;
+  float tail=clamp(uSeg2.x,0.0,1.0)*len+soft;
+  float a=tail>0.0001 ? pow(clamp(d/tail,0.0,1.0), max(uSeg2.w,0.05)) : 1.0;
+  float b=1.0-smoothstep(len-fh,len,d);
+  float m=a*b;
+  float hr=max(uSeg2.z,0.0001)*len;
+  if(uSeg2.y>0.0 && d>len-hr) m*=1.0+uSeg2.y*smoothstep(len-hr, len-hr*0.2, d);
+  return m;
+}
+float segMaskRaw(vec2 pp, float dist){
+  if(uSeg.w<0.5) return 1.0;
+  vec2 e=texture(uUMap, pp/uRes).rg*2.0-1.0;
+  if(dot(e,e)<0.0001) return 1.0;
+  float u=atan(e.y,e.x)*0.15915494+0.5;
+  float len=clamp(uSeg.y,0.0,1.0);
+  // 離輪廓越遠，「在框上的哪個位置」本來就越模糊（寬光暈會蓋到框內深處），
+  // 所以讓段落邊界隨距離自動變柔，否則框內會出現一條弧形的硬邊。
+  float soft=clamp(dist/(uRes.x+uRes.y)*1.6, 0.0, 0.35);
+  float m=segOne(fract(u-uSeg.x),len,soft);
+  if(uSegMirror==1) m=max(m, segOne(fract(uSeg.x-u),len,soft));
+  if(uSegInv==1) m=1.0-clamp(m,0.0,1.0);
+  return m;
+}
+vec4 segApply(vec4 c, vec2 pp, float dist){ c*=segMaskRaw(pp,dist); c.a=min(c.a,1.0); return c; }
+
 uniform int uKeepColor;   // 1=保留粒子圖原色（不套調色）
 uniform int uThree;       // 1=三段色（雷電：外暈 uC0 → 電光 uC1 → 白核 uC2）
 void main(){
   vec4 t=texture(uTex, vec2(vUV.x, 1.0-vUV.y));
   if(uKeepColor==1){
     float aa=clamp(t.a*uIntensity,0.0,1.0);
-    o=vec4(t.rgb*t.a*uIntensity, aa);
+    o=segApply(vec4(t.rgb*t.a*uIntensity, aa), vec2(vUV.x,1.0-vUV.y)*uRes, 0.0);
     return;
   }
   float a=t.a;
@@ -1288,7 +1501,7 @@ void main(){
     lum= a<0.5 ? a*1.1 : (a<0.62 ? mix(0.55,1.0,(a-0.5)/0.12) : 1.0);   // 邊線(0.6)全亮、廣暈保持柔
   } else c=mix(uC0, uC2, smoothstep(0.45,0.95,a));
   float aa=clamp(a*uIntensity,0.0,1.0);
-  o=vec4(c*lum*uIntensity, aa);
+  o=segApply(vec4(c*lum*uIntensity, aa), vec2(vUV.x,1.0-vUV.y)*uRes, 0.0);
 }`;
 
 // 前景圖
@@ -2270,6 +2483,7 @@ function renderScene(targetFbo, W, H, includeFg, texScale){
         ((L.type==='spark'&&L.particleSrc&&L.particleKeepColor)||
          (L.type==='bolt'&&L.boltSrc&&L.boltKeepColor)||
          (L.type==='band'&&L.bandSrc&&L.bandKeepColor))?1:0);
+      if(window.FXSEG) window.FXSEG(progBolt,L,true);
       gl.drawArrays(gl.TRIANGLES,0,3);
     } else {
       gl.useProgram(progEffect.prog);
@@ -2293,6 +2507,7 @@ function renderScene(targetFbo, W, H, includeFg, texScale){
       gl.uniform3fv(progEffect.u.uC1,hexToRgb(hueShiftHex(L.c1,hs)));
       gl.uniform3fv(progEffect.u.uC2,hexToRgb(hueShiftHex(L.c2,hs)));
       gl.uniform1f(progEffect.u.uUseC2,L.useC2?1:0);
+      if(window.FXSEG) window.FXSEG(progEffect,L,false);
       gl.drawArrays(gl.TRIANGLES,0,3);
     }
   };
@@ -3638,7 +3853,7 @@ $('trPathDup').onclick=()=>{
   trStashCur();
   const src=TR.paths[TR.cur];
   const cp=JSON.parse(JSON.stringify({...src,_path:null}));
-  cp.raw=cp.raw.map(pt=>({x:pt.x+30, y:pt.y+30}));  // 錯開一點避免全疊
+  cp.raw=cp.raw.map(pt=>({...pt, x:pt.x+30, y:pt.y+30}));  // 錯開一點避免全疊
   cp.layers=cp.layers.map(l=>({...l, id:trLayerUid++}));
   cp.seed=(cp.seed+1)|0;
   TR.paths.splice(TR.cur+1,0,cp);
@@ -3691,6 +3906,7 @@ function trHeadS(t){
   const T=trLoopT();
   let u=(t/T)%1; if(u<0) u+=1;
   if(TR.mode==='cycle') return u;                       // 循環繞行：頭一直往前繞
+  if(TR.mode==='lap') return trEaseFn(u);               // 繞完一圈：頭正好走完一圈回到起點
   // 一次掃過：頭從起點長出來、走到尾端再收掉。
   // 從 -拖尾長 開始的話，頭部 <0 的那段全被裁掉，前面會白白浪費十幾張空幀
   return trEaseFn(u)*(1+TR.tailLen);
@@ -4337,11 +4553,14 @@ function trRenderTo(ctx, t, scale, forExport){
     for(const f of TR_PATH_FIELDS) TR[f]=p[f];
     trPath=p._path;
     if(!trPath || !TR.layers.length) continue;
-    const tt=t-(p.delay||0)*trLoopT();
-    const headS=trHeadS(tt), env=trEnvelope(tt);
-    if(env<=0.002) continue;
+    const ttP=t-(p.delay||0)*trLoopT();
+    const headSP=trHeadS(ttP), envP=trEnvelope(ttP);
     for(const L of TR.layers){
       if(!L.on) continue;
+      const q = window.TRLT ? window.TRLT(L, ttP) : {headS:headSP, env:envP, t:ttP};
+      if(!q) continue;                                 // 不在這一層的時間窗內
+      const headS=q.headS, env=q.env, tt=q.t;
+      if(env<=0.002) continue;
       const sc=trScratchCtx(W,H);
       sc.save();
       sc.scale(scale,scale);
@@ -4428,7 +4647,7 @@ trOv.addEventListener('pointerdown', ev=>{
 trOv.addEventListener('pointermove', ev=>{
   const p=trPt(ev);
   if(trDragIdx>=0){
-    TR.raw[trDragIdx]={x:p.x, y:p.y};
+    TR.raw[trDragIdx]={...TR.raw[trDragIdx], x:p.x, y:p.y};
     trRebuildPath(); trSaveDebounced();
     return;
   }
@@ -6318,6 +6537,63 @@ BUILTIN_PRESETS.push(
       P('spark', { name:'邊緣星點', count:48, size:2.6, spread:24, star:0.85, flicker:4,
                    c0:'#ffffff', c2:'#ffffff', intensity:1.0 }),
     ]},
+  // 呼吸光示範：整組都預先調好節奏，套用後直接在「呼吸光（節奏）」區塊微調兩個滑桿就好
+  { name:'🫧 呼吸金框', cat:'frame', pad:96, layers:()=>[
+      P('glow', { name:'金色外暈', width:24, c0:'#f1d624', c1:'#b46614', useC2:false, intensity:0.6, soft:1.35,
+                  brTpl:'calm', brRate:1, brDepth:0.5, brWave:'sine', brWidth:7, brPhase:0.15 }),
+      P('glow', { name:'亮金細線', width:3, c0:'#fff6c0', c1:'#f1d624', useC2:false, intensity:1.25, soft:0.7,
+                  brTpl:'calm', brRate:1, brDepth:0.35, brWave:'sine', brWidth:3, brPhase:0 }),
+    ]},
+  { name:'💗 心跳紅框', cat:'frame', pad:112, layers:()=>[
+      P('glow', { name:'暗紅外暈', width:36, c0:'#ff3b2f', c1:'#7a0b05', useC2:false, intensity:0.7, soft:1.45,
+                  brTpl:'heart', brRate:1, brDepth:0.6, brPeak:1.15, brWave:'heart', brWidth:6, brPhase:0.08 }),
+      P('glow', { name:'亮紅細線', width:4, c0:'#ffd6cb', c1:'#ff5a3c', useC2:false, intensity:1.2, soft:0.8,
+                  brTpl:'heart', brRate:1, brDepth:0.55, brPeak:1.2, brWave:'heart', brWidth:4, brPhase:0 }),
+    ]},
+  { name:'💡 燈管明滅框', cat:'frame', pad:92, layers:()=>[
+      P('glow', { name:'冷光外暈', width:26, c0:'#8fe9ff', c1:'#1d5fa8', useC2:false, intensity:0.6, soft:1.3,
+                  brTpl:'tube', brRate:2, brDepth:0.75, brWave:'square', brDuty:0.8 }),
+      P('glow', { name:'白色細線', width:3, c0:'#ffffff', c1:'#d9f6ff', useC2:false, intensity:1.3, soft:0.7,
+                  brTpl:'tube', brRate:2, brDepth:0.75, brWave:'square', brDuty:0.8 }),
+    ]},
+  { name:'🌈 流光變色框', cat:'frame', pad:100, layers:()=>[
+      P('glow', { name:'流光外暈', width:30, c0:'#ff7ad9', c1:'#3a2bff', useC2:false, intensity:0.65, soft:1.35,
+                  brTpl:'huespin', hueSpin:1 }),
+      P('glow', { name:'亮色細線', width:3, c0:'#ffffff', c1:'#ffd6f6', useC2:false, intensity:1.2, soft:0.7,
+                  brTpl:'huespin', hueSpin:1 }),
+    ]},
+  // 沿框遮罩示範
+  { name:'🔦 光點繞框', cat:'frame', pad:96, layers:()=>[
+      P('glow', { name:'常亮暗線', width:16, c0:'#2f6ad0', c1:'#0b1d44', useC2:false, intensity:0.42, soft:1.2 }),
+      P('glow', { name:'繞行光暈', width:30, c0:'#9fe4ff', c1:'#2f8cff', useC2:false, intensity:1.0, soft:1.25,
+                  segTpl:'dot', segOn:true, segLen:0.1, segFeather:0.05, segSpeed:1 }),
+      P('glow', { name:'繞行亮核', width:5, c0:'#ffffff', c1:'#bfefff', useC2:false, intensity:1.4, soft:0.7,
+                  segTpl:'dot', segOn:true, segLen:0.05, segFeather:0.025, segSpeed:1 }),
+    ]},
+  { name:'✨ 描邊生長框', cat:'frame', pad:96, layers:()=>[
+      P('glow', { name:'外暈', width:22, c0:'#8de1ff', c1:'#1a4fa8', useC2:false, intensity:0.6, soft:1.3,
+                  segTpl:'grow', segOn:true, segLen:1, segFeather:0.02, segGrow:0.7 }),
+      P('glow', { name:'白色細線', width:3, c0:'#ffffff', c1:'#d9f6ff', useC2:false, intensity:1.3, soft:0.7,
+                  segTpl:'grow', segOn:true, segLen:1, segFeather:0.02, segGrow:0.7 }),
+    ]},
+  // 參考：繞行/02.mp4 —— 兩條頭亮尾長的霓虹彗星沿框對向繞行
+  { name:'🌠 雙色彗星繞框', cat:'frame', pad:230, layers:()=>{
+      const seg=(st,pow,ex)=>Object.assign({ segTpl:'comet', segOn:true, segLen:0.55, segFeather:0.02,
+        segSpeed:1, segTail:1, segTailPow:pow, segHead:0, segHeadR:0.1, segStart:st }, ex||{});
+      return [
+        P('glow', Object.assign({ name:'底線', moFollow:false, width:6, c0:'#16294d', c1:'#040a18', useC2:false, intensity:0.32, soft:1.1 })),
+        P('glow', Object.assign({ grp:'青彗星', name:'青大暈', width:230, c0:'#1fc9ff', c1:'#052f63', useC2:false, intensity:1.7, soft:2.6 }, seg(0,0.5))),
+        P('glow', Object.assign({ grp:'青彗星', name:'青主暈', width:72, c0:'#49e6ff', c1:'#0a74bb', useC2:false, intensity:1.25, soft:1.5 }, seg(0,0.7))),
+        P('wave', Object.assign({ grp:'青彗星', name:'青毛邊', width:26, c0:'#8ff4ff', c1:'#17a8e0', c2:'#ffffff', useC2:true, intensity:1.4, soft:1.1, nscale:26, speed:1.4 }, seg(0,0.7))),
+        P('glow', Object.assign({ grp:'青彗星', name:'青芯線', width:5, c0:'#bff6ff', c1:'#37d8ff', useC2:false, intensity:1.5, soft:0.85 }, seg(0,0.7))),
+        P('glow', Object.assign({ grp:'青彗星', name:'青頭白', width:9, c0:'#ffffff', c1:'#ffffff', useC2:false, intensity:1.8, soft:0.8 }, seg(0,4,{segHead:0.8,segHeadR:0.12}))),
+        P('glow', Object.assign({ grp:'紅彗星', name:'紅大暈', width:230, c0:'#e92fe0', c1:'#3d0570', useC2:false, intensity:1.7, soft:2.6 }, seg(0.5,0.5))),
+        P('glow', Object.assign({ grp:'紅彗星', name:'紅主暈', width:72, c0:'#ff63f0', c1:'#9d14c8', useC2:false, intensity:1.25, soft:1.5 }, seg(0.5,0.7))),
+        P('wave', Object.assign({ grp:'紅彗星', name:'紅毛邊', width:26, c0:'#ffa6f7', c1:'#c327d8', c2:'#ffffff', useC2:true, intensity:1.4, soft:1.1, nscale:26, speed:1.4 }, seg(0.5,0.7))),
+        P('glow', Object.assign({ grp:'紅彗星', name:'紅芯線', width:5, c0:'#ffc9fa', c1:'#ff5cf0', useC2:false, intensity:1.5, soft:0.85 }, seg(0.5,0.7))),
+        P('glow', Object.assign({ grp:'紅彗星', name:'紅頭白', width:9, c0:'#ffffff', c1:'#ffffff', useC2:false, intensity:1.8, soft:0.8 }, seg(0.5,4,{segHead:0.8,segHeadR:0.12}))),
+      ];
+    }},
   // 參考：火焰特效/2D循環.gif（直立火舌，金黃核心、橘身、暗紅尖）
   { name:'🕯 火舌循環', cat:'fire', pad:176, layers:()=>[
       P('glow', { name:'橘光墊底', width:62, c0:'#fe980c', c1:'#913605', useC2:false, intensity:0.7, soft:1.3 }),
@@ -8185,7 +8461,8 @@ uiFrame = function(){ _uiFrame_noBgUnder(); bgUnderSync(); };
   function trShiftAll(dx, dy){
     if(!dx && !dy) return;
     trStashCur();
-    for(const p of TR.paths) p.raw = (p.raw || []).map(q => ({ x:q.x + dx, y:q.y + dy }));
+    // 展開保留貝茲控制桿（h0/h1/c）；控制桿是相對位移，整條平移不用動它
+    for(const p of TR.paths) p.raw = (p.raw || []).map(q => ({ ...q, x:q.x + dx, y:q.y + dy }));
     trLoadCur();
     trRebuildAllPaths();
   }
@@ -8482,19 +8759,27 @@ uiFrame = function(){ _uiFrame_noBgUnder(); bgUnderSync(); };
   }
 
   // 以 bounds 為基準平移＋縮放整條路徑
+  // 貝茲控制桿是「相對錨點的位移」，所以平移不用動它、縮放要跟著縮
   function setRect(x, y, w, h){
     const b = rawBounds();
     if(!b) return;
     const sx = b.w > 0.01 ? w / b.w : 1;
     const sy = b.h > 0.01 ? h / b.h : 1;
-    TR.raw = TR.raw.map(p => ({ x: x + (p.x - b.x0) * sx, y: y + (p.y - b.y0) * sy }));
+    const sc = v => v ? { x:v.x * sx, y:v.y * sy } : v;
+    TR.raw = TR.raw.map(p => {
+      const q = { ...p, x: x + (p.x - b.x0) * sx, y: y + (p.y - b.y0) * sy };
+      if(p.h0) q.h0 = sc(p.h0);
+      if(p.h1) q.h1 = sc(p.h1);
+      return q;
+    });
     commit();
   }
 
   function moveBy(dx, dy){
     if(!TR.raw || !TR.raw.length) return;
-    TR.raw = TR.raw.map(p => ({ x:p.x + dx, y:p.y + dy }));
+    TR.raw = TR.raw.map(p => ({ ...p, x:p.x + dx, y:p.y + dy }));
   }
+  window.TRPATHRECT = { setRect, moveBy, commit, rawBounds, pathReach, syncFields };
 
   // ---- 數值欄位 ----
   const fX = $('trPathX'), fY = $('trPathY'), fW = $('trPathW'), fH = $('trPathH');
@@ -8554,44 +8839,7 @@ uiFrame = function(){ _uiFrame_noBgUnder(); bgUnderSync(); };
     toast('已縮放到剛好容納光暈', 'ok');
   };
 
-  // ---- 移動整條：按鈕模式，或隨時按住 Shift ----
-  let moveMode = false, drag = null;
-  const btnMove = $('trPathMove');
-  btnMove.onclick = () => {
-    moveMode = !moveMode;
-    btnMove.classList.toggle('primary', moveMode);
-    btnMove.classList.toggle('ghost', !moveMode);
-    $('trOverlay').style.cursor = moveMode ? 'move' : '';
-    toast(moveMode ? '拖曳畫布＝移動整條路徑' : '恢復成拖控制點', 'info', 1600);
-  };
-
-  stage.addEventListener('pointerdown', ev => {
-    if(ev.button !== 0) return;
-    if(!(ev.shiftKey || moveMode)) return;
-    if(!TR.raw || !TR.raw.length) return;
-    ev.stopPropagation(); ev.preventDefault();
-    try{ stage.setPointerCapture(ev.pointerId); }catch(e){}
-    drag = { last: trPt(ev) };
-  }, true);
-
-  stage.addEventListener('pointermove', ev => {
-    if(!drag) return;
-    ev.stopPropagation();
-    const p = trPt(ev);
-    moveBy(p.x - drag.last.x, p.y - drag.last.y);
-    drag.last = p;
-    trRebuildPath();
-    syncFields();
-  });
-
-  function endDrag(ev){
-    if(!drag) return;
-    drag = null;
-    try{ stage.releasePointerCapture(ev.pointerId); }catch(e){}
-    commit();
-  }
-  stage.addEventListener('pointerup', endDrag);
-  stage.addEventListener('pointercancel', endDrag);
+  // ---- 移動整條：按鈕交給下面的「路徑錨點編輯器」綁，手勢也在那裡統一處理 ----
 
   // ---- 圓角矩形 ----
   const _trMakePath_noRRect = trMakePath;
@@ -9052,6 +9300,1824 @@ uiFrame = function(){ _uiFrame_noBgUnder(); bgUnderSync(); };
 
   if(typeof HELP !== 'undefined') HELP.multiContour = ['多塊輪廓',
     '圖裡彼此分離的字或符號，現在每一塊都會各自長出雷電、星塵與貼圖邊光，不再只有其中一塊有。'];
+})();
+
+/* ===================== 呼吸光（節奏調變） =====================
+   目標：讓任何一層的光可以規律地亮起、暗下，而且匯出序列幀天生無縫。
+   做法：節奏單位是「一個 loop 呼吸幾次」而不是秒。loop 長度＝幀數÷FPS（loopT()），
+         所以 t 與 t-T 永遠相差整數個呼吸週期，尾幀交叉淡化回首幀不會糊掉。
+   參數全部掛在圖層物件上（br* 前綴），因此存檔、復原、風格庫、序列幀匯出
+   全部自動跟著走，不必動引擎的持久化。
+   調變點：包住 renderScene，渲染前暫改 intensity / width / 顏色，渲染後還原。
+   注意：寬度只對 glow/wave/fire/rays 生效。bolt/spark/band/burst 是 CPU 畫完再上色的，
+         紋理快取 key 含幾何參數（cpuParamSig），每幀改寬度會每幀重建紋理而卡住。
+         亮度與顏色都走 shader uniform，CPU 類型也安全。
+*/
+(function(){
+  if(typeof renderScene!=='function' || typeof defaultLayer!=='function') return;
+  const TAU=Math.PI*2;
+  const frac=x=>x-Math.floor(x);
+  const cl01=x=>x<0?0:x>1?1:x;
+  const sstep=(x)=>{ const t=cl01(x); return t*t*(3-2*t); };
+
+  // 六種波形：輸入相位 0~1，輸出 0（最暗）~1（最亮）。d＝亮的時間佔比
+  const BR_WAVES={
+    sine:  x=>0.5+0.5*Math.cos(TAU*x),
+    down:  (x,d)=>{ const w=Math.max(0.05,d); return x<w ? 1-sstep(x/w) : 0; },
+    up:    (x,d)=>{ const w=Math.min(0.95,Math.max(0.05,d)); return x<w ? sstep(x/w) : 1-sstep((x-w)/(1-w)); },
+    square:(x,d)=>{ const w=Math.min(0.95,Math.max(0.05,d)), e=0.03;
+                    return sstep(x/e)*(1-sstep((x-(w-e))/e)); },
+    heart: (x,d)=>{ const w=Math.max(0.05,d*0.34);
+                    const p=(c,h)=>h*Math.max(0,1-Math.abs(frac(x-c+0.5)-0.5)/w);
+                    return Math.min(1,p(0,1)+p(0.27,0.6)); },
+    flick: x=>cl01(0.5+0.30*Math.sin(TAU*x)+0.18*Math.sin(TAU*3*x+1.7)
+                      +0.12*Math.sin(TAU*5*x+0.6)+0.08*Math.sin(TAU*7*x+2.4)),
+  };
+  const BR_WAVE_NAMES=[['sine','平穩呼吸（最常用）'],['up','緩亮急滅（蓄力）'],['down','急亮緩滅（脈衝）'],
+    ['square','方波明滅（燈管／警示）'],['heart','雙峰心跳'],['flick','不規則搖曳（燭光）']];
+
+  // 共通欄位預設值（加進 defaultLayer，舊存檔靠 applySnapshot 的合併自動補上）
+  const BR_DEF={ brRate:0, brDepth:0.45, brPeak:1, brPhase:0, brWave:'sine', brDuty:0.5,
+                 brWidth:0, brHue:0, hueSpin:0 };
+  const BR_KEYS=Object.keys(BR_DEF);
+  window.BR_DEF=BR_DEF;
+
+  const _defaultLayer=defaultLayer;
+  defaultLayer=function(type){ const b=_defaultLayer(type); for(const k of BR_KEYS) if(!(k in b)) b[k]=BR_DEF[k]; return b; };
+
+  // ---- 節奏模板 ----
+  // _phase：套用到多層時，每一層的相位往後推這麼多，做出一波一波推出去的層次
+  const BR_TPL=[
+    ['',       '（自訂）',   null],
+    ['calm',   '緩慢呼吸',   {brRate:1,brDepth:0.45,brWave:'sine',brWidth:4}],
+    ['subtle', '微微起伏',   {brRate:2,brDepth:0.15,brWave:'sine'}],
+    ['deep',   '深呼吸',     {brRate:1,brDepth:0.6,brPeak:1.1,brWave:'up',brDuty:0.62,brWidth:8}],
+    ['heart',  '心跳',       {brRate:1,brDepth:0.55,brPeak:1.15,brWave:'heart',brWidth:5}],
+    ['heart2', '急促心跳',   {brRate:2,brDepth:0.7,brPeak:1.25,brWave:'heart',brDuty:0.45,brWidth:6}],
+    ['charge', '蓄力',       {brRate:1,brDepth:0.8,brPeak:1.4,brWave:'up',brDuty:0.85,brWidth:12}],
+    ['tube',   '燈管明滅',   {brRate:2,brDepth:0.75,brWave:'square',brDuty:0.8}],
+    ['alert',  '警示閃爍',   {brRate:4,brDepth:1,brPeak:1.1,brWave:'square',brDuty:0.5}],
+    ['combo',  '連擊脈衝',   {brRate:3,brDepth:0.85,brPeak:1.35,brWave:'down',brDuty:0.45,brWidth:8}],
+    ['candle', '燭光搖曳',   {brRate:3,brDepth:0.35,brPeak:1.05,brWave:'flick',brWidth:4}],
+    ['waveout','波浪推進',   {brRate:1,brDepth:0.5,brWave:'sine',brWidth:6,_phase:0.18}],
+    ['relay',  '輪流接力',   {brRate:1,brDepth:0.9,brPeak:1.1,brWave:'down',brDuty:0.5,_phase:0.3}],
+    ['huespin','色相流動',   {brRate:0,hueSpin:1}],
+    ['duo',    '兩色交替',   {brRate:1,brDepth:0.2,brWave:'sine',brHue:60}],
+  ];
+  window.BR_TPL=BR_TPL;
+
+  // ---- 調變量 ----
+  function brMul(L,t){
+    const rate=+L.brRate||0, spin=+L.hueSpin||0;
+    if(!rate && !spin) return null;
+    // 風格庫縮圖：固定停在最亮、不轉色相，否則「連擊脈衝」這種波形會剛好算在暗相位、縮圖一片黑
+    if(UI.brFreeze){
+      const hi=(L.brPeak??1), bw=+L.brWidth||0;
+      return { lum:rate?hi:1, wid:bw?1+bw/100:1, hue:0 };
+    }
+    const T=Math.max(0.01, typeof loopT==='function'?loopT():1);
+    let lum=1, wid=1, hue=0;
+    if(spin) hue+=spin*360*frac(t/T);
+    if(rate){
+      const wv=BR_WAVES[L.brWave]||BR_WAVES.sine;
+      const s=cl01(wv(frac(t/T*rate-(+L.brPhase||0)), +L.brDuty||0.5));
+      const lo=1-(L.brDepth??BR_DEF.brDepth), hi=(L.brPeak??1);
+      lum=lo+(hi-lo)*s;
+      const bw=+L.brWidth||0; if(bw) wid=1+bw/100*(s-0.5)*2;
+      const bh=+L.brHue||0;   if(bh) hue+=bh*s;
+    }
+    if(lum===1&&wid===1&&!hue) return null;
+    return {lum,wid,hue};
+  }
+  window.brMul=brMul;
+
+  // ---- 渲染包裝 ----
+  const _renderScene=renderScene;
+  renderScene=function(targetFbo,W,H,includeFg,texScale){
+    const saved=[];
+    for(const L of state.layers){
+      if(L.type==='fg'||L.visible===false) continue;
+      const m=brMul(L,state.t); if(!m) continue;
+      saved.push([L,L.intensity,L.width,L.c0,L.c1,L.c2]);
+      L.intensity=(L.intensity||0)*m.lum;
+      if(m.wid!==1 && !CPU_TYPES[L.type] && typeof L.width==='number') L.width=Math.max(1,L.width*m.wid);
+      if(m.hue){
+        const d=m.hue;
+        if(L.c0) L.c0=hueShiftHex(L.c0,d);
+        if(L.c1) L.c1=hueShiftHex(L.c1,d);
+        if(L.c2) L.c2=hueShiftHex(L.c2,d);
+      }
+    }
+    try{ _renderScene(targetFbo,W,H,includeFg,texScale); }
+    finally{ for(const row of saved){ const L=row[0]; L.intensity=row[1]; if(row[2]!==undefined) L.width=row[2]; L.c0=row[3]; L.c1=row[4]; L.c2=row[5]; } }
+  };
+
+  // ---- 同步開關（UI 偏好，不進存檔）----
+  // 動態是「整組」的事：預設套用到每一個沒有自己關掉跟隨的特效層
+  const brTargets=()=>state.layers.filter(x=>x.type!=='fg' && x.moFollow!==false);
+  function brSet(k,v){ brTargets().forEach(x=>{ x[k]=v; x.brTpl=''; }); }
+  function brApplyTpl(id){
+    const row=BR_TPL.find(x=>x[0]===id);
+    if(!row||!row[2]){ brTargets().forEach(x=>{ x.brRate=0; x.hueSpin=0; x.brTpl=''; }); return; }
+    const p=row[2], step=p._phase||0;
+    brTargets().forEach((x,i)=>{
+      for(const k of BR_KEYS) x[k]=(k in p)?p[k]:BR_DEF[k];
+      x.brPhase=step?+frac(step*i).toFixed(3):0;
+      x.brTpl=id;
+    });
+  }
+  window.BR = { TPL:BR_TPL, DEF:BR_DEF, KEYS:BR_KEYS, WAVES:BR_WAVE_NAMES,
+                set:brSet, applyTpl:brApplyTpl, targets:brTargets };
+
+  if(typeof edgeThumb==='function'){
+    const _edgeThumb=edgeThumb;
+    edgeThumb=function(){ UI.brFreeze=true; try{ return _edgeThumb.apply(null,arguments); } finally{ UI.brFreeze=false; } };
+  }
+
+  if(typeof HELP!=='undefined'){
+    HELP.breath=['呼吸光','讓這組光規律地亮起、暗下。節奏用「一圈呼吸幾次」計算，一圈＝序列幀的幀數÷FPS，所以匯出時尾幀接回首幀不會跳。先從「節奏模板」挑一個最接近的，再微調兩個滑桿最快。'];
+    HELP['E:brTpl']=['節奏模板','一次填好底下所有參數的現成節奏。選完還是可以自由微調，微調後會變成「自訂」。'];
+    HELP['E:brSync']=['同步套用到所有圖層','打開時，調整節奏會套用到這組配方的每一層，整圈一起呼吸。關掉就只改目前選取的這一層。「這層慢幾拍亮」永遠只改本層。'];
+    HELP['E:brRate']=['呼吸快慢','一個循環裡要亮暗幾次。只能是整數，這樣匯出的序列幀接回開頭才不會跳。想更慢就把「幀數」加長。0＝關閉呼吸。'];
+    HELP['E:brDepth']=['亮暗落差','暗下去的時候要多暗。0.45 左右最像呼吸，拉到 1 就是整個熄掉再亮起來。'];
+    HELP['E:brPeak']=['最亮倍率','最亮的瞬間可以超過原本的亮度，做出過曝的衝擊感。1＝不超過。'];
+    HELP['E:brPhase']=['這層慢幾拍亮','把這一層的呼吸往後延。外圈設 0.2、內圈設 0，看起來就像光從裡面往外推。只影響目前這一層。'];
+    HELP['E:brWave']=['呼吸感覺','亮暗變化的曲線。平穩＝正弦；緩亮急滅＝蓄力後瞬間熄；急亮緩滅＝像被打一下再衰減；方波＝燈管或警示；雙峰心跳＝咚咚兩下；不規則搖曳＝燭火。'];
+    HELP['E:brDuty']=['亮的時間佔比','一個呼吸週期裡「亮著」佔多久。方波配 0.8 是燈管、配 0.5 是警示閃爍；蓄力波配大一點爬升就久。'];
+    HELP['E:brWidth']=['亮時一起變大','亮的時候光暈同時脹大、暗的時候縮回去，比只調亮度更像活的光。對雷電、星塵、貼圖邊光、爆裂無效。'];
+    HELP['E:hueSpin']=['色相繞幾圈','一個循環裡顏色繞色環幾圈。只能是整數圈，否則接回開頭會變色。'];
+    HELP['E:brHue']=['亮時色相偏移','亮的時候顏色偏移幾度，暗的時候回到原色，做出兩色交替。配上小一點的亮暗落差效果最好。'];
+  }
+
+})();
+
+/* ===================== 沿框遮罩（繞行／生長） =====================
+   讓任一層只在輪廓的某一段顯示，那一段可以繞著框跑，也可以從 0 長到滿。
+   ⇒ 光點繞行、光弧掃描、描邊生長、雙向生長、對衝，全部是同一組參數的不同值。
+
+   引擎的 shader 只知道「離邊多遠」（SDF），不知道「在框上的哪個位置」，
+   所以這裡烘一張「輪廓位置圖」uUMap：每個格子存最近輪廓點的位置 u（0~1），
+   以 cos/sin(2πu) 存在 RG 兩個通道 —— 直接存 u 的話，u 從 1 跳回 0 的接縫
+   會被線性內插糊成一道假的亮邊。
+
+   位置圖是降採樣的（預設 1/4），遮罩邊緣本來就柔，精度夠用；
+   輪廓點也最多取 256 個來比距離，不然每次重烘要好幾百毫秒。
+   只在輪廓變了（contourVer）或畫布尺寸變了才重烘。
+
+   shader 端的 uniform 與呼叫點由 build.py 補丁加在引擎裡（搜尋 segMask）。
+*/
+(function(){
+  if(typeof gl==='undefined' || typeof defaultLayer!=='function') return;
+  const TAU=Math.PI*2;
+  const frac=x=>x-Math.floor(x);
+
+  const SEG_DEF={ segOn:false, segStart:0, segLen:0.25, segFeather:0.03,
+                  segSpeed:0, segGrow:0, segMirror:false, segInv:false,
+                  segTail:0.5, segHead:0, segHeadR:0.18, segTailPow:1.4 };
+  const SEG_KEYS=Object.keys(SEG_DEF);
+  const _defaultLayer2=defaultLayer;
+  defaultLayer=function(type){ const b=_defaultLayer2(type); for(const k of SEG_KEYS) if(!(k in b)) b[k]=SEG_DEF[k]; return b; };
+
+  // ---- 輪廓位置圖 ----
+  const UM={ tex:null, ver:-1, w:0, h:0, ok:false };
+  const SCALE=4, MAXPTS=256;
+  function buildUMap(){
+    const bs=baseSize(), w=bs.w, h=bs.h;
+    const ver=(typeof contourVer!=='undefined')?contourVer:0;
+    if(UM.ok && UM.ver===ver && UM.w===w && UM.h===h) return UM.tex;
+    UM.ver=ver; UM.w=w; UM.h=h; UM.ok=false;
+    const C=(typeof contour!=='undefined')?contour:null;
+    if(!C || C.length<8) return null;
+    const N=C.length, step=Math.max(1,Math.floor(N/MAXPTS)), M=Math.floor(N/step);
+    const px=new Float32Array(M), py=new Float32Array(M), pc=new Float32Array(M), ps=new Float32Array(M);
+    for(let i=0;i<M;i++){ const c=C[i*step], u=(i*step)/N*TAU;
+      px[i]=c.x; py[i]=c.y; pc[i]=Math.cos(u); ps[i]=Math.sin(u); }
+    const MW=Math.max(8,Math.ceil(w/SCALE)), MH=Math.max(8,Math.ceil(h/SCALE));
+    const data=new Uint8Array(MW*MH*2);
+    // 不是取「最近的那一點」，而是以距離加權平均所有輪廓點的方向。
+    // 只取最近點的話，框內部離兩條邊等距的地方（對角線）u 會突變，
+    // 光暈一寬、暈進框內就會看到一條對角線硬邊。加權平均讓那裡平滑過渡。
+    const SOFT=36;                       // ≈6px 的平滑半徑（平方）
+    for(let y=0;y<MH;y++){
+      const qy=(y+0.5)*SCALE;
+      for(let x=0;x<MW;x++){
+        const qx=(x+0.5)*SCALE;
+        let sc=0, ss=0;
+        for(let i=0;i<M;i++){
+          const dx=px[i]-qx, dy=py[i]-qy, d=dx*dx+dy*dy+SOFT, iw=1/(d*d);
+          sc+=pc[i]*iw; ss+=ps[i]*iw;
+        }
+        const len=Math.sqrt(sc*sc+ss*ss)||1, o=(y*MW+x)*2;
+        data[o]  =Math.round((sc/len*0.5+0.5)*255);
+        data[o+1]=Math.round((ss/len*0.5+0.5)*255);
+      }
+    }
+    if(!UM.tex){
+      UM.tex=gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D,UM.tex);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    }
+    gl.bindTexture(gl.TEXTURE_2D,UM.tex);
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT,1);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RG8,MW,MH,0,gl.RG,gl.UNSIGNED_BYTE,data);
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);
+    UM.ok=true;
+    return UM.tex;
+  }
+
+  // ---- 這一幀這一層的遮罩參數 ----
+  function segParams(L,t){
+    if(!L||!L.segOn) return null;
+    const T=Math.max(0.01, typeof loopT==='function'?loopT():1);
+    let len=Math.max(0,Math.min(1,+L.segLen||0));
+    const gt=+L.segGrow||0;
+    if(gt>0) len*=Math.min(1, frac(t/T)/Math.max(0.02,gt));      // 從 0 長到設定長度
+    const start=frac((+L.segStart||0)+(+L.segSpeed||0)*(t/T));
+    return { start, len, f:Math.max(0.0008,+L.segFeather||0),
+             mirror:L.segMirror?1:0, inv:L.segInv?1:0,
+             tail:Math.max(0,Math.min(1,L.segTail??SEG_DEF.segTail)),
+             head:Math.max(0,+L.segHead||0),
+             headR:Math.max(0.01,L.segHeadR??SEG_DEF.segHeadR),
+             tailPow:Math.max(0.05,L.segTailPow??SEG_DEF.segTailPow) };
+  }
+  window.segParams=segParams;
+
+  // ---- 引擎補丁呼叫的掛鉤 ----
+  window.FXSEG=function(prog,L,needRes){
+    if(!prog||!prog.u) return;
+    const u=prog.u;
+    let s=segParams(L,state.t);
+    const tex=s?buildUMap():null;
+    if(!tex) s=null;
+    if(u.uSeg) gl.uniform4f(u.uSeg, s?s.start:0, s?s.len:1, s?s.f:0, s?1:0);
+    if(u.uSeg2) gl.uniform4f(u.uSeg2, s?s.tail:0.5, s?s.head:0, s?s.headR:0.18, s?s.tailPow:1.4);
+    if(u.uSegInv) gl.uniform1i(u.uSegInv, s?s.inv:0);
+    if(u.uSegMirror) gl.uniform1i(u.uSegMirror, s?s.mirror:0);
+    if(needRes && u.uRes){ const bs=baseSize(); gl.uniform2f(u.uRes, bs.w, bs.h); }
+    if(s && u.uUMap){
+      gl.activeTexture(gl.TEXTURE3);
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.uniform1i(u.uUMap, 3);
+      gl.activeTexture(gl.TEXTURE0);
+    }
+  };
+
+  // ---- 繞行／生長模板 ----
+  const SEG_TPL=[
+    ['',       '（不用遮罩）', null],
+    ['comet',  '彗星繞行（頭亮尾長）', {segOn:true,segLen:0.5,segFeather:0.02,segSpeed:1,segTail:1,segTailPow:1.6,segHead:1.3,segHeadR:0.14}],
+    ['comet2', '雙彗星對向',  {segOn:true,segLen:0.5,segFeather:0.02,segSpeed:1,segTail:1,segTailPow:1.6,segHead:1.3,segHeadR:0.14,segMirror:true}],
+    ['comet3', '短彗星（快閃）', {segOn:true,segLen:0.22,segFeather:0.015,segSpeed:2,segTail:1,segTailPow:1.2,segHead:1.6,segHeadR:0.22}],
+    ['dot',    '光點繞行',   {segOn:true,segLen:0.07,segFeather:0.035,segSpeed:1,segTail:0.5,segTailPow:1.4}],
+    ['dot2',   '雙光點對向', {segOn:true,segLen:0.07,segFeather:0.035,segSpeed:1,segTail:0.5,segTailPow:1.4,segMirror:true}],
+    ['sweep',  '光弧掃描',   {segOn:true,segLen:0.3,segFeather:0.13,segSpeed:1,segTail:0.5,segTailPow:1.4}],
+    ['sweep2', '慢弧巡行',   {segOn:true,segLen:0.45,segFeather:0.2,segSpeed:1,segTail:0.5,segTailPow:1.4}],
+    ['grow',   '描邊生長',   {segOn:true,segLen:1,segFeather:0.02,segSpeed:0,segGrow:0.7,segTail:0.03,segTailPow:1}],
+    ['grow2',  '雙向生長',   {segOn:true,segLen:0.5,segFeather:0.02,segSpeed:0,segStart:0.875,segGrow:0.7,segMirror:true,segTail:0.03,segTailPow:1}],
+    ['half',   '只亮一半',   {segOn:true,segLen:0.5,segFeather:0.06,segSpeed:0,segStart:0.75,segTail:0.2,segTailPow:1.4}],
+    ['gap',    '缺一角（反相）',{segOn:true,segLen:0.18,segFeather:0.05,segSpeed:0,segTail:0.2,segInv:true}],
+  ];
+
+  const segTargets=()=>state.layers.filter(x=>x.type!=='fg' && x.moFollow!==false);
+  function segSet(k,v){ segTargets().forEach(x=>{ x[k]=v; x.segTpl=''; }); }
+  function segApplyTpl(id){
+    const row=SEG_TPL.find(x=>x[0]===id);
+    if(!row||!row[2]){ segTargets().forEach(x=>{ x.segOn=false; x.segTpl=''; }); return; }
+    const p=row[2];
+    segTargets().forEach(x=>{
+      for(const k of SEG_KEYS) x[k]=(k in p)?p[k]:SEG_DEF[k];
+      x.segTpl=id;
+    });
+  }
+  window.SEG = { TPL:SEG_TPL, DEF:SEG_DEF, KEYS:SEG_KEYS,
+                 set:segSet, applyTpl:segApplyTpl, targets:segTargets };
+
+  // 縮圖：遮罩停在「整圈都看得到」，否則光點繞行那種只會留一小撮光
+  if(typeof edgeThumb==='function'){
+    const _t=edgeThumb;
+    edgeThumb=function(){
+      const sv=state.layers.map(l=>l.segOn);
+      state.layers.forEach(l=>{ l.segOn=false; });
+      try{ return _t.apply(null,arguments); }
+      finally{ state.layers.forEach((l,i)=>{ l.segOn=sv[i]; }); }
+    };
+  }
+
+  if(typeof HELP!=='undefined'){
+    HELP.seg=['沿框遮罩','讓這一層只畫在框的某一段上，那一段還可以繞著框跑或慢慢長出來。光點繞行、光弧掃描、描邊生長都是用這一組參數做的。先挑「繞行模板」最快。'];
+    HELP['E:segTpl']=['繞行模板','一次填好底下所有參數的現成效果。選完可以自由微調，微調後會變成自訂。'];
+    HELP['E:segOn']=['開啟沿框遮罩','關掉時這一層整圈都會畫出來，跟以前一樣。'];
+    HELP['E:segSync']=['同步所有圖層','打開時調整會套用到每一層，整組一起繞。想讓細線繞、外暈不繞就關掉它，只調選取的那一層。'];
+    HELP['E:segLen']=['亮的長度','這一段佔整圈的比例。0.07 大概是一顆光點，0.3 是一道弧，1 是整圈。'];
+    HELP['E:segSpeed']=['繞幾圈','一個循環裡這一段要繞框幾圈。只能是整數，否則接回開頭會跳。0＝停在原地。'];
+    HELP['E:segStart']=['從哪裡開始','這一段的起點落在框的哪裡。0 和 1 是同一個位置，繞一圈回來。'];
+    HELP['E:segFeather']=['頭端收尖','光帶最前端收掉的長度。小＝頭很利，大＝頭也糊。'];
+    HELP['E:segTail']=['尾巴拖多長','從頭往後淡出的長度佔整段的幾成。1＝整段都是漸層（彗星），0.5＝前後對稱的一段光，0＝整段一樣亮（硬邊）。'];
+    HELP['E:segHead']=['頭部多亮','最前端額外加亮幾成，做出衝在前面的亮核。配合圖層的「亮核」顏色會偏白。'];
+    HELP['E:segHeadR']=['頭部亮區範圍','加亮的那一小段佔整條的幾成。'];
+    HELP['E:segTailPow']=['尾巴淡出曲線','1＝線性。大於 1 尾巴更快變暗、頭更集中；小於 1 整條都偏亮。'];
+    HELP['E:segGrow']=['長滿要幾成時間','描邊生長用：一個循環裡要花幾成的時間從 0 長到設定長度，之後保持。0＝不生長。這是進場動畫，循環時會重來。'];
+    HELP['E:segMirror']=['左右對稱兩段','同時畫出鏡像的另一段，做雙向生長或兩顆光點對衝。'];
+    HELP['E:segInv']=['反過來（變缺口）','本來亮的那一段變成不畫，其餘都畫。'];
+  }
+
+})();
+
+/* ===================== 動態（整組的節奏與繞行） =====================
+   為什麼要有這一段：呼吸光與沿框遮罩原本掛在「每一層」的屬性面板裡，一層就多出
+   25 個控制項，而圖層自己的參數只有 3 個；像「雙色彗星繞框」那種 12 層的配方，
+   同一套控制項會重複 12 次，使用者要改節奏還得先想「我選到的是哪一層」。
+   實際上動態是整組的事（原本那兩個「同步所有圖層」開關預設就是開的），
+   所以搬到左欄獨立一個「動態」區塊，一次管整組。
+
+   圖層面板只留「這一層的差異」：要不要跟隨、慢幾拍亮、繞行從哪裡開始。
+   不跟隨的層（moFollow:false）不會被整組設定寫到。
+*/
+(function(){
+  if(!window.BR || !window.SEG || typeof defaultLayer!=='function') return;
+  const BR=window.BR, SEG=window.SEG;
+
+  // 新欄位：是否跟隨整組動態
+  const _dl=defaultLayer;
+  defaultLayer=function(t){ const b=_dl(t); if(!('moFollow' in b)) b.moFollow=true; return b; };
+
+  const loopSec=()=>Math.max(0.01, typeof loopT==='function'?loopT():1);
+  const follows=()=>state.layers.filter(l=>l.type!=='fg' && l.moFollow!==false);
+  const lead=()=>follows()[0]||null;                 // 用第一個跟隨的層當整組的顯示值
+
+  // 模板清單拆成兩群：節奏（亮暗、變色）與繞行（沿著框跑、長出來）
+  const RHY=BR.TPL, PATH=SEG.TPL;
+
+  function curRhy(){ const L=lead(); if(!L) return ''; return L.brTpl||((+L.brRate||+L.hueSpin)?'custom':''); }
+  function curPath(){ const L=lead(); if(!L) return ''; return L.segTpl||(L.segOn?'custom':''); }
+
+  function sumText(){
+    const L=lead(); if(!L) return '';
+    const r=RHY.find(x=>x[0]===(L.brTpl||'')), p=PATH.find(x=>x[0]===(L.segTpl||''));
+    const a=(L.brRate||L.hueSpin)?(r&&r[0]?r[1]:'自訂節奏'):'';
+    const b=L.segOn?(p&&p[0]?p[1]:'自訂繞行'):'';
+    return [a,b].filter(Boolean).join('・')||'尚未加動態';
+  }
+
+  function grid(list, cur, onPick){
+    const g=el('div','motGrid');
+    list.forEach(row=>{
+      const b=el('button','mbtn'+(row[0]===''?' none':'')+(row[0]===cur?' on':''));
+      b.textContent=row[0]===''?'不用':row[1];
+      b.onclick=()=>{ onPick(row[0]); };
+      g.appendChild(b);
+    });
+    return g;
+  }
+
+  function motionPanel(){
+    const box=$('motionBody'); if(!box) return;
+    box.innerHTML='';
+    const L=lead();
+    const sum=$('motSum'); if(sum) sum.textContent=sumText();
+    if(!L){ box.appendChild(el('div','hint','還沒有特效圖層。先在左側「風格庫」套一組配方。')); return; }
+
+    const T=loopSec();
+    const fr=$('seqFrames')?Math.round(+$('seqFrames').value)||30:30;
+    const fp=$('seqFps')?Math.round(+$('seqFps').value)||30:30;
+    const head=el('div','hint');
+    const rate=Math.round(+L.brRate||0);
+    head.innerHTML='一圈 <b>'+T.toFixed(2)+' 秒</b>（'+fr+' 幀 @ '+fp+'fps）'
+      +(rate?('　呼吸 '+rate+' 次 ＝ 每次 '+(T/rate).toFixed(2)+' 秒'):'')
+      +((+L.segSpeed)?('　繞 '+Math.abs(Math.round(+L.segSpeed))+' 圈 ＝ '+(T/Math.abs(+L.segSpeed)).toFixed(2)+' 秒一圈'):'');
+    box.appendChild(head);
+
+    box.appendChild(el('div','motLab','節奏（亮暗與變色）'));
+    box.appendChild(grid(RHY, curRhy(), id=>{ BR.applyTpl(id); saveState(); refreshAll(); }));
+
+    box.appendChild(el('div','motLab','繞行與生長（只亮框的一段）'));
+    box.appendChild(grid(PATH, curPath(), id=>{ SEG.applyTpl(id); saveState(); refreshAll(); }));
+
+    // ---- 微調（簡易模式整塊收起來）----
+    const tune=el('div','motTune adv hide');
+    const mk=(obj,k,label,mn,mx,st,def)=>makeCtl({ key:k, label, mn, mx, st, val:L[k]??def, def,
+      help:'E:'+k, onInput:v=>{ obj.set(k,v); if(k==='brRate'||k==='segSpeed') motionPanelHead(); if($('motSum')) $('motSum').textContent=sumText(); saveStateDebounced(); } });
+    tune.appendChild(el('div','motLab','節奏微調'));
+    tune.appendChild(mk(BR,'brRate','一圈呼吸幾次',0,8,1,0));
+    tune.appendChild(mk(BR,'brDepth','亮暗落差',0,1,0.05,0.45));
+    tune.appendChild(mk(BR,'brPeak','最亮倍率',0.2,2,0.05,1));
+    const wv=makeSel('呼吸感覺',BR.WAVES,L.brWave||'sine',v=>{ BR.set('brWave',v); saveState(); },'E:brWave');
+    tune.appendChild(wv);
+    tune.appendChild(mk(BR,'brDuty','亮的時間佔比',0.05,0.95,0.05,0.5));
+    tune.appendChild(mk(BR,'brWidth','亮時變大 %',0,30,1,0));
+    const spin=makeSel('色相繞幾圈',[['-2','反向 2 圈'],['-1','反向 1 圈'],['0','不轉'],['1','順向 1 圈'],['2','順向 2 圈']],
+      String(L.hueSpin||0),v=>{ BR.set('hueSpin',+v); saveState(); },'E:hueSpin');
+    tune.appendChild(spin);
+    tune.appendChild(mk(BR,'brHue','亮時偏色 °',-180,180,5,0));
+
+    tune.appendChild(el('div','motLab','繞行微調'));
+    tune.appendChild(makeChk('開啟沿框遮罩',!!L.segOn,v=>{ SEG.set('segOn',v); saveState(); refreshAll(); },'E:segOn'));
+    tune.appendChild(mk(SEG,'segLen','亮的長度',0,1,0.01,0.25));
+    const spd=makeSel('繞幾圈',[['-3','反向 3 圈'],['-2','反向 2 圈'],['-1','反向 1 圈'],['0','不繞（停著）'],['1','順向 1 圈'],['2','順向 2 圈'],['3','順向 3 圈']],
+      String(Math.round(+L.segSpeed||0)),v=>{ SEG.set('segSpeed',+v); motionPanelHead(); saveState(); },'E:segSpeed');
+    tune.appendChild(spd);
+    tune.appendChild(mk(SEG,'segTail','尾巴拖多長',0,1,0.02,0.5));
+    tune.appendChild(mk(SEG,'segHead','頭部多亮',0,3,0.05,0));
+    tune.appendChild(mk(SEG,'segFeather','頭端收尖',0,0.3,0.005,0.03));
+    tune.appendChild(mk(SEG,'segHeadR','頭部亮區範圍',0.02,0.6,0.02,0.18));
+    tune.appendChild(mk(SEG,'segTailPow','尾巴淡出曲線',0.2,4,0.05,1.4));
+    tune.appendChild(mk(SEG,'segGrow','長滿要幾成時間',0,1,0.05,0));
+    const r2=el('div','row');
+    r2.appendChild(makeChk('左右對稱兩段',!!L.segMirror,v=>{ SEG.set('segMirror',v); saveState(); },'E:segMirror'));
+    r2.appendChild(makeChk('反過來（變缺口）',!!L.segInv,v=>{ SEG.set('segInv',v); saveState(); },'E:segInv'));
+    tune.appendChild(r2);
+    tune.appendChild(el('div','hint','這裡調的是「整組」。想讓某一層不一樣，到右側選那一層，關掉「跟隨整組動態」。'));
+
+    const more=el('button','motMore adv');
+    const setMore=()=>{ const hid=tune.classList.contains('hide'); more.textContent=hid?'微調參數…':'收起微調'; };
+    more.onclick=()=>{ tune.classList.toggle('hide'); setMore(); };
+    setMore();
+    box.appendChild(more); box.appendChild(tune);
+  }
+  function motionPanelHead(){ const L=lead(); if(!L) return;
+    const box=$('motionBody'); const h=box&&box.querySelector('.hint'); if(!h) return;
+    const T=loopSec(), rate=Math.round(+L.brRate||0);
+    const fr=$('seqFrames')?Math.round(+$('seqFrames').value)||30:30;
+    const fp=$('seqFps')?Math.round(+$('seqFps').value)||30:30;
+    h.innerHTML='一圈 <b>'+T.toFixed(2)+' 秒</b>（'+fr+' 幀 @ '+fp+'fps）'
+      +(rate?('　呼吸 '+rate+' 次 ＝ 每次 '+(T/rate).toFixed(2)+' 秒'):'')
+      +((+L.segSpeed)?('　繞 '+Math.abs(Math.round(+L.segSpeed))+' 圈 ＝ '+(T/Math.abs(+L.segSpeed)).toFixed(2)+' 秒一圈'):'');
+  }
+  function refreshAll(){ motionPanel(); edgeInspector(); if(typeof syncSliderFills==='function') syncSliderFills(); }
+  window.motionPanel=motionPanel;
+
+  // ---- 圖層面板只留「這一層的差異」----
+  const _ei=edgeInspector;
+  edgeInspector=function(){
+    _ei();
+    try{
+      if(UI.selFg) return;
+      const L=typeof edgeSelected==='function'?edgeSelected():null;
+      if(!L||L.type==='fg') return;
+      const box=$('edgeInspector'); if(!box) return;
+      const g=pgroup('這一層的動態','E:moFollow');
+      g.appendChild(makeChk('跟隨整組動態',L.moFollow!==false,v=>{
+        L.moFollow=v;
+        if(!v){ L.brRate=0; L.hueSpin=0; L.segOn=false; L.brTpl=''; L.segTpl=''; }
+        else { const o=lead(); if(o&&o!==L) for(const k of BR.KEYS.concat(SEG.KEYS)) L[k]=o[k]; }
+        saveState(); refreshAll();
+      },'E:moFollow'));
+      if(L.moFollow!==false){
+        g.appendChild(makeCtl({ key:'brPhase', label:'這層慢幾拍亮', mn:0, mx:1, st:0.05,
+          val:L.brPhase??0, def:0, help:'E:brPhase',
+          onInput:v=>{ L.brPhase=v; saveStateDebounced(); } }));
+        g.appendChild(makeCtl({ key:'segStart', label:'繞行從哪裡開始', mn:0, mx:1, st:0.01,
+          val:L.segStart??0, def:0, help:'E:segStart',
+          onInput:v=>{ L.segStart=v; saveStateDebounced(); } }));
+        g.appendChild(el('div','hint','節奏與繞行在左側「動態」區塊一次調整整組；這兩個是讓這一層錯開用的。'));
+      } else {
+        g.appendChild(el('div','hint','這一層不跟整組動，會一直完整畫出來。'));
+      }
+      box.appendChild(g);
+    }catch(e){ console.warn('[motion] layer panel',e); }
+  };
+
+  // ---- 圖層清單：同一群的層摺疊成一列 ----
+  UI.grpClosed=UI.grpClosed||{};
+  const _rl=rebuildLayerUI;
+  rebuildLayerUI=function(){
+    _rl();
+    try{ groupLayerRows(); }catch(e){ console.warn('[motion] group',e); }
+    try{ motionPanel(); }catch(e){}
+  };
+  function groupLayerRows(){
+    const box=$('layerList'); if(!box) return;
+    const rows=[].slice.call(box.querySelectorAll('.lrow'));
+    if(!rows.length) return;
+    // 清單是由上層往下畫的，連續同 grp 的列收成一群
+    let i=0;
+    while(i<rows.length){
+      const idx=+rows[i].dataset.idx, L=state.layers[idx], g=L&&L.grp;
+      if(!g){ i++; continue; }
+      let j=i;
+      while(j+1<rows.length){
+        const nx=state.layers[+rows[j+1].dataset.idx];
+        if(!nx||nx.grp!==g) break;
+        j++;
+      }
+      if(j>i){
+        const closed=!!UI.grpClosed[g];
+        const hd=el('div','lgrp'+(closed?' closed':''));
+        hd.innerHTML=`<svg class="i sm gchev"><use href="#i-chev"/></svg><span class="gn"></span><span class="gc">${j-i+1} 層</span>`;
+        hd.querySelector('.gn').textContent=g;
+        hd.onclick=()=>{ UI.grpClosed[g]=!UI.grpClosed[g]; rebuildLayerUI(); };
+        box.insertBefore(hd, rows[i]);
+        for(let k=i;k<=j;k++) rows[k].classList.toggle('ghide', closed);
+      }
+      i=j+1;
+    }
+  }
+
+  // 幀數／FPS 改了，一圈的長度就變了
+  ['seqFrames','seqFps'].forEach(id=>{ const n=$(id); if(n) n.addEventListener('change',()=>{ try{ motionPanelHead(); }catch(e){} }); });
+
+  if(typeof HELP!=='undefined'){
+    HELP.motion=['動態','這一組光要怎麼動：節奏（亮暗、變色）和繞行（只亮框的一段、讓它跑或長出來）。設定一次就套用到整組圖層。想讓某一層不一樣，到右側選那一層，關掉「跟隨整組動態」。'];
+    HELP['E:moFollow']=['跟隨整組動態','打開時，左側「動態」區塊的設定會套用到這一層。關掉的話這一層不會動，一直完整畫出來，適合當常亮的底線。'];
+  }
+
+  setTimeout(function(){ try{ motionPanel(); edgeInspector(); groupLayerRows(); if(typeof syncSliderFills==='function') syncSliderFills(); }catch(e){} },0);
+})();
+
+// ============================================================
+//  路徑錨點編輯器：貝茲控制桿 + 鋼筆 / 選取 / 手繪 三種模式
+//
+//  引擎原本的路徑編輯只有四個動作：拖控制點、右鍵刪點、空白處拖曳＝
+//  整條重畫（破壞性）、Shift 拖曳＝移動整條。沒有加點、沒有多選，
+//  而且路徑模型是「折線 + Chaikin 平滑」，不是真的曲線。
+//
+//  資料模型刻意維持相容：TR.raw 仍然是 [{x,y}, ...]，貝茲資料掛成
+//  同一個物件上的「選配欄位」：
+//    h0 {x,y}  進來的控制桿，相對錨點的位移
+//    h1 {x,y}  出去的控制桿，相對錨點的位移
+//    c  true   角點（兩根桿各自獨立）；沒有這個欄位＝平滑點（對稱連動）
+//  用「相對位移」存是因為整條平移（移動整條、畫布外擴位移）就不用動它。
+//  一條路徑算不算貝茲，看 raw[0] 有沒有 h1 —— 旗標藏在 raw 裡面，
+//  就自動跟著 TR_PATH_FIELDS 進存檔、進復原快照、進風格庫，不用改引擎。
+//
+//  取樣：貝茲模式下先把每段三次曲線打成密折線，再「借用」引擎原本的
+//  trRebuildPath（暫時把 TR.raw 換成密折線、TR.smooth 設 0），等弧長
+//  重取樣與切線計算完全沿用，不另外寫一份。
+//
+//  手勢全部掛在 #trStage 的捕捉階段：引擎的監聽器是 addEventListener
+//  掛在 #trOverlay 上拿不掉，同一個元素上的 capture 監聽器在 AT_TARGET
+//  階段並不會比較早跑，所以必須掛在上層元素才攔得到（這點跟「移動整條」
+//  當初踩到的坑一樣）。攔到就 stopPropagation，引擎那邊完全收不到。
+// ============================================================
+(function(){
+  const stage = $('trStage');
+  if(!stage || !$('penSel') || !window.TRPATHRECT) return;
+  const RECT = window.TRPATHRECT;
+
+  // ---------- 貝茲基礎 ----------
+  const V = (x, y) => ({ x:x, y:y });
+  function isBez(raw){ return !!(raw && raw.length && raw[0] && raw[0].h1); }
+  function h1of(p){ return p.h1 || V(0, 0); }
+  function h0of(p){ return p.h0 || V(0, 0); }
+
+  // 折線 → 貝茲：用 Catmull-Rom 的切線估控制桿，形狀幾乎不變
+  function toBez(raw, closed){
+    const n = raw.length;
+    return raw.map((p, i) => {
+      const a = closed ? raw[(i - 1 + n) % n] : raw[Math.max(0, i - 1)];
+      const b = closed ? raw[(i + 1) % n]     : raw[Math.min(n - 1, i + 1)];
+      const tx = (b.x - a.x) / 6, ty = (b.y - a.y) / 6;
+      return { ...p, h0: V(-tx, -ty), h1: V(tx, ty), c: false };
+    });
+  }
+  function toPoly(raw){
+    return raw.map(p => { const q = { ...p }; delete q.h0; delete q.h1; delete q.c; return q; });
+  }
+
+  // 一段三次曲線的端點與兩個控制點
+  function seg(raw, i, closed){
+    const n = raw.length, j = (i + 1) % n;
+    if(!closed && i >= n - 1) return null;
+    const A = raw[i], B = raw[j], a1 = h1of(A), b0 = h0of(B);
+    return [ V(A.x, A.y), V(A.x + a1.x, A.y + a1.y), V(B.x + b0.x, B.y + b0.y), V(B.x, B.y) ];
+  }
+  function bezAt(S, t){
+    const u = 1 - t, a = u*u*u, b = 3*u*u*t, c = 3*u*t*t, d = t*t*t;
+    return V(a*S[0].x + b*S[1].x + c*S[2].x + d*S[3].x,
+             a*S[0].y + b*S[1].y + c*S[2].y + d*S[3].y);
+  }
+  // 每段依「控制多邊形長度」決定取樣數，直線段不會浪費點
+  function segSteps(S){
+    const L = Math.hypot(S[1].x-S[0].x, S[1].y-S[0].y) + Math.hypot(S[2].x-S[1].x, S[2].y-S[1].y)
+            + Math.hypot(S[3].x-S[2].x, S[3].y-S[2].y);
+    return clamp(Math.round(L / 6), 6, 48);
+  }
+  // 密折線；同時留下 segMap（每個密點是哪一段的哪個 t），插入錨點時要用
+  let segMap = [];
+  function bezDense(raw, closed){
+    const out = [], map = [], n = raw.length;
+    const last = closed ? n : n - 1;
+    for(let i = 0; i < last; i++){
+      const S = seg(raw, i, closed); if(!S) break;
+      const K = segSteps(S);
+      for(let q = 0; q < K; q++){ const t = q / K; out.push(bezAt(S, t)); map.push({ i:i, t:t }); }
+    }
+    const tail = closed ? raw[0] : raw[n - 1];
+    out.push(V(tail.x, tail.y)); map.push({ i: closed ? 0 : Math.max(0, n - 2), t: 1 });
+    segMap = map;
+    return out;
+  }
+
+  // ---------- 取樣：借用引擎的 trRebuildPath ----------
+  const _trRebuildPath = trRebuildPath;
+  trRebuildPath = function(){
+    const raw = TR.raw;
+    if(!isBez(raw) || raw.length < 2){ segMap = []; return _trRebuildPath(); }
+    const keepRaw = raw, keepSm = TR.smooth;
+    try{
+      TR.raw = bezDense(raw, !!TR.closed);
+      TR.smooth = 0;                       // 已經是曲線了，不要再 Chaikin
+      _trRebuildPath();
+    } finally {
+      TR.raw = keepRaw; TR.smooth = keepSm;
+    }
+    trSyncPathInfo();                      // 點數要顯示錨點數，不是密折線的點數
+  };
+
+  // ---------- 選取狀態 ----------
+  const PEN = { mode:'sel', sel:new Set(), moveMode:false, pen:null };
+  window.TRPEN = PEN;
+  function nRaw(){ return (TR.raw && TR.raw.length) || 0; }
+  function pruneSel(){
+    const n = nRaw();
+    for(const i of Array.from(PEN.sel)) if(i >= n) PEN.sel.delete(i);
+  }
+  function selList(){ pruneSel(); return Array.from(PEN.sel).sort((a, b) => a - b); }
+
+  // ---------- 座標與命中 ----------
+  function zoom(){ return clamp((UI.z && UI.z.t && UI.z.t.z) || 1, 0.05, 8); }
+  function k(){ return 1 / zoom(); }                       // 畫布像素 → 固定螢幕大小
+  const R_ANCHOR = 9, R_HANDLE = 7;
+
+  // 取「最近的」那一個，不是掃到的第一個：圓角矩形的轉角弧上點距只有幾 px，
+  // 由後往前掃會抓到旁邊那顆，使用者會覺得拖錯點。
+  function hitAnchorD(p){
+    const r = R_ANCHOR * k();
+    let bi = -1, bd = r;
+    for(let i = nRaw() - 1; i >= 0; i--){
+      const q = TR.raw[i];
+      const d = Math.hypot(q.x - p.x, q.y - p.y);
+      if(d <= bd){ bd = d; bi = i; }
+    }
+    return { i:bi, d: bi < 0 ? Infinity : bd };
+  }
+  function hitAnchor(p){ return hitAnchorD(p).i; }
+  // 只有「選取中的錨點」會露出控制桿，所以也只測這些。
+  // 縮回錨點上的短控制桿不給抓，否則會卡住錨點本身（螺旋實測只差 1.9px）。
+  function hitHandle(p){
+    if(!isBez(TR.raw)) return null;
+    const r = R_HANDLE * k(), minLen = 6 * k();
+    let best = null, bd = r;
+    for(const i of selList()){
+      const a = TR.raw[i];
+      for(const w of ['h1', 'h0']){
+        const h = a[w]; if(!h) continue;
+        if(Math.hypot(h.x, h.y) < minLen) continue;
+        const d = Math.hypot(a.x + h.x - p.x, a.y + h.y - p.y);
+        if(d < bd){ bd = d; best = { i:i, w:w, d:d }; }
+      }
+    }
+    return best;
+  }
+  // 命中路徑線段：回傳插入用的位置。貝茲走 segMap，折線直接投影
+  function hitSegment(p){
+    const r = 8 * k();
+    if(isBez(TR.raw)){
+      const D = bezDense(TR.raw, !!TR.closed);
+      if(!D.length) return null;
+      let best = -1, bd = r;
+      for(let i = 0; i < D.length; i++){
+        const d = Math.hypot(D[i].x - p.x, D[i].y - p.y);
+        if(d < bd){ bd = d; best = i; }
+      }
+      if(best < 0) return null;
+      const m = segMap[Math.min(best, segMap.length - 1)];
+      return { i:m.i, t: (m.t <= 0.02 || m.t >= 0.98) ? 0.5 : m.t };
+    }
+    const n = nRaw(); if(n < 2) return null;
+    const last = TR.closed ? n : n - 1;
+    let best = -1, bt = 0, bd = r;
+    for(let i = 0; i < last; i++){
+      const a = TR.raw[i], b = TR.raw[(i + 1) % n];
+      const dx = b.x - a.x, dy = b.y - a.y, L2 = dx*dx + dy*dy;
+      if(L2 < 1) continue;
+      const t = clamp(((p.x - a.x)*dx + (p.y - a.y)*dy) / L2, 0, 1);
+      const d = Math.hypot(a.x + dx*t - p.x, a.y + dy*t - p.y);
+      if(d < bd){ bd = d; best = i; bt = t; }
+    }
+    return best < 0 ? null : { i:best, t:bt };
+  }
+
+  // ---------- 編輯操作 ----------
+  function commit(msg){
+    trRebuildPath(); trStashCur();
+    if(window.TRPAD) TRPAD.check();
+    trSaveState();
+    RECT.syncFields(true); refreshBar();
+    if(msg) toast(msg, 'ok', 1200);
+  }
+
+  function setBez(on){
+    if(!nRaw()){ refreshBar(); return; }
+    if(on && !isBez(TR.raw)) TR.raw = toBez(TR.raw, !!TR.closed);
+    else if(!on && isBez(TR.raw)) TR.raw = toPoly(TR.raw);
+    commit(on ? '已轉成貝茲曲線，選到錨點就會長出控制桿' : '已轉回折線');
+  }
+
+  // de Casteljau 分割：插入的錨點不會改到曲線形狀
+  function insertAt(i, t){
+    const n = nRaw(); if(n < 2) return -1;
+    if(isBez(TR.raw)){
+      const S = seg(TR.raw, i, !!TR.closed); if(!S) return -1;
+      const lp = (a, b) => V(a.x + (b.x - a.x)*t, a.y + (b.y - a.y)*t);
+      const A = lp(S[0], S[1]), B = lp(S[1], S[2]), C = lp(S[2], S[3]);
+      const D = lp(A, B), E = lp(B, C), F = lp(D, E);
+      const j = (i + 1) % n;
+      TR.raw[i] = { ...TR.raw[i], h1: V(A.x - S[0].x, A.y - S[0].y) };
+      TR.raw[j] = { ...TR.raw[j], h0: V(C.x - S[3].x, C.y - S[3].y) };
+      TR.raw.splice(i + 1, 0, { x:F.x, y:F.y, h0: V(D.x - F.x, D.y - F.y), h1: V(E.x - F.x, E.y - F.y), c:false });
+    } else {
+      const a = TR.raw[i], b = TR.raw[(i + 1) % n];
+      TR.raw.splice(i + 1, 0, { x: a.x + (b.x - a.x)*t, y: a.y + (b.y - a.y)*t });
+    }
+    PEN.sel = new Set([i + 1]);
+    return i + 1;
+  }
+
+  function delSel(){
+    const s = selList(); if(!s.length) return;
+    if(nRaw() - s.length < 2){ toast('至少要留兩個錨點', 'warn'); return; }
+    for(let i = s.length - 1; i >= 0; i--) TR.raw.splice(s[i], 1);
+    PEN.sel.clear();
+    commit('已刪除 ' + s.length + ' 個錨點');
+  }
+
+  function toggleCorner(){
+    const s = selList(); if(!s.length){ toast('先選一個錨點', 'warn'); return; }
+    if(!isBez(TR.raw)) TR.raw = toBez(TR.raw, !!TR.closed);
+    const makeCorner = !TR.raw[s[0]].c;
+    for(const i of s){
+      const p = TR.raw[i];
+      p.c = makeCorner;
+      if(!makeCorner) p.h0 = V(-h1of(p).x, -h1of(p).y);      // 轉回平滑＝兩根桿對稱
+    }
+    commit(makeCorner ? '轉成角點（兩根控制桿各自獨立）' : '轉成平滑點（控制桿對稱連動）');
+  }
+
+  // 重算選取錨點的控制桿（Catmull-Rom 切線）
+  function smoothSel(){
+    const s = selList(); if(!s.length){ toast('先選幾個錨點', 'warn'); return; }
+    if(!isBez(TR.raw)) TR.raw = toBez(TR.raw, !!TR.closed);
+    const n = nRaw();
+    for(const i of s){
+      const a = TR.closed ? TR.raw[(i - 1 + n) % n] : TR.raw[Math.max(0, i - 1)];
+      const b = TR.closed ? TR.raw[(i + 1) % n]     : TR.raw[Math.min(n - 1, i + 1)];
+      const tx = (b.x - a.x) / 6, ty = (b.y - a.y) / 6;
+      TR.raw[i].h1 = V(tx, ty); TR.raw[i].h0 = V(-tx, -ty); TR.raw[i].c = false;
+    }
+    commit('已平滑化 ' + s.length + ' 個錨點');
+  }
+
+  let nudgeTimer = 0;
+  function nudge(dx, dy){
+    const s = selList(); if(!s.length) return false;
+    for(const i of s){ TR.raw[i].x += dx; TR.raw[i].y += dy; }
+    trRebuildPath(); RECT.syncFields(true);
+    clearTimeout(nudgeTimer); nudgeTimer = setTimeout(() => commit(), 350);
+    return true;
+  }
+
+  function alignSel(axis){
+    const s = selList();
+    if(s.length < 2){ toast('至少要選兩個錨點', 'warn'); return; }
+    const key = axis === 'h' ? 'y' : 'x';
+    let m = 0; for(const i of s) m += TR.raw[i][key];
+    m /= s.length;
+    for(const i of s) TR.raw[i][key] = m;
+    commit(axis === 'h' ? '已水平對齊' : '已垂直對齊');
+  }
+
+  // 反轉點序時，進來／出去的控制桿要對調：
+  // 原本第 i 段是用 P[i].h1 與 P[i+1].h0，反轉後同一段變成 Q.h1／Q.h0 互換的位置。
+  // 引擎的「反轉方向」只做 raw.reverse()，貝茲路徑會因此整條變形。
+  function flipHandles(arr){
+    for(const p of arr){ const a = p.h0; p.h0 = p.h1; p.h1 = a; }
+    return arr;
+  }
+
+  // 把選取的那一顆變成「第一顆」（畫面上的綠點）
+  function setStart(){
+    const s = selList();
+    if(s.length !== 1){ toast('先選「一顆」錨點，再按設為起點', 'warn', 2000); return; }
+    const i = s[0], n = nRaw();
+    if(i === 0){ toast('這顆已經是起點了', 'info', 1400); return; }
+    if(!TR.closed){
+      if(i === n - 1){
+        TR.raw.reverse(); if(isBez(TR.raw)) flipHandles(TR.raw);
+        PEN.sel = new Set([0]);
+        commit('開放路徑：已反轉方向，這顆變成起點');
+        return;
+      }
+      toast('開放路徑只能把「最後一顆」設成起點（等於反轉方向）。要任選一顆請先勾「封閉路徑」', 'warn', 3200);
+      return;
+    }
+    TR.raw = TR.raw.slice(i).concat(TR.raw.slice(0, i));   // 封閉路徑：循環位移，形狀完全不變
+    PEN.sel = new Set([0]);
+    commit('已設為起點，終點落在它前面那一顆');
+  }
+
+  function distribSel(){
+    const s = selList();
+    if(s.length < 3){ toast('至少要選三個錨點', 'warn'); return; }
+    const a = TR.raw[s[0]], b = TR.raw[s[s.length - 1]];
+    const ax = a.x, ay = a.y, bx = b.x, by = b.y;
+    for(let j = 1; j < s.length - 1; j++){
+      const u = j / (s.length - 1);
+      TR.raw[s[j]].x = ax + (bx - ax) * u;
+      TR.raw[s[j]].y = ay + (by - ay) * u;
+    }
+    commit('已等距分布');
+  }
+
+  // ---------- 模式 ----------
+  const MODE_TIP = {
+    sel: '選取：拖錨點＝移動，空白處拖＝框選，Shift 點＝加選，雙擊＝角點⇄平滑',
+    pen: '鋼筆：點一下加角點，拖曳加平滑點；點線段＝插入，點錨點＝刪除，點回起點＝封閉',
+    free:'手繪：在畫布上拖曳會「重畫」整條路徑，現有錨點會被蓋掉'
+  };
+  function setMode(m, quiet){
+    PEN.mode = m; PEN.pen = null;
+    ['sel', 'pen', 'free'].forEach(x => {
+      const b = $(x === 'sel' ? 'penSel' : x === 'pen' ? 'penPen' : 'penFree');
+      if(b) b.classList.toggle('on', x === m);
+    });
+    const ov = $('trOverlay');
+    if(ov) ov.style.cursor = m === 'pen' ? 'crosshair' : (m === 'free' ? 'cell' : 'default');
+    if(!quiet) toast(MODE_TIP[m], 'info', 2200);
+    refreshBar();
+  }
+
+  function setTxtOnce(id, v){ const e = $(id); if(e && e.textContent !== v) e.textContent = v; }
+  function refreshBar(){
+    pruneSel();
+    const n = nRaw(), s = PEN.sel.size, first = selList()[0];
+    setTxtOnce('penInfo', s + '/' + n);
+    setTxtOnce('penSel2', s ? (s + ' 個錨點' + (s === 1 && TR.raw[first] && TR.raw[first].c ? '（角點）' : '')) : '　未選取');
+    const bez = isBez(TR.raw);
+    const cb = $('trBez'); if(cb && cb.checked !== bez) cb.checked = bez;
+    const sm = $('trSmoothCtl');
+    if(sm){
+      sm.style.opacity = bez ? .4 : '';
+      sm.style.pointerEvents = bez ? 'none' : '';
+      sm.title = bez ? '貝茲曲線模式下不使用 Chaikin 平滑' : '';
+    }
+  }
+
+  $('penSel').onclick  = () => setMode('sel');
+  $('penPen').onclick  = () => setMode('pen');
+  $('penFree').onclick = () => setMode('free');
+  $('penCorner').onclick = toggleCorner;
+  $('penDel').onclick    = delSel;
+  $('penAll').onclick    = () => { PEN.sel = new Set(TR.raw.map((_, i) => i)); refreshBar(); };
+  $('penAlignH').onclick = () => alignSel('h');
+  $('penAlignV').onclick = () => alignSel('v');
+  $('penDistrib').onclick = distribSel;
+  $('penSmoothSel').onclick = smoothSel;
+  $('penSetStart').onclick = setStart;
+  $('trBez').onchange = e => setBez(e.target.checked);
+
+  // 引擎的「反轉方向」只做 raw.reverse()，貝茲路徑要連控制桿一起對調才不會變形
+  const _rev = $('trReversePath').onclick;
+  $('trReversePath').onclick = function(){
+    if(isBez(TR.raw)){
+      TR.raw.reverse(); flipHandles(TR.raw);
+      PEN.sel = new Set(); PEN.pen = null;
+      commit('已反轉方向');
+      return;
+    }
+    return _rev && _rev.apply(this, arguments);
+  };
+
+  // ---------- 手勢 ----------
+  let drag = null, marquee = null;
+  let lastClick = { t:0, i:-1 };
+  function act(ev){ ev.stopPropagation(); ev.preventDefault(); }
+
+  stage.addEventListener('pointerdown', ev => {
+    if(activeTab !== 'trail') return;
+    if(ev.button !== 0 || UI.space) return;                  // 中鍵／空白鍵留給平移
+    if(!TR.showPath){                                        // 路徑隱藏時不讓任何編輯誤觸
+      act(ev); toast('路徑目前是隱藏的，按工具列「路徑」或 Shift+P 打開', 'warn', 1800); return;
+    }
+    const p = trPt(ev);
+    const ctrl = ev.ctrlKey || ev.metaKey;
+    const mode = (PEN.mode === 'pen' && ctrl) ? 'sel' : PEN.mode;
+    if(mode === 'free') return;                              // 交給引擎原本的重畫
+
+    act(ev);
+    try{ stage.setPointerCapture(ev.pointerId); }catch(e){}
+
+    // 移動整條
+    if(mode === 'sel' && nRaw() && (PEN.moveMode || (ev.shiftKey && hitAnchor(p) < 0))){
+      drag = { kind:'whole', last:p, moved:false };
+      return;
+    }
+
+    // 錨點優先於控制桿：壓在錨點上就是要搬點。圓角矩形實測有 124 組
+    // 「錨點落在鄰居控制桿的命中圈裡」，先測控制桿的話框選完就拖不動了。
+    // 已經選了兩個點以上時更明確：壓在選取中的錨點上一律是搬整組。
+    const hAD = hitAnchorD(p), hA = hAD.i;
+    let hH = mode === 'sel' ? hitHandle(p) : null;
+    if(hH && (hH.d >= hAD.d || (PEN.sel.size > 1 && hA >= 0 && PEN.sel.has(hA)))) hH = null;
+    if(hH){ drag = { kind:'handle', i:hH.i, w:hH.w, alt:ev.altKey, moved:false }; return; }
+
+    if(mode === 'pen'){
+      if(hA >= 0){
+        if(hA === 0 && nRaw() >= 3 && !TR.closed){
+          TR.closed = true; $('trClosed').checked = true; PEN.pen = null; commit('路徑已封閉'); return;
+        }
+        if(hA === nRaw() - 1 && PEN.pen){ PEN.pen = null; toast('已結束這條路徑', 'info', 1400); refreshBar(); return; }
+        if(nRaw() > 2){ PEN.sel = new Set([hA]); delSel(); return; }
+        PEN.sel = new Set([hA]); refreshBar(); return;
+      }
+      const hS = hitSegment(p);
+      if(hS){ insertAt(hS.i, hS.t); commit('已插入錨點'); return; }
+      const np = isBez(TR.raw) ? { x:p.x, y:p.y, h0:V(0,0), h1:V(0,0), c:true } : { x:p.x, y:p.y };
+      TR.raw.push(np);
+      PEN.sel = new Set([nRaw() - 1]);
+      PEN.pen = true;
+      drag = { kind:'new', i:nRaw() - 1, moved:false };
+      trRebuildPath(); refreshBar();
+      return;
+    }
+
+    // 選取模式
+    if(hA >= 0){
+      const now = performance.now();
+      if(now - lastClick.t < 320 && lastClick.i === hA){
+        PEN.sel = new Set([hA]); lastClick = { t:0, i:-1 }; toggleCorner(); return;
+      }
+      lastClick = { t:now, i:hA };
+      if(ev.altKey){ PEN.sel = new Set([hA]); delSel(); return; }
+      if(ev.shiftKey){ if(PEN.sel.has(hA)) PEN.sel.delete(hA); else PEN.sel.add(hA); refreshBar(); return; }
+      if(!PEN.sel.has(hA)) PEN.sel = new Set([hA]);
+      drag = { kind:'anchor', start:p, base:selList().map(i => ({ i:i, x:TR.raw[i].x, y:TR.raw[i].y })), moved:false };
+      refreshBar();
+      return;
+    }
+    if(ev.altKey){
+      const hS = hitSegment(p);
+      if(hS){ insertAt(hS.i, hS.t); commit('已插入錨點'); return; }
+    }
+    marquee = { x0:p.x, y0:p.y, x1:p.x, y1:p.y, add:ev.shiftKey, base:new Set(PEN.sel) };
+  }, true);
+
+  function applyMarquee(){
+    const x0 = Math.min(marquee.x0, marquee.x1), x1 = Math.max(marquee.x0, marquee.x1);
+    const y0 = Math.min(marquee.y0, marquee.y1), y1 = Math.max(marquee.y0, marquee.y1);
+    const s = marquee.add ? new Set(marquee.base) : new Set();
+    TR.raw.forEach((q, i) => { if(q.x >= x0 && q.x <= x1 && q.y >= y0 && q.y <= y1) s.add(i); });
+    PEN.sel = s; refreshBar();
+  }
+
+  stage.addEventListener('pointermove', ev => {
+    if(!drag && !marquee) return;
+    ev.stopPropagation();
+    const p = trPt(ev);
+    if(marquee){ marquee.x1 = p.x; marquee.y1 = p.y; applyMarquee(); return; }
+    drag.moved = true;
+
+    if(drag.kind === 'whole'){
+      RECT.moveBy(p.x - drag.last.x, p.y - drag.last.y);
+      drag.last = p; trRebuildPath(); RECT.syncFields();
+      return;
+    }
+    if(drag.kind === 'anchor'){
+      const dx = p.x - drag.start.x, dy = p.y - drag.start.y;
+      for(const b of drag.base){ const q = TR.raw[b.i]; if(q){ q.x = b.x + dx; q.y = b.y + dy; } }
+      trRebuildPath(); RECT.syncFields();
+      return;
+    }
+    if(drag.kind === 'handle'){
+      const a = TR.raw[drag.i]; if(!a) return;
+      if(drag.alt && !a.c) a.c = true;                       // Alt 拖＝斷開對稱
+      const h = V(p.x - a.x, p.y - a.y);
+      a[drag.w] = h;
+      if(!a.c) a[drag.w === 'h1' ? 'h0' : 'h1'] = V(-h.x, -h.y);
+      trRebuildPath();
+      return;
+    }
+    if(drag.kind === 'new'){
+      if(!isBez(TR.raw)){                                    // 一拖就自動升級成貝茲
+        TR.raw = toBez(TR.raw, !!TR.closed);
+      }
+      const b = TR.raw[drag.i]; if(!b) return;
+      const h = V(p.x - b.x, p.y - b.y);
+      b.h1 = h; b.h0 = V(-h.x, -h.y); b.c = false;
+      trRebuildPath();
+      return;
+    }
+  }, true);
+
+  function endDrag(ev){
+    if(marquee){
+      const tiny = Math.abs(marquee.x1 - marquee.x0) < 2 && Math.abs(marquee.y1 - marquee.y0) < 2;
+      if(tiny && !marquee.add) PEN.sel = new Set();           // 點空白＝取消選取
+      marquee = null; refreshBar();
+      try{ stage.releasePointerCapture(ev.pointerId); }catch(e){}
+    }
+    if(drag){
+      const d = drag; drag = null;
+      try{ stage.releasePointerCapture(ev.pointerId); }catch(e){}
+      // 真的拖過就不算「前一次點擊」，否則連續快速拖同一顆會被判成雙擊、誤轉角點
+      if(d.moved) lastClick = { t:0, i:-1 };
+      if(d.moved || d.kind === 'new') commit();
+    }
+  }
+  stage.addEventListener('pointerup', endDrag, true);
+  stage.addEventListener('pointercancel', endDrag, true);
+
+  // 右鍵刪點：引擎原本只刪單點，這裡改成刪掉所有選取的
+  stage.addEventListener('contextmenu', ev => {
+    if(activeTab !== 'trail' || !TR.showPath) return;
+    const i = hitAnchor(trPt(ev));
+    if(i < 0) return;
+    ev.preventDefault(); ev.stopPropagation();
+    if(!PEN.sel.has(i)) PEN.sel = new Set([i]);
+    delSel();
+  }, true);
+
+  // ---------- 鍵盤（capture：要比通用快捷鍵先跑）----------
+  window.addEventListener('keydown', e => {
+    if(activeTab !== 'trail') return;
+    if(document.querySelector('.modal.show') || $('tour').classList.contains('show')) return;
+    const t = e.target;
+    if(t && ((t.tagName === 'INPUT' && t.type !== 'range' && t.type !== 'checkbox') || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+    const ctrl = e.ctrlKey || e.metaKey, kk = (e.key || '').toLowerCase();
+
+    if(ctrl && kk === 'a'){
+      e.preventDefault(); e.stopImmediatePropagation();
+      PEN.sel = new Set(TR.raw.map((_, i) => i)); refreshBar();
+      toast('已選取 ' + nRaw() + ' 個錨點', 'info', 1200); return;
+    }
+    if(ctrl) return;
+    if(e.key === 'Escape'){
+      if(PEN.sel.size || PEN.pen){ PEN.sel = new Set(); PEN.pen = null; refreshBar(); }
+      if(PEN.mode !== 'sel') setMode('sel');
+      return;
+    }
+    if(kk === 'a' && !e.shiftKey){ e.stopImmediatePropagation(); setMode('sel'); return; }
+    if(kk === 'p'){ e.stopImmediatePropagation(); if(e.shiftKey) $('uiPath').click(); else setMode('pen'); return; }
+    if(kk === 'd' && !e.shiftKey){ e.stopImmediatePropagation(); setMode('free'); return; }
+    if((e.key === 'Delete' || e.key === 'Backspace') && PEN.sel.size){
+      e.preventDefault(); e.stopImmediatePropagation(); delSel(); return;
+    }
+    if(PEN.sel.size && /^Arrow/.test(e.key)){
+      const d = e.shiftKey ? 10 : 1;
+      const dx = e.key === 'ArrowLeft' ? -d : e.key === 'ArrowRight' ? d : 0;
+      const dy = e.key === 'ArrowUp'   ? -d : e.key === 'ArrowDown'  ? d : 0;
+      if(dx || dy){ e.preventDefault(); e.stopImmediatePropagation(); nudge(dx, dy); }
+    }
+  }, true);
+
+  // ---------- 疊圖 ----------
+  const COL = { anchor:'#16181d', line:'#ffb347', sel:'#4da3ff', handle:'#8ab4ff' };
+  const _trDrawOverlay_pen = trDrawOverlay;
+  trDrawOverlay = function(headS){
+    _trDrawOverlay_pen(headS);
+    if(activeTab !== 'trail' || !TR.showPath) return;
+    const n = nRaw(); if(!n) return;
+    pruneSel();
+    const c = trOvCtx, s = k();
+    c.save();
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.lineWidth = 1.2 * s;
+
+    // 控制桿（只畫選取中的錨點）
+    if(isBez(TR.raw)){
+      for(const i of PEN.sel){
+        const a = TR.raw[i]; if(!a) continue;
+        for(const w of ['h0', 'h1']){
+          const h = a[w]; if(!h || (Math.abs(h.x) < 0.5 && Math.abs(h.y) < 0.5)) continue;
+          const hx = a.x + h.x, hy = a.y + h.y;
+          c.strokeStyle = 'rgba(138,180,255,.8)'; c.lineWidth = 1.2 * s;
+          c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(hx, hy); c.stroke();
+          c.beginPath(); c.arc(hx, hy, 4 * s, 0, TAU);
+          c.fillStyle = COL.handle; c.fill();
+          c.lineWidth = 1 * s; c.strokeStyle = '#0d1016'; c.stroke();
+        }
+      }
+    }
+
+    // 錨點：角點方形、平滑點圓形；選取中填藍、白框
+    TR.raw.forEach((p, i) => {
+      const on = PEN.sel.has(i);
+      const r = (on ? 5.5 : 4.5) * s;
+      c.beginPath();
+      if(p.c) c.rect(p.x - r, p.y - r, r * 2, r * 2);
+      else c.arc(p.x, p.y, r, 0, TAU);
+      c.fillStyle = on ? COL.sel : (i === 0 ? '#66ff99' : (i === n - 1 && !TR.closed ? '#ff5566' : COL.anchor));
+      c.fill();
+      c.lineWidth = (on ? 2 : 1.6) * s;
+      c.strokeStyle = on ? '#ffffff' : COL.line;
+      c.stroke();
+    });
+
+    // 框選框
+    if(marquee){
+      c.setLineDash([5 * s, 4 * s]);
+      c.lineWidth = 1.2 * s; c.strokeStyle = 'rgba(77,163,255,.9)'; c.fillStyle = 'rgba(77,163,255,.12)';
+      const x = Math.min(marquee.x0, marquee.x1), y = Math.min(marquee.y0, marquee.y1);
+      const w = Math.abs(marquee.x1 - marquee.x0), h = Math.abs(marquee.y1 - marquee.y0);
+      c.fillRect(x, y, w, h); c.strokeRect(x, y, w, h);
+      c.setLineDash([]);
+    }
+    c.restore();
+  };
+
+  // ---------- 跟其他地方的連動 ----------
+  // 換路徑、清除、套形狀、復原之後，選取的索引都不再有意義
+  function dropSel(){ PEN.sel = new Set(); PEN.pen = null; refreshBar(); }
+  ['trSelectPath', 'trailApplySnap'].forEach(fn => {
+    const f = window[fn];
+    if(typeof f !== 'function') return;
+    window[fn] = function(){ const r = f.apply(this, arguments); dropSel(); return r; };
+  });
+  ['trClearPath', 'trPathAdd', 'trPathDup', 'trPathDel', 'trReversePath'].forEach(id => {
+    const b = $(id); if(!b) return;
+    const f = b.onclick;
+    b.onclick = function(){ const r = f && f.apply(this, arguments); dropSel(); return r; };
+  });
+  document.querySelectorAll('.pathPreset').forEach(b => {
+    const f = b.onclick;
+    b.onclick = function(){ const r = f && f.apply(this, arguments); dropSel(); return r; };
+  });
+
+  // 移動整條：按鈕模式（原本在「路徑定位」區段，移過來跟其他手勢一起管）
+  const btnMove = $('trPathMove');
+  if(btnMove) btnMove.onclick = () => {
+    PEN.moveMode = !PEN.moveMode;
+    btnMove.classList.toggle('primary', PEN.moveMode);
+    btnMove.classList.toggle('ghost', !PEN.moveMode);
+    if(PEN.moveMode) setMode('sel', true);
+    toast(PEN.moveMode ? '拖曳畫布＝移動整條路徑' : '恢復成編輯錨點', 'info', 1600);
+  };
+
+  // 摺疊「位置、尺寸與對齊」
+  const more = $('trPathMore'), tune = $('trPathTune');
+  if(more && tune) more.onclick = () => {
+    const closed = tune.classList.toggle('hide');
+    more.textContent = closed ? '位置、尺寸與對齊…' : '收起位置、尺寸與對齊';
+  };
+
+  Object.assign(HELP, {
+    penSetStart: ['設為起點',
+      '光是從「第一顆錨點」出發的，畫面上標成綠點，最後一顆標成紅點。封閉路徑可以任選一顆設為起點（形狀完全不變，只是換了出發位置，終點自動落在它前面那一顆）；開放路徑沒辦法從中間切開，只能把最後一顆設成起點，效果等於反轉方向。'],
+    trBez: ['貝茲曲線（控制桿）',
+      '打開之後每個錨點都長出兩根控制桿，可以像 Photoshop 鋼筆一樣拉出真正的曲線；曲線由控制桿決定，「平滑度」就不再作用。關掉會變回折線＋平滑度，控制桿資料會被丟掉。轉換是依現有形狀估算的，形狀幾乎不變。'],
+  });
+
+  setMode('sel', true);
+  refreshBar();
+  setTimeout(refreshBar, 60);
+
+  // 引擎啟動時就跑過 trRestoreState() → trRebuildAllPaths()，那時這支覆寫還不存在，
+  // 所以存檔裡的貝茲路徑會被當成折線取樣（實測長度 1066 vs 1132）。
+  // 有任何一條是貝茲就重算一次取樣快取；只動 _path，不碰 raw，也不進歷史。
+  if(TR.paths.some(p => isBez(p.raw))){
+    const keep = UI.restoring; UI.restoring = true;
+    try{ trRebuildAllPaths(); } finally { UI.restoring = keep; }
+  }
+})();
+
+// ============================================================
+//  拖尾：逐圖層時間軸（多軌）＋「繞完一圈」模式＋「播一遍就停」
+//
+//  原本一條路徑的所有圖層共用同一組時間參數（模式／拖尾長度／速度曲線／
+//  淡入淡出／出發延遲都掛在路徑上），圖層自己沒有任何時間設定，所以
+//  沒辦法做「這一層晚一點才亮、那一層只閃半個 loop、另一層跑兩圈」。
+//
+//  做法：每一層多一個「時間窗」
+//    tStart   0..1  在整個 loop 的哪裡開始
+//    tLen     0..1  佔整個 loop 的幾成（視窗可以跨過 1，會繞回來）
+//    tLaps    整數   在自己的視窗裡跑幾圈（非整數會接不回去，所以限制整數）
+//    tFadeIn / tFadeOut  0..1，相對「自己的視窗」的淡入淡出
+//  預設 0 / 1 / 1 / 0 / 0 就跟改之前完全一樣，舊存檔不受影響。
+//
+//  渲染端只在引擎補了一個鉤子（build.py 的 TRLT）：原本 headS/env 是
+//  「整條路徑算一次給所有圖層共用」，改成每一層先問 window.TRLT，由這裡
+//  把路徑時間換算成屬於該層的 headS / env / t。沒註冊就照舊。
+//
+//  視窗是用 frac() 算的，所以 tStart+tLen 超過 1 會自動繞回開頭，
+//  尾幀接首幀天生無縫（tLaps 限制整數也是同一個理由）。
+// ============================================================
+(function(){
+  const bar = $('trTracks'), body = $('trTrackBody');
+  if(!bar || !body) return;
+
+  const KEY = 'edgefx_v3_trtime';
+  const PREF = { open:false, once:false, snap:true };
+  try{ Object.assign(PREF, JSON.parse(localStorage.getItem(KEY) || '{}')); }catch(e){}
+  function savePref(){ try{ localStorage.setItem(KEY, JSON.stringify(PREF)); }catch(e){} }
+
+  const DEF = { tStart:0, tLen:1, tLaps:1, tFadeIn:0, tFadeOut:0 };
+  const gStart = L => +L.tStart || 0;
+  const gLen   = L => (L.tLen == null ? 1 : clamp(+L.tLen || 0, 0, 1));
+  const gLaps  = L => Math.max(1, Math.round(+L.tLaps || 1));
+  const isFull = L => gStart(L) === 0 && gLen(L) >= 0.9995 && gLaps(L) === 1 && !L.tFadeIn && !L.tFadeOut;
+
+  // 新圖層帶上預設值（舊存檔靠 TRLT 裡的容錯，不必先跑過這裡）
+  const _trDefaultLayer = trDefaultLayer;
+  trDefaultLayer = function(type){ return Object.assign(_trDefaultLayer(type), DEF); };
+
+  // ---------- 渲染鉤子：把路徑時間換算成這一層的時間 ----------
+  window.TRLT = function(L, ttP){
+    const T = trLoopT();
+    if(isFull(L)) return { headS: trHeadS(ttP), env: trEnvelope(ttP), t: ttP };
+    const len = gLen(L);
+    if(len <= 0.0005) return null;                     // 視窗寬度 0＝整條都不畫
+    let u = (ttP / T) % 1; if(u < 0) u += 1;
+    let w = u - gStart(L); w -= Math.floor(w);         // frac：視窗跨過 1 也對
+    if(w >= len) return null;                          // 不在這一層的時間窗內
+    const v = w / len;                                 // 視窗內的 0..1
+    const tL = ((v * gLaps(L)) % 1) * T;               // 跑 N 圈
+    let env = trEnvelope(tL);
+    if(L.tFadeIn  > 0) env *= clamp(v / L.tFadeIn, 0, 1);
+    if(L.tFadeOut > 0) env *= clamp((1 - v) / L.tFadeOut, 0, 1);
+    return { headS: trHeadS(tL), env: env, t: tL };
+  };
+
+  // ---------- 多軌 UI ----------
+  let rows = [];                                        // [{L, el, lane, blocks:[]}]
+  let sig = '';                                         // 只有結構變了才重建 DOM
+  let dragging = false;                                 // 拖曳中絕對不能重建 DOM，否則手上那塊會被抽掉
+
+  function pct(v){ return (v * 100) + '%'; }
+  function fmt(L){
+    const a = Math.round(gStart(L) * 100), b = Math.round((gStart(L) + gLen(L)) * 100);
+    return a + '→' + b + '%';
+  }
+
+  function rebuild(force){
+    if(!bar.classList.contains('show') || dragging) return;
+    const list = TR.layers || [];
+    const s = list.map(L => L.id + ':' + (L.name || L.type) + ':' + (L.on ? 1 : 0)).join('|')
+            + '#' + UI.sel.trail + '#' + TR.frames + '#' + TR.cur;
+    if(!force && s === sig) return;
+    sig = s;
+    body.innerHTML = '';
+    rows = [];
+    if(!list.length){
+      const e = document.createElement('div');
+      e.className = 'ttEmpty';
+      e.textContent = '這條路徑還沒有圖層。';
+      body.appendChild(e);
+      return;
+    }
+    list.forEach(L => {
+      const row = document.createElement('div');
+      row.className = 'ttRow' + (L.id === UI.sel.trail ? ' sel' : '') + (L.on ? '' : ' off');
+      row.innerHTML =
+        '<div class="ttName"><span class="dot"></span><span class="nm"></span></div>' +
+        '<div class="ttLane"><div class="grid"></div><div class="ttHead"></div></div>' +
+        '<div class="ttNum"><span class="txt rng"></span>' +
+          '<button class="btn sm ghost lapBtn" data-d="-1">−</button>' +
+          '<span class="txt lapv" style="min-width:24px;text-align:center"></span>' +
+          '<button class="btn sm ghost lapBtn" data-d="1">＋</button></div>';
+      row.querySelector('.dot').style.background = T_COLOR[L.type] || '#888';
+      row.querySelector('.nm').textContent = L.name || TR_TYPE_NAMES[L.type] || L.type;
+      row.querySelector('.ttName').onclick = () => { UI.sel.trail = L.id; trRebuildLayerUI(); rebuild(true); };
+      const lane = row.querySelector('.ttLane');
+      lane.querySelector('.grid').style.setProperty('--n', Math.max(2, TR.frames || 30));
+      row.querySelectorAll('.lapBtn').forEach(b => b.onclick = () => {
+        L.tLaps = clamp(gLaps(L) + (+b.dataset.d), 1, 12);
+        paint(); trSaveState();
+      });
+      body.appendChild(row);
+      rows.push({ L:L, el:row, lane:lane, head:lane.querySelector('.ttHead'), blocks:[] });
+      bindLane(rows[rows.length - 1]);
+    });
+    paint();
+  }
+
+  // 視窗跨過 1 的時候畫成兩塊；控制桿只掛在「真正的起點」那一塊上
+  function paint(){
+    for(const r of rows){
+      const L = r.L, st = gStart(L), len = gLen(L);
+      r.blocks.forEach(b => b.remove());
+      r.blocks = [];
+      const mk = (x, w, main) => {
+        const d = document.createElement('div');
+        d.className = 'ttBlock';
+        d.style.left = pct(x); d.style.width = pct(w);
+        d.innerHTML = (gLaps(L) > 1 ? '<span class="lap">×' + gLaps(L) + '</span>' : '') +
+          (main ? '<i class="h l"></i><i class="h r"></i>' : '');
+        d.dataset.main = main ? '1' : '';
+        r.lane.appendChild(d);
+        r.blocks.push(d);
+      };
+      if(st + len <= 1.0001) mk(st, Math.min(len, 1 - st), true);
+      else { mk(st, 1 - st, true); mk(0, st + len - 1, false); }
+      r.el.querySelector('.rng').textContent = fmt(L);
+      r.el.querySelector('.lapv').textContent = '×' + gLaps(L);
+    }
+  }
+
+  function snap(v){
+    const n = Math.max(2, TR.frames || 30);
+    return PREF.snap ? Math.round(v * n) / n : v;
+  }
+
+  function bindLane(r){
+    r.lane.addEventListener('pointerdown', ev => {
+      const blk = ev.target.closest('.ttBlock');
+      if(!blk || ev.button !== 0) return;
+      ev.preventDefault(); ev.stopPropagation();
+      dragging = true;                                  // 先擋住重建，再換選取
+      UI.sel.trail = r.L.id;
+      rows.forEach(x => x.el.classList.toggle('sel', x.L.id === UI.sel.trail));
+      trRebuildLayerUI();
+      const hand = ev.target.classList.contains('h') ? (ev.target.classList.contains('l') ? 'l' : 'r') : 'move';
+      const w = r.lane.clientWidth || 1;
+      const g = { x0:ev.clientX, st:gStart(r.L), len:gLen(r.L), hand:hand, w:w, moved:false, alt:ev.altKey };
+      try{ r.lane.setPointerCapture(ev.pointerId); }catch(e){}
+
+      const move = e2 => {
+        const d = (e2.clientX - g.x0) / g.w;
+        if(!g.moved && Math.abs(d * g.w) < 2) return;
+        g.moved = true;
+        const free = e2.altKey;
+        const sn = v => free ? v : snap(v);
+        if(g.hand === 'move'){
+          let st = sn(g.st + d); st -= Math.floor(st);   // 可以繞過頭尾
+          r.L.tStart = st;
+        } else if(g.hand === 'l'){
+          const end = g.st + g.len;
+          let st = clamp(sn(g.st + d), end - 1, end - 1 / Math.max(2, TR.frames || 30));
+          r.L.tStart = st - Math.floor(st);
+          r.L.tLen = clamp(end - st, 0.002, 1);
+        } else {
+          r.L.tLen = clamp(sn(g.len + d), 1 / Math.max(2, TR.frames || 30), 1);
+        }
+        paint(); trSaveDebounced();
+      };
+      const up = e2 => {
+        window.removeEventListener('pointermove', move);
+        window.removeEventListener('pointerup', up);
+        try{ r.lane.releasePointerCapture(e2.pointerId); }catch(e){}
+        dragging = false;
+        if(g.moved) trSaveState();
+        rebuild(true);                                  // 放開才重建，順便把選取反映到圖層清單
+      };
+      window.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+    });
+
+    r.lane.addEventListener('dblclick', ev => {
+      if(!ev.target.closest('.ttBlock')) return;
+      Object.assign(r.L, DEF);
+      paint(); trSaveState();
+      toast('這一層的時間軸已還原成整個 loop', 'ok', 1400);
+    });
+  }
+
+  // 播放頭：每幀只改 left，不重建 DOM
+  function tick(){
+    if(!bar.classList.contains('show') || !rows.length) return;
+    const T = trLoopT();
+    let u = (TR.t / T) % 1; if(u < 0) u += 1;
+    const x = pct(u);
+    for(const r of rows) if(r.head.style.left !== x) r.head.style.left = x;
+  }
+
+  // ---------- 開關 ----------
+  function setOpen(on){
+    PREF.open = on; savePref();
+    bar.classList.toggle('show', on);
+    $('uiTrTracks').classList.toggle('on', on);
+    if(on) rebuild(true);
+    if(typeof trFitStage === 'function') trFitStage();
+  }
+  $('uiTrTracks').onclick = () => setOpen(!PREF.open);
+  $('ttClose').onclick = () => setOpen(false);
+  $('ttSnap').checked = PREF.snap;
+  $('ttSnap').onchange = e => { PREF.snap = e.target.checked; savePref(); };
+  $('ttReset').onclick = () => {
+    (TR.layers || []).forEach(L => Object.assign(L, DEF));
+    paint(); trSaveState();
+    toast('所有圖層的時間軸都還原成整個 loop', 'ok');
+  };
+
+  // ---------- 播一遍就停 ----------
+  function setOnce(on){
+    PREF.once = on; savePref();
+    $('uiTrOnce').classList.toggle('on', on);
+  }
+  $('uiTrOnce').onclick = () => {
+    setOnce(!PREF.once);
+    toast(PREF.once ? '播一遍就停：跑到最後一幀會停住' : '恢復成無限循環預覽', 'info', 1600);
+  };
+  setOnce(PREF.once);
+
+  // trFrame 是檔案最上層的函式宣告，裡面的 requestAnimationFrame(trFrame) 取的是
+  // 當下的全域繫結，所以重新指派就會生效，不用去拆 rAF。
+  const _trFrame = trFrame;
+  trFrame = function(now){
+    const was = TR.t, wasPlaying = TR.playing;
+    _trFrame(now);
+    if(PREF.once && wasPlaying && TR.playing && activeTab === 'trail' && TR.t < was - 1e-6){
+      // 原函式已經把 t 取模繞回 0 了，補回最後一幀並重畫，避免閃一下開頭
+      TR.t = trLoopT() * 0.9999;
+      TR.playing = false;
+      $('trPlayBtn').textContent = '▶';
+      $('trSlider').value = TR.t / trLoopT();
+      $('trTVal').textContent = TR.t.toFixed(2) + 's';
+      trRenderTo(trCtx, TR.t, 1, false);
+      trDrawOverlay(trHeadS(TR.t - (TR.delay || 0) * trLoopT()));
+      toast('播完一遍，停在最後一幀', 'info', 1400);
+    }
+    tick();
+  };
+
+  // 停在最後一幀時再按播放＝從頭播
+  const _uiTrPlay = $('uiTrPlay').onclick;
+  $('uiTrPlay').onclick = function(){
+    if(PREF.once && !TR.playing && TR.t >= trLoopT() * 0.999) TR.t = 0;
+    return _uiTrPlay && _uiTrPlay.apply(this, arguments);
+  };
+
+  // ---------- 跟其他地方的連動 ----------
+  const _trRebuildLayerUI = trRebuildLayerUI;
+  trRebuildLayerUI = function(){ const r = _trRebuildLayerUI.apply(this, arguments); rebuild(); return r; };
+  ['trSelectPath', 'trailApplySnap'].forEach(fn => {
+    const f = window[fn]; if(typeof f !== 'function') return;
+    window[fn] = function(){ const r = f.apply(this, arguments); rebuild(true); return r; };
+  });
+
+  // 「繞完一圈」需要封閉路徑，沒封閉就把提示叫出來
+  function lapWarn(){
+    const w = $('trLapWarn'); if(!w) return;
+    w.classList.toggle('hidden', !(TR.mode === 'lap' && !TR.closed));
+  }
+  const _trSyncUI = trSyncUI;
+  trSyncUI = function(){ const r = _trSyncUI.apply(this, arguments); lapWarn(); rebuild(); return r; };
+  const modeSel = $('trMode');
+  const _modeChange = modeSel.onchange;
+  modeSel.onchange = function(e){
+    const r = _modeChange && _modeChange.call(this, e);
+    lapWarn();
+    if(TR.mode === 'lap' && !TR.closed) toast('「繞完一圈」要配封閉路徑，現在這條沒有封閉', 'warn', 2600);
+    return r;
+  };
+  const closedCb = $('trClosed');
+  const _closedChange = closedCb.onchange;
+  closedCb.onchange = function(e){ const r = _closedChange && _closedChange.call(this, e); lapWarn(); return r; };
+
+  Object.assign(HELP, {
+    ttTracks: ['圖層時間軸',
+      '每一層可以有自己的時間窗：什麼時候開始、佔整個 loop 的幾成、在自己的窗裡跑幾圈。拖區塊＝移動，拖左右邊＝改長度，雙擊＝還原成整個 loop。視窗可以跨過結尾繞回開頭，尾幀接首幀仍然無縫（圈數限制整數也是同一個理由）。預設是 0→100%、一圈，跟沒設定時完全一樣。'],
+  });
+
+  if(PREF.open) setOpen(true);
+  lapWarn();
+})();
+
+// ============================================================
+//  搜尋功能（Ctrl+K 命令面板）
+//
+//  工具長到 393 個控制項、184 條說明、分散在左欄 11 個區塊、右欄圖層參數、
+//  舞台工具列、時間軸四個地方，而且完全沒有搜尋入口 —— 只能用眼睛掃。
+//  這裡加的是「入口」，不動任何既有版面：打幾個字 → 選一項 → 自動切分頁、
+//  展開區塊、必要時切進階模式、捲過去、閃一下。
+//
+//  索引是「開啟當下即時掃 DOM」而不是寫死一張表，所以之後新增的控制項
+//  不用回來改這裡就會自動被搜到。掃不到的三種東西另外靜態補上：
+//   1. 圖層參數：右欄是依「選到哪一層」動態長出來的，所以改讀
+//      SLIDER_DEFS / TR_SLIDERS，跳過去時先幫忙選到那一層
+//   2. 風格庫配方：資料夾沒點開就不在 DOM 裡，改讀 BUILTIN_PRESETS / TR_PRESETS
+//   3. 新增圖層：讀兩個 <select> 的選項
+// ============================================================
+(function(){
+  const dlg = $('cmdDlg'), inp = $('cmdInput'), list = $('cmdList'), cnt = $('cmdCount');
+  if(!dlg || !inp) return;
+
+  // ---------- 小工具 ----------
+  function txt(el){
+    if(!el) return '';
+    const c = el.cloneNode(true);
+    c.querySelectorAll('.q, svg, .val, .badge').forEach(x => x.remove());
+    return (c.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+  function helpOf(el){
+    const q = el.querySelector && el.querySelector('.q[data-help]');
+    const k = q ? q.dataset.help : (el.dataset && el.dataset.help);
+    const h = k && HELP[k];
+    return h ? h[1] : (el.dataset && el.dataset.tip ? el.dataset.tip.split('|')[0] : '');
+  }
+  function tabOf(el){
+    if(el.closest('#edgeMode')) return 'edge';
+    if(el.closest('#trailMode')) return 'trail';
+    return null;                                    // 共用（頂列、對話框）
+  }
+  function locOf(el){
+    const t = tabOf(el);
+    const pre = t === 'edge' ? '邊光' : t === 'trail' ? '拖尾' : '共用';
+    const sec = el.closest('.sec');
+    if(sec){
+      const h = sec.querySelector('h3');
+      const c = h ? h.cloneNode(true) : null;
+      if(c) c.querySelectorAll('.q, svg, .num, .grow, .motSum, .badge').forEach(x => x.remove());
+      return pre + ' › ' + (c ? c.textContent.trim() : sec.id);
+    }
+    if(el.closest('.stageBar')) return pre + ' › 畫面左上工具列';
+    if(el.closest('.timeline')) return pre + ' › 時間軸';
+    if(el.closest('#trTracks')) return pre + ' › 圖層時間軸';
+    if(el.closest('.col-right')) return pre + ' › 圖層面板';
+    if(el.closest('.modal')) return '對話框';
+    return pre + ' › 最上面一排';
+  }
+
+  // ---------- 跳過去 ----------
+  let flashTimer = 0;
+  function flash(el){
+    document.querySelectorAll('.cmdFlash').forEach(e => e.classList.remove('cmdFlash'));
+    el.classList.add('cmdFlash');
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(() => el.classList.remove('cmdFlash'), 3200);
+  }
+  function reveal(el){
+    if(!el || !el.isConnected) return false;
+    const t = tabOf(el);
+    if(t && activeTab !== t) document.querySelectorAll('.tab')[t === 'edge' ? 0 : 1].click();
+    // 簡易模式下 adv 的東西根本不在畫面上，先切進階
+    if(el.closest('.adv') && UI.level === 'simple'){
+      setLevel('advanced');
+      toast('已切到進階模式才看得到這一項', 'info', 1800);
+    }
+    const sec = el.closest('.sec');
+    if(sec && sec.classList.contains('closed')){ sec.classList.remove('closed'); UI.closed[sec.id] = false; saveUIPrefs(); }
+    // 收起來的「微調參數…／位置尺寸與對齊…」摺疊：點它前面那顆 .motMore
+    let p = el.parentElement;
+    while(p){
+      if(p.classList && p.classList.contains('motTune') && p.classList.contains('hide')){
+        const b = p.previousElementSibling;
+        if(b && b.classList.contains('motMore')) b.click(); else p.classList.remove('hide');
+      }
+      p = p.parentElement;
+    }
+    if(el.closest('#trTracks') && !$('trTracks').classList.contains('show')) $('uiTrTracks').click();
+    requestAnimationFrame(() => {
+      if(!el.isConnected) return;
+      try{ el.scrollIntoView({ block:'center', behavior:'smooth' }); }catch(e){ el.scrollIntoView(); }
+      flash(el);
+    });
+    return true;
+  }
+
+  // ---------- 建索引 ----------
+  const SKIP = /^(cmdInput|cmdList)$/;
+  function scanDom(out, seen){
+    const add = (el, label, kind, desc) => {
+      label = (label || '').trim();
+      if(!label || label.length > 40) return;
+      if(el.closest('#cmdDlg')) return;
+      const loc = locOf(el);
+      const key = loc + '|' + label;
+      if(seen.has(key)) return;
+      seen.add(key);
+      out.push({ label, kind, desc: desc || helpOf(el) || '', loc, tab: tabOf(el), el });
+    };
+    // 左欄區塊標題
+    document.querySelectorAll('.sec > h3').forEach(h => {
+      const c = h.cloneNode(true);
+      c.querySelectorAll('.q, svg, .num, .grow, .motSum, .badge').forEach(x => x.remove());
+      add(h.parentElement, c.textContent.trim(), '區塊', helpOf(h));
+    });
+    // 滑桿 / 下拉
+    document.querySelectorAll('.ctl, .ctlSel').forEach(c => add(c, txt(c.querySelector('.lab')), '參數'));
+    // 開關（含不是 .switch 的自訂勾選，例如時間軸的「吸附到幀」）
+    document.querySelectorAll('label').forEach(l => {
+      if(!l.querySelector('input, select')) return;
+      add(l, txt(l), '開關');
+    });
+    // 數字欄位：用前面那個 <label> 當名字
+    document.querySelectorAll('.row > label:not(.switch)').forEach(l => {
+      const r = l.parentElement;
+      if(!r.querySelector('input, select')) return;
+      add(r, txt(l), '欄位');
+    });
+    // 按鈕（含工具列、時間軸、模板格）
+    document.querySelectorAll('button').forEach(b => {
+      if(b.id && SKIP.test(b.id)) return;
+      if(b.closest('.pcard') || b.closest('.layerRow') || b.closest('.lgrp')) return;
+      const t = txt(b);
+      const tip = b.dataset.tip ? b.dataset.tip.split('|')[0] : '';
+      // 只有圖示沒有文字的按鈕拿 tooltip 當名字，但只取第一個子句，整句留給說明
+      const label = t || tip.split(/[：:，。；]/)[0].trim().slice(0, 18);
+      add(b, label, b.classList.contains('mbtn') ? '模板' : '按鈕', tip);
+    });
+    // 單獨的下拉（例如新增圖層的類型）
+    document.querySelectorAll('select').forEach(s => {
+      if(s.closest('.ctlSel')) return;
+      add(s, txt(s.previousElementSibling) || s.id, '選單');
+    });
+    // 下拉裡面的「選項」也要找得到：使用者記得的是「繞完一圈」而不是「模式」
+    document.querySelectorAll('select').forEach(s => {
+      if(s.options.length > 20) return;                     // 使用者配方那種動態清單就跳過
+      const host = s.closest('.ctlSel') || s.closest('.row') || s;
+      const who = txt(host.querySelector('.lab')) || txt(s.previousElementSibling) || '';
+      Array.from(s.options).forEach(o => {
+        const t = (o.textContent || '').trim();
+        if(!t || t.length > 30 || /^[－—-]/.test(t)) return;
+        add(host, t, '選項', who ? '「' + who + '」的其中一個選項' : '');
+      });
+    });
+  }
+
+  // 右欄的圖層參數是動態長出來的，改讀參數表；跳過去時先幫忙選到那一層
+  function layerNames(selId){
+    const m = {};
+    const sel = $(selId);
+    if(sel) Array.from(sel.options).forEach(o => m[o.value] = o.textContent.trim());
+    return m;
+  }
+  function scanLayerParams(out, seen){
+    const defs = [
+      { which:'edge',  table: typeof SLIDER_DEFS !== 'undefined' ? SLIDER_DEFS : {}, names: layerNames('newLayerType'),   tab:'edge'  },
+      { which:'trail', table: typeof TR_SLIDERS  !== 'undefined' ? TR_SLIDERS  : {}, names: layerNames('trNewLayerType'), tab:'trail' },
+    ];
+    for(const d of defs){
+      for(const type of Object.keys(d.table)){
+        const tn = d.names[type] || type;
+        for(const row of d.table[type]){
+          const key = row[0], label = row[1];
+          const k = d.tab + '|層|' + tn + '|' + label;
+          if(!label || seen.has(k)) continue;
+          seen.add(k);
+          out.push({ label, kind:'圖層參數', desc: (HELP['E:' + key] ? HELP['E:' + key][1] : '') || ('【' + tn + '】圖層的參數'),
+                     loc: (d.tab === 'edge' ? '邊光' : '拖尾') + ' › 圖層面板 ›【' + tn + '】',
+                     tab: d.tab, layer: { which:d.which, type:type, key:key, name:tn } });
+        }
+      }
+    }
+  }
+
+  function scanPresets(out){
+    const push = (p, tab, cats) => {
+      const cat = (cats.find(c => c.id === p.cat) || {}).name || '';
+      out.push({ label: p.name, kind:'配方', desc:'風格庫配方，點一下跳到它的縮圖（不會自動套用）',
+                 loc: (tab === 'edge' ? '邊光' : '拖尾') + ' › 風格庫' + (cat ? ' › ' + cat : ''),
+                 tab: tab, preset: { kind: tab, cat: p.cat, name: p.name } });
+    };
+    if(typeof BUILTIN_PRESETS !== 'undefined') BUILTIN_PRESETS.forEach(p => push(p, 'edge', E_CATS));
+    if(typeof TR_PRESETS !== 'undefined') TR_PRESETS.forEach(p => push(p, 'trail', T_CATS));
+  }
+
+  function buildIndex(){
+    const out = [], seen = new Set();
+    try{ scanDom(out, seen); }catch(e){}
+    try{ scanLayerParams(out, seen); }catch(e){}
+    try{ scanPresets(out); }catch(e){}
+    return out;
+  }
+
+  // ---------- 前往 ----------
+  function goLayerParam(e){
+    const arr = e.layer.which === 'edge' ? state.layers : TR.layers;
+    const L = arr.find(l => l.type === e.layer.type);
+    if(!L){
+      toast('「' + e.label + '」是【' + e.layer.name + '】圖層的參數，目前沒有這種圖層；可以在右欄上方新增一層', 'warn', 3600);
+      return;
+    }
+    if(e.layer.which === 'edge'){ UI.sel.edge = L.id; UI.selFg = false; rebuildLayerUI(); }
+    else { UI.sel.trail = L.id; trRebuildLayerUI(); }
+    setTimeout(() => {
+      const el = document.querySelector((e.layer.which === 'edge' ? '#edgeMode' : '#trailMode') + ' .ctl[data-key="' + e.layer.key + '"]');
+      if(el) reveal(el);
+      else toast('已選到【' + e.layer.name + '】圖層，但「' + e.label + '」這一項目前沒有顯示（可能要切進階模式）', 'info', 3000);
+    }, 60);
+  }
+  function goPreset(e){
+    UI.folder[e.preset.kind] = e.preset.cat;
+    renderLib(e.preset.kind);
+    const sec = $(e.preset.kind === 'edge' ? 'secPreset' : 'secTrPreset');
+    if(sec && sec.classList.contains('closed')){ sec.classList.remove('closed'); UI.closed[sec.id] = false; saveUIPrefs(); }
+    setTimeout(() => {
+      const cards = (sec || document).querySelectorAll('.pcard');
+      const hit = Array.from(cards).find(c => (c.textContent || '').indexOf(e.preset.name.replace(/^\S+\s*/, '')) >= 0 || (c.textContent || '').indexOf(e.preset.name) >= 0);
+      if(hit) reveal(hit); else if(sec) reveal(sec);
+    }, 80);
+  }
+  function go(e){
+    close();
+    if(e.tab && activeTab !== e.tab) document.querySelectorAll('.tab')[e.tab === 'edge' ? 0 : 1].click();
+    if(e.layer) return goLayerParam(e);
+    if(e.preset) return goPreset(e);
+    if(!reveal(e.el)) toast('這一項目前不在畫面上', 'warn', 1800);
+  }
+
+  // ---------- 搜尋與評分 ----------
+  function score(e, terms){
+    const lab = e.label.toLowerCase(), hay = (e.label + ' ' + e.desc + ' ' + e.loc + ' ' + e.kind).toLowerCase();
+    let s = 0;
+    for(const q of terms){
+      if(hay.indexOf(q) < 0) return -1;                     // 每個詞都要命中
+      if(lab === q) s += 1000;
+      else if(lab.indexOf(q) === 0) s += 600;
+      else if(lab.indexOf(q) >= 0) s += 400;
+      else if(e.loc.toLowerCase().indexOf(q) >= 0) s += 120;
+      else s += 60;                                          // 只在說明裡提到
+    }
+    s -= e.label.length;                                     // 同分時短的排前面
+    if(e.kind === '區塊') s += 30;
+    if(e.tab && e.tab === activeTab) s += 40;                // 目前這個分頁的優先
+    return s;
+  }
+  function mark(label, terms){
+    let h = label.replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c]));
+    for(const q of terms){
+      if(!q) continue;
+      const i = h.toLowerCase().indexOf(q);
+      if(i < 0) continue;
+      h = h.slice(0, i) + '<em>' + h.slice(i, i + q.length) + '</em>' + h.slice(i + q.length);
+    }
+    return h;
+  }
+
+  let IDX = [], hits = [], cur = 0;
+
+  function render(){
+    list.innerHTML = '';
+    if(!hits.length){
+      const e = document.createElement('div');
+      e.className = 'cmdEmpty';
+      e.innerHTML = inp.value.trim()
+        ? '找不到「' + inp.value.trim().replace(/</g, '&lt;') + '」。<br>試試別的說法，或只打兩個字，例如「呼吸」「繞行」「外擴」「彗星」「起點」。'
+        : '打幾個字開始找。<br>可以找：區塊、參數、開關、按鈕、圖層參數、風格庫配方。';
+      list.appendChild(e);
+      cnt.textContent = '';
+      return;
+    }
+    const terms = inp.value.toLowerCase().split(/\s+/).filter(Boolean);
+    hits.forEach((e, i) => {
+      const d = document.createElement('div');
+      d.className = 'cmdItem' + (i === cur ? ' on' : '');
+      d.innerHTML = '<span class="kind">' + e.kind + '</span><div class="mid"><div class="t">' + mark(e.label, terms) +
+        '</div>' + (e.desc ? '<div class="d">' + e.desc.replace(/[<>]/g, '') + '</div>' : '') +
+        '</div><span class="loc">' + e.loc + '</span>';
+      d.onmouseenter = () => { cur = i; list.querySelectorAll('.cmdItem').forEach((x, j) => x.classList.toggle('on', j === i)); };
+      d.onclick = () => go(e);
+      list.appendChild(d);
+    });
+    cnt.textContent = hits.length + ' 項';
+  }
+
+  function search(){
+    const terms = inp.value.toLowerCase().split(/\s+/).filter(Boolean);
+    if(!terms.length){ hits = []; cur = 0; render(); return; }
+    hits = IDX.map(e => ({ e:e, s:score(e, terms) })).filter(x => x.s >= 0)
+              .sort((a, b) => b.s - a.s).slice(0, 60).map(x => x.e);
+    cur = 0;
+    render();
+  }
+
+  function open(){
+    IDX = buildIndex();                                      // 每次打開重掃，永遠跟得上畫面
+    inp.value = ''; hits = []; cur = 0;
+    render();
+    dlg.classList.add('show');
+    setTimeout(() => { inp.focus(); inp.select(); }, 30);
+  }
+  function close(){ dlg.classList.remove('show'); }
+
+  inp.oninput = search;
+  inp.onkeydown = e => {
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      if(!hits.length) return;
+      cur = (cur + (e.key === 'ArrowDown' ? 1 : -1) + hits.length) % hits.length;
+      render();
+      const on = list.querySelector('.cmdItem.on');
+      if(on) on.scrollIntoView({ block:'nearest' });
+      return;
+    }
+    if(e.key === 'Enter'){ e.preventDefault(); if(hits[cur]) go(hits[cur]); return; }
+    if(e.key === 'Escape'){ e.preventDefault(); close(); }
+  };
+  dlg.onclick = e => { if(e.target === dlg) close(); };
+  $('uiFind').onclick = open;
+
+  // Ctrl+K：用捕捉階段，才不會被「對話框開著就不處理」的通用快捷鍵擋掉
+  window.addEventListener('keydown', e => {
+    if(!(e.ctrlKey || e.metaKey)) return;
+    if((e.key || '').toLowerCase() !== 'k') return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if(dlg.classList.contains('show')) close(); else open();
+  }, true);
+
+  // 快捷鍵表也補一行
+  const kd = $('keysDlg');
+  if(kd){
+    const host = kd.querySelector('.bd, .body, .box') || kd;
+    const row = document.createElement('div');
+    row.className = 'hint';
+    row.style.cssText = 'padding:10px 18px;border-top:1px solid var(--line)';
+    row.innerHTML = '<b>Ctrl+K</b>　搜尋功能：打幾個字就跳到那個設定（參數、開關、按鈕、圖層參數、風格庫配方都找得到）';
+    host.appendChild(row);
+  }
 })();
 </script>
 </body>
