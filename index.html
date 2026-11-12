@@ -319,20 +319,29 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 .dragOverlay.show{display:flex;}
 
 /* ---------- 時間軸 ---------- */
-.timeline{flex:none; height:var(--tl); display:flex; align-items:center; gap:10px; padding:0 14px; background:var(--bg1); border-top:1px solid var(--line);}
+.timeline{flex:none; height:var(--tl); display:flex; align-items:center; gap:8px; padding:0 12px; background:var(--bg1); border-top:1px solid var(--line); overflow:hidden;}
 .timeline .tgrp{display:flex; align-items:center; gap:3px;}
 .timeline .tbtn{height:32px; min-width:32px;}
 .timeline .tbtn.play{background:var(--bg3); border-color:var(--line2); width:36px;}
 .timeline .tbtn.play:hover{background:var(--bg4);}
-.timeline .scrub{flex:1; display:flex; flex-direction:column; gap:2px; min-width:120px;}
+.timeline .scrub{flex:1 1 40px; display:flex; flex-direction:column; gap:2px; min-width:40px;}
 .timeline .scrub .ticks{height:6px; background-image:repeating-linear-gradient(90deg, var(--line3) 0 1px, transparent 1px calc(100% / var(--n,30)));  background-size:calc(100% - 14px) 100%; background-position:7px 0; background-repeat:no-repeat; opacity:.8;}
 .timeline .scrub input[type=range]{height:18px;}
 .timeline .tv{font:12px var(--mono); color:var(--txt2); min-width:54px;}
 .timeline .tv b{color:var(--txt); font-weight:600;}
 .timeline .fld{display:flex; align-items:center; gap:5px; font-size:11px; color:var(--dim);}
-.timeline .fld input[type=number]{width:54px; height:26px;}
+.timeline .fld input[type=number]{width:46px; height:26px;}
 .timeline .sep{width:1px; height:24px; background:var(--line2);}
 .timeline .tbtn.on{background:var(--accDim); border-color:var(--acc); color:#fff;}
+
+/* 時間軸分組：純圖示按鈕擠成一排看不出誰是誰，框起來並加小標題 */
+.tlGrp{display:flex; align-items:center; gap:3px; padding:4px 6px; border:1px solid var(--line2); border-radius:8px; position:relative;}
+.tlGrp>.gl{position:absolute; top:-6px; left:8px; font-size:9px; line-height:1; color:var(--faint); background:var(--bg1); padding:0 4px; letter-spacing:.5px; pointer-events:none;}
+.tlGrp .fld{gap:4px;}
+.seamBadge{display:inline-flex; align-items:center; gap:4px; height:22px; padding:0 8px; border-radius:11px; font-size:10.5px; cursor:pointer; border:1px solid var(--line2); background:var(--bg3); color:var(--dim); white-space:nowrap;}
+.seamBadge:hover{border-color:var(--line3); color:var(--txt2);}
+.seamBadge.ok{color:var(--ok); border-color:var(--line3);}
+.seamBadge.warn{color:var(--warn); border-color:var(--warn);}
 
 /* ---------- 圖層時間軸（多軌） ---------- */
 .trTracks{flex:none; display:none; flex-direction:column; background:var(--bg1); border-top:1px solid var(--line); max-height:244px;}
@@ -365,6 +374,45 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 .ttNum .txt{font:10px var(--mono); color:var(--dim); min-width:62px; text-align:right;}
 .ttEmpty{padding:10px 2px; font-size:11px; color:var(--faint);}
 .warnHint{color:var(--warn, #ffb347);}
+
+/* ---------- 速度曲線預視 ---------- */
+.easePrev{position:relative; height:86px; margin:2px 0 8px; background:var(--bg3); border:1px solid var(--line); border-radius:8px; overflow:hidden;}
+.easePrev svg{display:block; width:100%; height:100%;}
+.easePrev .ep-grid{stroke:var(--line2); stroke-width:1; opacity:.6;}
+.easePrev .ep-env{fill:rgba(63,211,211,.16); stroke:#3fd3d3; stroke-width:1.2;}
+.easePrev .ep-head{fill:none; stroke:var(--acc); stroke-width:1.8;}
+.easePrev .ep-now{stroke:#fff; stroke-width:1; opacity:.75;}
+.easePrev .ep-lab{font:9px var(--mono); fill:var(--faint);}
+.easePrev .ep-key{position:absolute; left:6px; top:5px; display:flex; gap:8px; font-size:9.5px; pointer-events:none; background:rgba(12,16,24,.78); padding:2px 6px; border-radius:5px; line-height:1.2;}
+.easePrev .ep-key i{display:inline-block; width:8px; height:2px; vertical-align:middle; margin-right:3px;}
+
+/* ---------- 速度總表 ---------- */
+#spdDlg .spdBox{width:860px; max-width:calc(100vw - 32px);}
+#spdDlg .bd{gap:10px;}
+.spdTop{display:flex; flex-direction:column; gap:8px; padding:10px 12px; background:var(--bg2); border:1px solid var(--line); border-radius:9px;}
+.spdLoop,.spdAll{display:flex; align-items:center; gap:8px; font-size:12px; flex-wrap:wrap;}
+.spdLoop b{font:16px var(--mono); color:var(--acc);}
+.spdLoop .dim{color:var(--dim); display:flex; align-items:center; gap:5px;}
+.spdLoop input[type=number]{width:54px; height:24px;}
+.spdTop .lab{color:var(--txt2); min-width:62px; font-weight:600;}
+.spdAll .grow{flex:1;}
+.spdList{max-height:52vh; overflow-y:auto; display:flex; flex-direction:column; gap:3px;}
+.spdGrp{font-size:11px; color:var(--faint); padding:8px 2px 2px; border-top:1px solid var(--line); margin-top:4px;}
+.spdGrp:first-child{border-top:none; margin-top:0;}
+.spdRow{display:grid; grid-template-columns:140px 1fr 52px 212px; align-items:center; gap:8px; padding:3px 4px; border-radius:6px;}
+.spdRow:hover{background:var(--bg2);}
+.spdRow .who{display:flex; align-items:center; gap:5px; font-size:11px; color:var(--txt2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.spdRow .who .dot{width:7px; height:7px; border-radius:50%; flex:none;}
+.spdRow .who .pn{color:var(--txt); }
+.spdRow input[type=range]{width:100%;}
+.spdRow .raw{font:11px var(--mono); color:var(--dim); text-align:right;}
+.spdRow .per{display:flex; align-items:center; gap:5px; justify-content:flex-end; font:11px var(--mono); color:var(--txt2); white-space:nowrap;}
+.spdRow .per input{width:58px; height:22px; font:11px var(--mono); flex:none;}
+.spdRow .per .none{color:var(--faint); font-family:inherit; font-size:10.5px;}
+.spdWarn{color:var(--warn); cursor:help;}
+.spdRow .fix{height:20px; padding:0 6px; font-size:10.5px;}
+.spdFoot{font-size:11px; color:var(--faint); line-height:1.8; padding-top:4px; border-top:1px solid var(--line);}
+.spdEmpty{padding:24px; text-align:center; color:var(--faint); font-size:12px;}
 
 /* ---------- 搜尋功能（命令面板） ---------- */
 #cmdDlg{align-items:flex-start;}
@@ -504,6 +552,7 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
 <symbol id="i-warn" viewBox="0 0 24 24"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
 <symbol id="i-wand" viewBox="0 0 24 24"><path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8L19 13M17.8 6.2L19 5M12.2 6.2L11 5M3 21l9-9"/></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><path d="M3.5 18a9 9 0 1 1 17 0"/><path d="M12 14.5l4.2-4.6"/><circle cx="12" cy="15.4" r="1.4"/></symbol>
 <symbol id="i-film" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M7 3v18M17 3v18M2 12h20M2 7.5h5M2 16.5h5M17 7.5h5M17 16.5h5"/></symbol>
 <symbol id="i-burst" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/></symbol>
 <symbol id="i-frame" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10" rx="1"/></symbol>
@@ -518,7 +567,7 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
 
 <!-- ============================ 頂部工具列 ============================ -->
 <div id="tabBar">
-  <div class="brand"><span class="logo"><svg class="i sm" style="stroke:#fff"><use href="#i-spark"/></svg></span>EdgeFX Studio<span class="ver" id="buildStamp" data-tip="建置時間 11/12 14:29｜若這個時間不是最新的，請按 Ctrl+Shift+R 重新載入">v3</span></div>
+  <div class="brand"><span class="logo"><svg class="i sm" style="stroke:#fff"><use href="#i-spark"/></svg></span>EdgeFX Studio<span class="ver" id="buildStamp" data-tip="建置時間 11/12 15:48｜若這個時間不是最新的，請按 Ctrl+Shift+R 重新載入">v3</span></div>
   <div class="tabs">
     <button class="tab on" data-mode="edge" data-tour="tabs"><svg class="i sm"><use href="#i-sun"/></svg>邊光 EdgeFX</button>
     <button class="tab" data-mode="trail"><svg class="i sm"><use href="#i-path"/></svg>拖尾 TrailFX</button>
@@ -674,11 +723,26 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
       <div id="boardHint">盤面檢視中：還沒有分身 — 雙擊畫布新增，或按左側「新增分身」</div>
       <div id="dragOverlay" class="dragOverlay">放開以載入圖片</div>
     </div>
+    <div class="trTracks" id="edgeTracks">
+      <div class="ttBar">
+        <b>圖層時間軸</b>
+        <span class="ttHelp">拖區塊＝移動；拖左右邊＝改長度；×N＝這一層的動畫快慢；雙擊＝整條還原</span>
+        <span class="grow"></span>
+        <label class="ttSnap"><input type="checkbox" id="etSnap" checked><i></i>吸附到幀</label>
+        <button class="btn sm ghost" id="etReset">全部還原</button>
+        <button class="btn sm ghost" id="etClose">收起</button>
+      </div>
+      <div class="ttBody" id="edgeTrackBody"></div>
+    </div>
     <div class="timeline" data-tour="timeline">
-      <div class="tgrp">
+      <div class="tlGrp"><span class="gl">預覽</span>
         <button class="tbtn play" id="uiPlay" data-tip="播放／暫停|Space"><svg class="i"><use href="#i-pause"/></svg></button>
-        <button class="tbtn" id="uiLoop" data-tip="Loop 預覽：以「幀數÷FPS」為週期，套用與匯出相同的交叉淡化|L"><svg class="i"><use href="#i-loop"/></svg></button>
+        <button class="tbtn" id="uiLoop" data-tip="Loop 預覽：以「循環長度」為週期，套用與匯出相同的交叉淡化|L"><svg class="i"><use href="#i-loop"/></svg></button>
         <button class="tbtn" id="uiFg" data-tip="預覽時顯示／隱藏前景圖（不影響匯出）|H"><svg class="i"><use href="#i-eye"/></svg></button>
+      </div>
+      <div class="tlGrp"><span class="gl">時間</span>
+        <button class="tbtn" id="uiEdgeSpeed" data-tip="速度總表：把所有跟時間有關的參數排在一起，統一成「每圈幾次」來看"><svg class="i"><use href="#i-gauge"/></svg></button>
+        <button class="tbtn" id="uiEdgeTracks" data-tip="展開／收起圖層時間軸：每一層可以有自己的出現時機、長度、淡入淡出與快慢"><svg class="i"><use href="#i-tracks"/></svg></button>
       </div>
       <div class="scrub">
         <input type="range" id="tSlider" min="0" max="10" step="0.01" value="0">
@@ -686,12 +750,17 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
       </div>
       <span class="tv" id="uiTVal"><b>0.00</b>s</span>
       <span class="sep"></span>
-      <div class="fld" data-tip="序列幀的總幀數。Loop 長度＝幀數÷FPS">幀數<input type="number" id="seqFrames" value="30" min="2" max="120"></div>
-      <div class="fld">FPS<input type="number" id="seqFps" value="30" min="1" max="60"></div>
-      <span class="badge" id="eLoopInfo">1.00s loop</span>
+      <div class="tlGrp"><span class="gl">循環長度</span>
+        <span class="badge" id="eLoopInfo">1.00s</span>
+        <div class="fld" data-tip="序列幀的總幀數。循環長度＝幀數÷FPS">＝<input type="number" id="seqFrames" value="30" min="2" max="120">幀</div>
+        <div class="fld">@<input type="number" id="seqFps" value="30" min="1" max="60">fps</div>
+        <span class="seamBadge" id="eSeam" title="尾幀接首幀接不接得上；點一下開速度總表">—</span>
+      </div>
       <span class="sep"></span>
-      <div class="fld seedFld" data-tip="亂數種子：決定雷電、星塵的隨機形態。同一個種子＝同一種形態">種子<input type="number" id="seedBox" value="1234" step="1" style="width:70px"></div>
-      <button class="tbtn" id="uiDice" data-tip="重骰形態|R"><svg class="i"><use href="#i-dice"/></svg></button>
+      <div class="tlGrp"><span class="gl">隨機形態</span>
+        <div class="fld seedFld" data-tip="亂數種子：決定雷電、星塵的隨機形態。同一個種子＝同一種形態"><input type="number" id="seedBox" value="1234" step="1" style="width:58px"></div>
+        <button class="tbtn" id="uiDice" data-tip="重骰形態|R"><svg class="i"><use href="#i-dice"/></svg></button>
+      </div>
       <span class="hidden"><button id="playBtn"></button><button id="loopBtn"></button><button id="fgViewBtn"></button><button id="diceBtn"></button><span id="tVal"></span></span>
     </div>
   </div>
@@ -980,9 +1049,12 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
       <div class="ttBody" id="trTrackBody"></div>
     </div>
     <div class="timeline">
-      <div class="tgrp">
+      <div class="tlGrp"><span class="gl">預覽</span>
         <button class="tbtn play" id="uiTrPlay" data-tip="播放／暫停|Space"><svg class="i"><use href="#i-pause"/></svg></button>
         <button class="tbtn" id="uiTrOnce" data-tip="播一遍就停：跑到最後一幀停住，不自動回頭（只影響預覽，不影響匯出）"><svg class="i"><use href="#i-once"/></svg></button>
+      </div>
+      <div class="tlGrp"><span class="gl">時間</span>
+        <button class="tbtn" id="uiTrSpeed" data-tip="速度總表：把所有跟時間有關的參數排在一起，統一成「每圈幾次」來看"><svg class="i"><use href="#i-gauge"/></svg></button>
         <button class="tbtn" id="uiTrTracks" data-tip="展開／收起圖層時間軸：每一層可以有自己的起點、長度與圈數"><svg class="i"><use href="#i-tracks"/></svg></button>
       </div>
       <div class="scrub">
@@ -991,12 +1063,17 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
       </div>
       <span class="tv" id="uiTrTVal"><b>0.00</b>s</span>
       <span class="sep"></span>
-      <div class="fld" data-tip="序列幀的總幀數。Loop 長度＝幀數÷FPS">幀數<input type="number" id="trFrames" value="30" min="2" max="120"></div>
-      <div class="fld">FPS<input type="number" id="trFps" value="30" min="1" max="60"></div>
-      <span class="badge" id="trDurInfo">1.00s</span>
+      <div class="tlGrp"><span class="gl">循環長度</span>
+        <span class="badge" id="trDurInfo">1.00s</span>
+        <div class="fld" data-tip="序列幀的總幀數。循環長度＝幀數÷FPS">＝<input type="number" id="trFrames" value="30" min="2" max="120">幀</div>
+        <div class="fld">@<input type="number" id="trFps" value="30" min="1" max="60">fps</div>
+        <span class="seamBadge" id="trSeam" title="尾幀接首幀接不接得上；點一下開速度總表">—</span>
+      </div>
       <span class="sep"></span>
-      <div class="fld seedFld" data-tip="亂數種子：決定粒子與閃電的隨機形態">種子<input type="number" id="trSeedBox" value="1234" step="1" style="width:70px"></div>
-      <button class="tbtn" id="uiTrDice" data-tip="重骰形態|R"><svg class="i"><use href="#i-dice"/></svg></button>
+      <div class="tlGrp"><span class="gl">隨機形態</span>
+        <div class="fld seedFld" data-tip="亂數種子：決定粒子與閃電的隨機形態"><input type="number" id="trSeedBox" value="1234" step="1" style="width:58px"></div>
+        <button class="tbtn" id="uiTrDice" data-tip="重骰形態|R"><svg class="i"><use href="#i-dice"/></svg></button>
+      </div>
       <span class="hidden"><button id="trPlayBtn"></button><button id="trPathBtn"></button><button id="trDiceBtn"></button><span id="trTVal"></span></span>
     </div>
   </div>
@@ -1029,6 +1106,16 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
               <option value="lap">繞完一圈（封閉路徑）</option>
               <option value="cycle">循環繞行（無縫 loop）</option>
             </select></div>
+          <div class="easePrev" id="trEasePrev" title="這條曲線是直接拿引擎的 trHeadS／trEnvelope 算出來的，不是示意圖">
+            <svg viewBox="0 0 240 86" preserveAspectRatio="none">
+              <g id="epGrid"></g>
+              <path class="ep-env" id="epEnv"></path>
+              <path class="ep-head" id="epHead"></path>
+              <line class="ep-now" id="epNow" x1="0" y1="0" x2="0" y2="86"></line>
+            </svg>
+            <div class="ep-key"><span style="color:var(--acc)"><i style="background:currentColor"></i>頭部走到哪</span>
+              <span style="color:#3fd3d3"><i style="background:currentColor"></i>亮度</span></div>
+          </div>
           <div class="hint warnHint hidden" id="trLapWarn">「繞完一圈」要配封閉路徑，頭才接得回起點。現在這條沒有封閉，效果會跟「一次掃過」差不多。</div>
           <div class="ctl"><span class="lab">拖尾長度<span class="q" data-help="tailLen"></span></span><input type="range" id="trTailLen" min="2" max="100" step="1" value="35"><span class="val" id="trTailLenVal">35%</span><span></span></div>
           <div class="ctlSel"><span class="lab">速度曲線<span class="q" data-help="ease"></span></span>
@@ -1139,6 +1226,39 @@ body.simple .moreAdv{display:inline-flex; align-items:center; gap:4px;}
     <div class="cmdList" id="cmdList"></div>
     <div class="cmdFoot"><b>↑↓</b> 選擇　<b>Enter</b> 前往　<b>Esc</b> 關閉<span class="grow"></span>
       <span>找到的項目會在畫面上閃一下</span></div>
+  </div>
+</div>
+
+<!-- ============================ 速度總表 ============================ -->
+<div class="modal" id="spdDlg">
+  <div class="box spdBox">
+    <div class="hd"><svg class="i"><use href="#i-film"/></svg><h2>速度總表</h2>
+      <button class="x" data-close="spdDlg">✕</button></div>
+    <div class="bd">
+      <div class="spdTop">
+        <div class="spdLoop">
+          <span class="lab">一個循環</span>
+          <b id="spdLoopT">1.00</b> 秒
+          <span class="dim">＝ <input type="number" id="spdFrames" min="2" max="120" step="1"> 幀 @
+            <input type="number" id="spdFps" min="1" max="60" step="1"> fps</span>
+        </div>
+        <div class="spdAll">
+          <span class="lab">整體速度</span>
+          <button class="btn sm" id="spdHalf">÷ 2（慢一半）</button>
+          <button class="btn sm" id="spdDouble">× 2（快一倍）</button>
+          <button class="btn sm ghost" id="spdSnapAll">全部對齊到整數次</button>
+          <span class="grow"></span>
+          <button class="btn sm ghost" id="spdUndo">復原（Ctrl+Z）</button>
+        </div>
+      </div>
+      <div class="spdList" id="spdList"></div>
+      <div class="spdFoot">
+        <b>每圈 N 次</b>＝這個參數在一個循環裡跑完幾次，直接打數字會反推回原生值。
+        標 <span class="spdWarn">⚠</span> 的是小數，尾幀接首幀時會跳一下，按「對齊」就會四捨五入到最近的整數次。
+        標「沒有週期」的是噪聲流動，標「每次重骰」的是雷電與星塵（形態每次重抽），
+        這兩類怎麼調都不影響無縫，匯出時靠尾幀的交叉淡化處理。
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2527,7 +2647,11 @@ function renderScene(targetFbo, W, H, includeFg, texScale){
   };
   for(const L of state.layers){                    // 前景=清單中的一層，位置決定疊放順序
     if(L.type==='fg'){ drawFg(); continue; }
-    if(L.visible) drawFx(L);
+    if(!L.visible) continue;
+    if(window.EGLT){                               // 逐圖層時間軸：不在這一層的時間窗內就整層不畫
+      if(!window.EGLT(L)) continue;
+      try{ drawFx(L); } finally{ window.EGLTEnd(L); }
+    } else drawFx(L);
   }
   drawFg();                                        // 清單裡沒有前景層時，照舊畫在最上面
   gl.disable(gl.BLEND);
@@ -7042,7 +7166,7 @@ function uiFrame(){
     $('uiTVal').innerHTML=`<b>${state.t.toFixed(2)}</b>s`;
     $('dropHint').classList.toggle('hidden', !!img || state.maskMode!=='alpha');
     const n=Math.round(+$('seqFrames').value)||30; $('eTicks').style.setProperty('--n',n);
-    $('eLoopInfo').textContent=loopT().toFixed(2)+'s loop';
+    $('eLoopInfo').textContent=loopT().toFixed(2)+'s';
     $('uiUndo').disabled=UI.hist.edgeI<=0; $('uiRedo').disabled=UI.hist.edgeI>=UI.hist.edge.length-1;
     setSteps(eSteps,[!!img, UI.flags.ePreset||state.layers.length>1, UI.flags.eEdit, UI.flags.eExport]);
     if((uiTick++&15)===0){
@@ -7397,7 +7521,7 @@ uiFrame = function(){
     setClsOnce('dropHint', 'hidden', !!img || state.maskMode !== 'alpha');
     const n = Math.round(+$('seqFrames').value) || 30;
     if(_domCache.eTicksN !== n){ _domCache.eTicksN = n; $('eTicks').style.setProperty('--n', n); }
-    setTxtOnce('eLoopInfo', loopT().toFixed(2) + 's loop');
+    setTxtOnce('eLoopInfo', loopT().toFixed(2) + 's');
     setDisOnce('uiUndo', UI.hist.edgeI <= 0);
     setDisOnce('uiRedo', UI.hist.edgeI >= UI.hist.edge.length - 1);
     setSteps(eSteps, [!!img || state.maskMode !== 'alpha',
@@ -10773,6 +10897,802 @@ uiFrame = function(){ _uiFrame_noBgUnder(); bgUnderSync(); };
 
   if(PREF.open) setOpen(true);
   lapWarn();
+})();
+
+// ============================================================
+//  邊光：逐圖層時間軸（多軌）
+//
+//  邊光本來所有圖層共用同一個 state.t：所有層同時出現、同時結束，
+//  沒有任何「這一層晚一點才亮、那一層只閃半個 loop、另一層轉快一點」的辦法。
+//  拖尾那套逐層時間窗在這裡幾乎可以照抄，差別只有一個：
+//  拖尾的層會「沿路徑跑幾圈」，邊光的層沒有圈的概念（是流動、旋轉、閃爍），
+//  所以 tLaps 換成 tSpeed「這一層的動畫快慢」。
+//
+//    tStart   0..1  在整個 loop 的哪裡開始
+//    tLen     0..1  佔整個 loop 的幾成（視窗可以跨過 1，會繞回來）
+//    tSpeed   倍率   這一層自己的時間流速（0.25～4）
+//    tFadeIn / tFadeOut  0..1，相對「自己的視窗」的淡入淡出
+//  預設 0 / 1 / 1 / 0 / 0 就跟改之前完全一樣（isFull 直接跳過，連 state.t 都不碰）。
+//
+//  渲染端只在引擎補一個鉤子（build.py 的 EGLT）：每一層畫之前問 window.EGLT(L)，
+//  回 false 整層不畫；回 true 之前這裡會暫改 state.t 與 L.intensity，
+//  畫完由 window.EGLTEnd(L) 還原。renderScene 是預覽、縮圖、單張 PNG、序列幀
+//  四條路徑的共同入口，所以一次涵蓋。
+//
+//  無縫：本地時間 = (tStart + frac(t/T − tStart) × tSpeed) × T，是 t 的週期函數
+//  （週期 T），所以 f(t) 與 f(t−T) 完全相同，匯出的交叉淡化天生對得上。
+// ============================================================
+(function(){
+  const bar = $('edgeTracks'), body = $('edgeTrackBody');
+  if(!bar || !body) return;
+
+  const KEY = 'edgefx_v3_edgetime';
+  const PREF = { open:false, snap:true };
+  try{ Object.assign(PREF, JSON.parse(localStorage.getItem(KEY) || '{}')); }catch(e){}
+  function savePref(){ try{ localStorage.setItem(KEY, JSON.stringify(PREF)); }catch(e){} }
+
+  const DEF = { tStart:0, tLen:1, tSpeed:1, tFadeIn:0, tFadeOut:0 };
+  const SPEEDS = [0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4];
+  const gStart = L => +L.tStart || 0;
+  const gLen   = L => (L.tLen == null ? 1 : clamp(+L.tLen || 0, 0, 1));
+  const gSpd   = L => (L.tSpeed == null ? 1 : clamp(+L.tSpeed || 1, 0.25, 4));
+  const isFull = L => gStart(L) === 0 && gLen(L) >= 0.9995 && gSpd(L) === 1
+                      && !L.tFadeIn && !L.tFadeOut;
+  const fxLayers = () => (state.layers || []).filter(l => l.type !== 'fg');
+
+  // 新圖層帶上預設值（舊存檔靠 EGLT 裡的容錯，不必先跑過這裡）
+  const _defaultLayer = defaultLayer;
+  defaultLayer = function(){ return Object.assign(_defaultLayer.apply(this, arguments), DEF); };
+
+  // ---------- 渲染鉤子 ----------
+  let sv = null;                                        // 暫改前的 state.t / L.intensity
+  window.EGLT = function(L){
+    if(UI.brFreeze) return true;                        // 縮圖凍結：不套時間窗
+    if(isFull(L)) return true;
+    const len = gLen(L);
+    if(len <= 0.0005) return false;                     // 視窗寬度 0＝整層都不畫
+    const T = Math.max(loopT(), 0.01);
+    let u = (state.t / T) % 1; if(u < 0) u += 1;
+    let w = u - gStart(L); w -= Math.floor(w);          // frac：視窗跨過 1 也對
+    if(w >= len) return false;                          // 不在這一層的時間窗內
+    const v = w / len;                                  // 視窗內的 0..1
+    let env = 1;
+    if(L.tFadeIn  > 0) env *= clamp(v / L.tFadeIn, 0, 1);
+    if(L.tFadeOut > 0) env *= clamp((1 - v) / L.tFadeOut, 0, 1);
+    if(env <= 0.002) return false;
+    sv = { t: state.t, i: L.intensity };
+    state.t = (gStart(L) + w * gSpd(L)) * T;
+    L.intensity = (+L.intensity || 0) * env;
+    return true;
+  };
+  window.EGLTEnd = function(L){
+    if(!sv) return;
+    state.t = sv.t; L.intensity = sv.i; sv = null;
+  };
+
+  // ---------- 多軌 UI ----------
+  let rows = [], sig = '', dragging = false;            // 拖曳中絕對不能重建 DOM
+
+  const pct = v => (v * 100) + '%';
+  function fmt(L){
+    const a = Math.round(gStart(L) * 100), b = Math.round((gStart(L) + gLen(L)) * 100);
+    return a + '→' + b + '%';
+  }
+  const spdTxt = L => '×' + gSpd(L);
+
+  function rebuild(force){
+    if(!bar.classList.contains('show') || dragging) return;
+    const list = fxLayers();
+    const s = list.map(L => L.id + ':' + (L.name || L.type) + ':' + (L.visible ? 1 : 0)).join('|')
+            + '#' + UI.sel.edge + '#' + nFrames();
+    if(!force && s === sig) return;
+    sig = s;
+    body.innerHTML = ''; rows = [];
+    if(!list.length){
+      const e = document.createElement('div');
+      e.className = 'ttEmpty'; e.textContent = '還沒有特效圖層。';
+      body.appendChild(e); return;
+    }
+    list.forEach(L => {
+      const row = document.createElement('div');
+      row.className = 'ttRow' + (L.id === UI.sel.edge ? ' sel' : '') + (L.visible ? '' : ' off');
+      row.innerHTML =
+        '<div class="ttName"><span class="dot"></span><span class="nm"></span></div>' +
+        '<div class="ttLane"><div class="grid"></div><div class="ttHead"></div></div>' +
+        '<div class="ttNum"><span class="txt rng"></span>' +
+          '<button class="btn sm ghost spdBtn" data-d="-1" title="這一層的動畫放慢">−</button>' +
+          '<span class="txt spdv" style="min-width:34px;text-align:center"></span>' +
+          '<button class="btn sm ghost spdBtn" data-d="1" title="這一層的動畫加快">＋</button></div>';
+      row.querySelector('.dot').style.background = E_COLOR[L.type] || '#888';
+      row.querySelector('.nm').textContent = L.name || TYPE_NAMES[L.type] || L.type;
+      row.querySelector('.ttName').onclick = () => { UI.sel.edge = L.id; UI.selFg = false; rebuildLayerUI(); rebuild(true); };
+      const lane = row.querySelector('.ttLane');
+      lane.querySelector('.grid').style.setProperty('--n', nFrames());
+      row.querySelectorAll('.spdBtn').forEach(b => b.onclick = () => {
+        const i = SPEEDS.indexOf(gSpd(L));
+        L.tSpeed = SPEEDS[clamp((i < 0 ? 3 : i) + (+b.dataset.d), 0, SPEEDS.length - 1)];
+        paint(); saveState();
+      });
+      body.appendChild(row);
+      rows.push({ L:L, el:row, lane:lane, head:lane.querySelector('.ttHead'), blocks:[] });
+      bindLane(rows[rows.length - 1]);
+    });
+    paint();
+  }
+
+  // 視窗跨過 1 的時候畫成兩塊；控制桿只掛在「真正的起點」那一塊上
+  function paint(){
+    for(const r of rows){
+      const L = r.L, st = gStart(L), len = gLen(L);
+      r.blocks.forEach(b => b.remove()); r.blocks = [];
+      const mk = (x, w, main) => {
+        const d = document.createElement('div');
+        d.className = 'ttBlock';
+        d.style.left = pct(x); d.style.width = pct(w);
+        // 淡入淡出畫成漸層，讓眼睛看得出這一層是怎麼進場離場的
+        const fi = clamp(+L.tFadeIn || 0, 0, 1), fo = clamp(+L.tFadeOut || 0, 0, 1);
+        if(fi > 0 || fo > 0)
+          d.style.background = 'linear-gradient(90deg, rgba(79,141,255,.06) 0%, var(--accDim) '
+            + Math.round(fi * 100) + '%, var(--accDim) ' + Math.round((1 - fo) * 100)
+            + '%, rgba(79,141,255,.06) 100%)';
+        d.innerHTML = (gSpd(L) !== 1 ? '<span class="lap">' + spdTxt(L) + '</span>' : '')
+                    + (main ? '<i class="h l"></i><i class="h r"></i>' : '');
+        d.dataset.main = main ? '1' : '';
+        r.lane.appendChild(d); r.blocks.push(d);
+      };
+      if(st + len <= 1.0001) mk(st, Math.min(len, 1 - st), true);
+      else { mk(st, 1 - st, true); mk(0, st + len - 1, false); }
+      r.el.querySelector('.rng').textContent = fmt(L);
+      r.el.querySelector('.spdv').textContent = spdTxt(L);
+    }
+  }
+
+  function nFrames(){ return Math.max(2, Math.round(+$('seqFrames').value) || 30); }
+  function snap(v){ return PREF.snap ? Math.round(v * nFrames()) / nFrames() : v; }
+
+  function bindLane(r){
+    r.lane.addEventListener('pointerdown', ev => {
+      const blk = ev.target.closest('.ttBlock');
+      if(!blk || ev.button !== 0) return;
+      ev.preventDefault(); ev.stopPropagation();
+      dragging = true;                                  // 先擋住重建，再換選取
+      UI.sel.edge = r.L.id; UI.selFg = false;
+      rows.forEach(x => x.el.classList.toggle('sel', x.L.id === UI.sel.edge));
+      rebuildLayerUI();
+      const hand = ev.target.classList.contains('h') ? (ev.target.classList.contains('l') ? 'l' : 'r') : 'move';
+      const w = r.lane.clientWidth || 1;
+      const g = { x0:ev.clientX, st:gStart(r.L), len:gLen(r.L), hand:hand, w:w, moved:false };
+      try{ r.lane.setPointerCapture(ev.pointerId); }catch(e){}
+
+      const move = e2 => {
+        const d = (e2.clientX - g.x0) / g.w;
+        if(!g.moved && Math.abs(d * g.w) < 2) return;
+        g.moved = true;
+        const sn = v => e2.altKey ? v : snap(v);         // Alt＝暫時不吸附
+        if(g.hand === 'move'){
+          let st = sn(g.st + d); st -= Math.floor(st);   // 可以繞過頭尾
+          r.L.tStart = st;
+        } else if(g.hand === 'l'){
+          const end = g.st + g.len;
+          let st = clamp(sn(g.st + d), end - 1, end - 1 / nFrames());
+          r.L.tStart = st - Math.floor(st);
+          r.L.tLen = clamp(end - st, 0.002, 1);
+        } else {
+          r.L.tLen = clamp(sn(g.len + d), 1 / nFrames(), 1);
+        }
+        paint(); saveStateDebounced();
+      };
+      const up = e2 => {
+        window.removeEventListener('pointermove', move);
+        window.removeEventListener('pointerup', up);
+        try{ r.lane.releasePointerCapture(e2.pointerId); }catch(e){}
+        dragging = false;
+        if(g.moved) saveState();
+        rebuild(true);
+      };
+      window.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+    });
+
+    r.lane.addEventListener('dblclick', ev => {
+      if(!ev.target.closest('.ttBlock')) return;
+      Object.assign(r.L, DEF);
+      paint(); saveState();
+      toast('這一層的時間軸已還原成整個 loop', 'ok', 1400);
+    });
+  }
+
+  // 播放頭：每幀只改 left，不重建 DOM
+  function tick(){
+    if(!bar.classList.contains('show') || !rows.length) return;
+    const T = Math.max(loopT(), 0.01);
+    let u = (state.t / T) % 1; if(u < 0) u += 1;
+    const x = pct(u);
+    for(const r of rows) if(r.head.style.left !== x) r.head.style.left = x;
+  }
+
+  // ---------- 開關 ----------
+  function setOpen(on){
+    PREF.open = on; savePref();
+    bar.classList.toggle('show', on);
+    $('uiEdgeTracks').classList.toggle('on', on);
+    if(on) rebuild(true);
+    try{ stageCache.e = ''; }catch(e){}                 // 舞台高度變了，強制重算
+  }
+  $('uiEdgeTracks').onclick = () => setOpen(!PREF.open);
+  $('etClose').onclick = () => setOpen(false);
+  $('etSnap').checked = PREF.snap;
+  $('etSnap').onchange = e => { PREF.snap = e.target.checked; savePref(); };
+  $('etReset').onclick = () => {
+    fxLayers().forEach(L => Object.assign(L, DEF));
+    paint(); saveState();
+    toast('所有圖層的時間軸都還原成整個 loop', 'ok');
+  };
+
+  // ---------- 跟其他地方的連動 ----------
+  const _rebuildLayerUI = rebuildLayerUI;
+  rebuildLayerUI = function(){ const r = _rebuildLayerUI.apply(this, arguments); rebuild(); return r; };
+  const _uiFrame = uiFrame;
+  uiFrame = function(){ const r = _uiFrame.apply(this, arguments); if(activeTab === 'edge') tick(); return r; };
+  ['applySnapshot', 'applyPreset'].forEach(fn => {
+    const f = window[fn]; if(typeof f !== 'function') return;
+    window[fn] = function(){ const r = f.apply(this, arguments); rebuild(true); return r; };
+  });
+
+  // 圖層檢查器最下面補「這一層的時間窗」：淡入淡出在軌道上不好拖，用滑桿比較準
+  const _edgeInspector = edgeInspector;
+  edgeInspector = function(){
+    const r = _edgeInspector.apply(this, arguments);
+    try{
+      const L = edgeSelected(); if(!L) return r;
+      const box = $('edgeInspector'); if(!box) return r;
+      const sec = document.createElement('div');
+      sec.className = 'motSec adv';
+      sec.innerHTML = '<div class="motHd"><b>這一層的時間窗</b><span class="grow"></span>'
+        + '<span id="etRng" style="font:10px var(--mono);color:var(--dim)"></span></div>';
+      const refresh = () => { const e = $('etRng'); if(e) e.textContent = fmt(L) + '　' + spdTxt(L); };
+      [['tStart', '出現時機', 0, 1, 0.01, '在整個 loop 的哪裡開始出現'],
+       ['tLen', '持續長度', 0.02, 1, 0.01, '佔整個 loop 的幾成；超過結尾會繞回開頭'],
+       ['tFadeIn', '淡入', 0, 1, 0.01, '相對這一層自己的時間窗'],
+       ['tFadeOut', '淡出', 0, 1, 0.01, '相對這一層自己的時間窗'],
+       ['tSpeed', '動畫快慢', 0.25, 4, 0.25, '只影響這一層的流動／旋轉／閃爍速度']
+      ].forEach(function(d){
+        const k = d[0], v = L[k] == null ? DEF[k] : L[k];
+        const row = document.createElement('div');
+        row.className = 'ctl';
+        row.innerHTML = '<span class="lab" title="' + d[5] + '">' + d[1] + '</span>'
+          + '<input type="range" min="' + d[2] + '" max="' + d[3] + '" step="' + d[4] + '" value="' + v + '">'
+          + '<span class="val"></span><span></span>';
+        const inp = row.querySelector('input'), out = row.querySelector('.val');
+        const show = x => { out.textContent = (k === 'tSpeed' ? '×' + (+x) : Math.round(x * 100) + '%'); };
+        show(v);
+        inp.oninput = () => { L[k] = +inp.value; show(inp.value); refresh(); paint(); saveStateDebounced(); };
+        sec.appendChild(row);
+      });
+      const btn = document.createElement('button');
+      btn.className = 'btn sm ghost'; btn.textContent = '還原成整個 loop';
+      btn.style.marginTop = '4px';
+      btn.onclick = () => { Object.assign(L, DEF); edgeInspector(); paint(); saveState(); };
+      sec.appendChild(btn);
+      box.appendChild(sec);
+      refresh();
+      if(typeof syncSliderFills === 'function') syncSliderFills();
+    }catch(e){}
+    return r;
+  };
+
+  Object.assign(HELP, {
+    etTracks: ['圖層時間軸（邊光）',
+      '每一層可以有自己的時間窗：什麼時候出現、佔整個 loop 的幾成、淡入淡出，以及這一層自己的動畫快慢。拖區塊＝移動，拖左右邊＝改長度，雙擊＝還原成整個 loop。視窗可以跨過結尾繞回開頭，尾幀接首幀仍然無縫。預設是 0→100%、×1，跟沒設定時完全一樣。'],
+  });
+
+  if(PREF.open) setOpen(true);
+  setTimeout(function(){ try{ edgeInspector(); }catch(e){} }, 0);
+})();
+
+// ============================================================
+//  滑桿操作強化
+//
+//  使用者反映「調速度的區域、按鈕等等如何調仍不夠直覺」，其中一項是
+//  滑桿本身難調。量過之後問題分三種：
+//   1. makeCtl 產生的滑桿本來就有數字框與重置鈕，但 v3_head.html 裡
+//      寫死的 9 條（色相偏移、平滑度、出發延遲、拖尾長度、頭部淡入、
+//      尾部淡出…）只有一個唯讀的 .val，想打精確值完全沒辦法。
+//   2. 範圍大的滑桿（寬度 2～300、光芒長度 10～400）用拖的根本拖不準。
+//   3. 滑桿上滾輪沒有作用，而使用者的手本來就在滾輪上。
+//
+//  做法是一層純後處理，不改任何既有的產生器：
+//   - 任何 .val 讀數點一下就變成輸入框（原本就有數字框的列不介入，
+//     因為 .val 仍由引擎的 sync 函式寫 textContent，這裡不碰它）
+//   - 滑桿上滾輪＝一格一格調，Shift＝十格，Alt＝十分之一格（精細）
+//   - 寫死的滑桿補上雙擊還原：第一次看到它時把 HTML 的初始值記成預設值
+//  三者都走 dispatchEvent，所以引擎原本的 oninput/onchange 照常被呼叫。
+// ============================================================
+(function(){
+  const DEFS = new WeakMap();                       // range → HTML 的初始值
+
+  function rememberDefaults(){
+    document.querySelectorAll('input[type=range]').forEach(r => {
+      if(!DEFS.has(r)) DEFS.set(r, r.getAttribute('value'));
+    });
+  }
+  rememberDefaults();
+
+  function fire(r, v){
+    const mn = +r.min, mx = +r.max;
+    r.value = clamp(v, isNaN(mn) ? -1e9 : mn, isNaN(mx) ? 1e9 : mx);
+    r.dispatchEvent(new Event('input', { bubbles:true }));
+    r.dispatchEvent(new Event('change', { bubbles:true }));
+  }
+
+  // ---------- 1. 讀數點一下就能打字 ----------
+  // .val 的文字由引擎寫（"35%"、"0°"、"×2"），所以只抓出裡面的數字，
+  // 提交時也只回寫 range，單位那層交給原本的 sync 去重畫。
+  function editable(val, r){
+    if(val.dataset.edit) return;
+    val.dataset.edit = '1';
+    val.title = '點一下可直接輸入數值';
+    val.style.cursor = 'text';
+    val.onclick = () => {
+      if(val.querySelector('input')) return;
+      const cur = (val.textContent.match(/-?\d+(\.\d+)?/) || [r.value])[0];
+      const keep = val.textContent;
+      const inp = document.createElement('input');
+      inp.type = 'number'; inp.value = cur;
+      inp.min = r.min; inp.max = r.max; inp.step = r.step || 'any';
+      inp.style.cssText = 'width:100%;min-width:46px;height:20px;padding:0 4px;font:11px var(--mono);'
+                        + 'background:var(--bg3);border:1px solid var(--acc);border-radius:4px;color:var(--txt)';
+      val.textContent = ''; val.appendChild(inp);
+      inp.focus(); inp.select();
+      let done = false;
+      const close = commit => {
+        if(done) return; done = true;
+        const v = +inp.value;
+        val.textContent = keep;                     // 先還原，讓引擎的 sync 自己覆蓋
+        if(commit && !isNaN(v)) fire(r, v);
+      };
+      inp.onkeydown = e => {
+        e.stopPropagation();                        // 不要觸發全域快捷鍵
+        if(e.key === 'Enter'){ e.preventDefault(); close(true); }
+        if(e.key === 'Escape'){ e.preventDefault(); close(false); }
+      };
+      inp.onblur = () => close(true);
+      inp.onclick = e => e.stopPropagation();
+    };
+  }
+
+  function scan(){
+    rememberDefaults();
+    document.querySelectorAll('.ctl, .row, .ttNum').forEach(row => {
+      const r = row.querySelector('input[type=range]');
+      if(!r) return;
+      if(row.querySelector('input[type=number]')) return;   // 本來就有數字框
+      const val = row.querySelector('.val');
+      if(val) editable(val, r);
+    });
+  }
+  scan();
+
+  // 右欄的圖層參數、動態面板都是動態長出來的，而且重建的入口有七八個，
+  // 與其一支一支去包，不如看 DOM 變動（節流 120ms，掃一次約 1ms）。
+  let pend = 0;
+  new MutationObserver(() => {
+    if(pend) return;
+    pend = setTimeout(() => { pend = 0; scan(); }, 120);
+  }).observe(document.body, { childList:true, subtree:true });
+
+  // ---------- 2. 滑桿上滾輪可調 ----------
+  //  一般＝一格，Shift＝十格（大範圍快速掃），Alt＝十分之一格（精細）
+  document.addEventListener('wheel', e => {
+    const r = e.target.closest && e.target.closest('input[type=range]');
+    if(!r || r.disabled) return;
+    e.preventDefault(); e.stopPropagation();
+    const st = +r.step || 1;
+    const k = e.shiftKey ? 10 : (e.altKey ? 0.1 : 1);
+    const d = (e.deltaY || e.deltaX) > 0 ? -1 : 1;
+    let v = +r.value + d * st * k;
+    const dec = (String(st).split('.')[1] || '').length + (e.altKey ? 1 : 0);
+    v = +v.toFixed(dec);
+    fire(r, v);
+  }, { passive:false, capture:true });
+
+  // ---------- 3. 雙擊滑桿還原成預設值 ----------
+  document.addEventListener('dblclick', e => {
+    const r = e.target.closest && e.target.closest('input[type=range]');
+    if(!r || r.disabled) return;
+    if(r.closest('.ctl') && r.closest('.ctl').querySelector('.rst')) return;  // makeCtl 自己有重置鈕
+    const d = DEFS.get(r);
+    if(d == null) return;
+    e.preventDefault();
+    fire(r, +d);
+    toast('已還原成預設值 ' + d, 'ok', 1200);
+  }, true);
+
+  window.SLIDERX = { scan:scan, fire:fire, defaults:DEFS };
+})();
+
+// ============================================================
+//  速度總表
+//
+//  使用者反映「調速度的區域、按鈕等等如何調仍不夠直覺」，最核心的一項是
+//  單位不一致、找不到總控。量過之後確實如此：
+//    邊光   流速 0～4、旋轉速度 −3～3、閃爍頻率 tick/秒、閃爍速度 0～10
+//    拖尾   每圈擺動次數、每圈閃爍次數、每圈旋轉圈數、每圈捲動次數
+//    動態   一圈呼吸幾次、繞幾圈、色相繞幾圈
+//    時間軸 幀數 ÷ FPS
+//  也就是「每秒」「每圈」「tick」三種語彙混在一起，而無縫 loop 真正在乎的
+//  只有一件事：**這個參數在一個循環裡跑完幾次**，整數才接得回起點。
+//
+//  所以這張總表做兩件事：
+//   1. 把所有跟時間有關的參數排在同一個清單，每一列都換算成「每圈 N 次」，
+//      非整數的標 ⚠ 並給一顆「對齊」鈕，按下去就四捨五入到最接近的整數次
+//      並反推回原生參數值。沒有週期概念的（噪聲流動）明寫「沒有週期」。
+//   2. 整體速度 ÷2 ／ ×2 ／ 全部對齊：一次套到所有列，有週期的會順便 round
+//      回整數次，所以加速完仍然無縫。寫進資料、吃 Ctrl+Z。
+//
+//  換算係數是直接從引擎 shader 讀出來的，不是估的：
+//    rays.speed    rot = t × speed × 0.25（弧度）→ 圈數 = speed×0.25×T/2π
+//    bolt.flicker  fIdx = floor(t × flicker)      → 次數 = flicker×T
+//    spark.flicker fIdx = floor(t × flicker × 4)  → 次數 = flicker×4×T
+//    band.speed    uFlow = t × speed（UV 格）     → 次數 = speed×T
+//    wave/fire.speed  fbm 的捲動，沒有週期
+//  順手把 rays 的旋轉速度上限從 3 放寬到 60：speed=3 在 1 秒 loop 裡只轉
+//  0.12 圈，也就是原本的滑桿範圍根本轉不完一圈、永遠接不回去。
+// ============================================================
+(function(){
+  const dlg = $('spdDlg'), list = $('spdList');
+  if(!dlg || !list) return;
+
+  // rays 原本的上限轉不完一圈，放寬到能轉兩圈
+  try{
+    const d = SLIDER_DEFS.rays.find(x => x[0] === 'speed');
+    if(d && d[3] < 60){ d[2] = -60; d[3] = 60; }
+  }catch(e){}
+
+  const TAU = Math.PI * 2;
+  // perLoop: 原生值 → 一個循環幾次；toRaw: 反過來。null＝沒有週期概念
+  const EDGE_SPD = {
+    rays:  { key:'speed',   label:'旋轉速度', unit:'圈',
+             perLoop:(v,T) => v * 0.25 * T / TAU, toRaw:(n,T) => n * TAU / (0.25 * T) },
+    band:  { key:'speed',   label:'流速',     unit:'格',
+             perLoop:(v,T) => v * T,             toRaw:(n,T) => n / T },
+    bolt:  { key:'flicker', label:'閃爍頻率', unit:'次', reroll:true,
+             perLoop:(v,T) => v * T,             toRaw:(n,T) => n / T },
+    spark: { key:'flicker', label:'閃爍速度', unit:'次', reroll:true,
+             perLoop:(v,T) => v * 4 * T,         toRaw:(n,T) => n / (4 * T) },
+    wave:  { key:'speed',   label:'流速',     unit:null },
+    fire:  { key:'speed',   label:'速度',     unit:null },
+  };
+
+  const T = () => Math.max(loopT(), 0.01);
+  const nearInt = n => Math.abs(n - Math.round(n)) < 0.004;
+  const fx = () => (state.layers || []).filter(l => l.type !== 'fg');
+
+  // ---------- 收集：每一列 = {who, dot, label, get, set, mn, mx, st, perLoop, toRaw, unit} ----------
+  function rows(){
+    const out = [];
+    const t = T();
+    if(activeTab === 'edge'){
+      out.push({ grp:'圖層自己的速度' });
+      fx().forEach(L => {
+        const d = EDGE_SPD[L.type]; if(!d) return;
+        const def = (SLIDER_DEFS[L.type] || []).find(x => x[0] === d.key);
+        out.push({
+          who: L.name || TYPE_NAMES[L.type] || L.type, dot: E_COLOR[L.type] || '#888',
+          label: d.label, unit: d.unit,
+          mn: def ? def[2] : 0, mx: def ? def[3] : 10, st: def ? def[4] : 0.05,
+          reroll: !!d.reroll,
+          get: () => +L[d.key] || 0,
+          set: v => { L[d.key] = v; if(CPU_TYPES[L.type]) boltCache.clear(); },
+          perLoop: d.perLoop, toRaw: d.toRaw,
+        });
+      });
+      out.push({ grp:'每一層的時間窗' });
+      fx().forEach(L => out.push({
+        who: L.name || TYPE_NAMES[L.type] || L.type, dot: E_COLOR[L.type] || '#888',
+        label: '動畫快慢', unit:'倍', mn:0.25, mx:4, st:0.25,
+        get: () => (L.tSpeed == null ? 1 : +L.tSpeed),
+        set: v => { L.tSpeed = clamp(v, 0.25, 4); },
+        perLoop:(v) => v, toRaw:(n) => n, mult:true,
+      }));
+      if(window.BR || window.SEG){
+        out.push({ grp:'整組的動態' });
+        const tg = () => (state.layers || []).filter(l => l.type !== 'fg' && l.moFollow !== false);
+        const first = () => tg()[0];
+        const mk = (k, label, unit, mn, mx, st) => {
+          const L = first(); if(!L) return;
+          out.push({ who:'整組', dot:'#4f8dff', label:label, unit:unit, mn:mn, mx:mx, st:st,
+            get: () => (L[k] == null ? 0 : +L[k]),
+            set: v => tg().forEach(x => { x[k] = v; }),
+            perLoop:(v) => v, toRaw:(n) => n });
+        };
+        mk('brRate', '呼吸次數', '次', 0, 16, 1);
+        mk('hueSpin', '色相繞圈', '圈', -4, 4, 1);
+        mk('segSpeed', '繞行圈數', '圈', -8, 8, 1);
+      }
+    } else {
+      // 拖尾：清單本來就是「每圈…」語彙，直接照搬並標出圈數
+      out.push({ grp:'圖層自己的速度' });
+      (TR.layers || []).forEach(L => {
+        (TR_SLIDERS[L.type] || []).forEach(d => {
+          if(!/每圈|壽命/.test(d[1])) return;
+          out.push({
+            who: L.name || TR_TYPE_NAMES[L.type] || L.type, dot: T_COLOR[L.type] || '#888',
+            label: d[1].replace(/^每圈/, ''), unit: /秒/.test(d[1]) ? null : '次',
+            mn:d[2], mx:d[3], st:d[4],
+            get: () => +L[d[0]] || 0,
+            set: v => { L[d[0]] = v; },
+            perLoop: /秒/.test(d[1]) ? null : (v => v),
+            toRaw: n => n,
+          });
+        });
+      });
+      out.push({ grp:'每一層的時間窗' });
+      (TR.layers || []).forEach(L => out.push({
+        who: L.name || TR_TYPE_NAMES[L.type] || L.type, dot: T_COLOR[L.type] || '#888',
+        label:'跑幾圈', unit:'圈', mn:1, mx:12, st:1,
+        get: () => Math.max(1, Math.round(+L.tLaps || 1)),
+        set: v => { L.tLaps = clamp(Math.round(v), 1, 12); },
+        perLoop:(v) => v, toRaw:(n) => n,
+      }));
+    }
+    return out.filter(r => r);
+  }
+
+  // ---------- 繪製 ----------
+  let cur = [];
+  function render(){
+    const t = T();
+    $('spdLoopT').textContent = t.toFixed(2);
+    const fEl = activeTab === 'edge' ? $('seqFrames') : $('trFrames');
+    const pEl = activeTab === 'edge' ? $('seqFps') : $('trFps');
+    $('spdFrames').value = fEl ? fEl.value : 30;
+    $('spdFps').value = pEl ? pEl.value : 30;
+
+    // 空群組（底下一列都沒有）直接丟掉
+    cur = rows().filter((r, i, a) => !r.grp || (a[i + 1] && !a[i + 1].grp));
+    list.innerHTML = '';
+    const real = cur.filter(r => !r.grp);
+    if(!real.length){
+      const e = document.createElement('div');
+      e.className = 'spdEmpty';
+      e.textContent = '這個分頁目前沒有跟時間有關的參數（還沒有圖層，或圖層都是靜態的）。';
+      list.appendChild(e); return;
+    }
+    cur.forEach((r, i) => {
+      if(r.grp){
+        const g = document.createElement('div');
+        g.className = 'spdGrp'; g.textContent = r.grp;
+        list.appendChild(g); return;
+      }
+      const row = document.createElement('div');
+      row.className = 'spdRow';
+      row.innerHTML = '<div class="who"><span class="dot"></span><span class="nm"></span>'
+        + '<span class="pn"></span></div>'
+        + '<input type="range">'
+        + '<span class="raw"></span>'
+        + '<span class="per"></span>';
+      row.querySelector('.dot').style.background = r.dot;
+      row.querySelector('.nm').textContent = r.who;
+      row.querySelector('.pn').textContent = '· ' + r.label;
+      const rg = row.querySelector('input'), raw = row.querySelector('.raw'), per = row.querySelector('.per');
+      rg.min = r.mn; rg.max = r.mx; rg.step = r.st; rg.value = r.get();
+      const paint = () => {
+        const v = r.get();
+        rg.value = v;
+        raw.textContent = (Math.abs(v) < 10 ? (+v).toFixed(2).replace(/\.?0+$/, '') : Math.round(v));
+        per.innerHTML = '';
+        if(!r.unit || !r.perLoop){
+          const s = document.createElement('span');
+          s.className = 'none'; s.textContent = '沒有週期';
+          s.title = '這是噪聲流動，沒有「跑完一次」的概念，怎麼調都不影響無縫 loop。';
+          per.appendChild(s); return;
+        }
+        const n = r.perLoop(v, T());
+        const box = document.createElement('input');
+        box.type = 'number'; box.step = r.mult ? 0.25 : 1; box.value = +n.toFixed(2);
+        box.title = '一個循環裡跑幾' + r.unit + '；直接改這裡會反推回原生參數值';
+        box.onchange = () => {
+          const want = +box.value;
+          if(isNaN(want)) return paint();
+          r.set(clamp(r.toRaw(want, T()), r.mn, r.mx));
+          commit(); render();
+        };
+        per.appendChild(box);
+        const u = document.createElement('span'); u.textContent = r.unit; per.appendChild(u);
+        if(r.reroll){
+          const s2 = document.createElement('span');
+          s2.className = 'none'; s2.textContent = '每次重骰';
+          s2.title = '這一類每一個 tick 會重新抽一個形態，所以數字是整數也接不回起點'
+                    + '（實測過）。匯出時靠尾幀的交叉淡化處理，不用特別對齊。';
+          per.appendChild(s2);
+        } else if(!r.mult && !nearInt(n)){
+          const w = document.createElement('span');
+          w.className = 'spdWarn'; w.textContent = '⚠';
+          w.title = '不是整數，尾幀接首幀時這一項會跳一下';
+          per.appendChild(w);
+          const fix = document.createElement('button');
+          fix.className = 'btn sm ghost fix'; fix.textContent = '對齊';
+          fix.title = '四捨五入到最接近的整數次';
+          fix.onclick = () => {
+            const k = Math.max(r.mn > 0 ? 1 : 0, Math.round(n)) || (n > 0 ? 1 : -1);
+            r.set(clamp(r.toRaw(k, T()), r.mn, r.mx)); commit(); render();
+          };
+          per.appendChild(fix);
+        }
+      };
+      rg.oninput = () => { r.set(+rg.value); paint(); live(); };
+      rg.onchange = () => commit();
+      paint();
+      list.appendChild(row);
+    });
+    if(typeof syncSliderFills === 'function') syncSliderFills();
+  }
+
+  const live = () => { if(activeTab === 'edge') saveStateDebounced(); else trSaveDebounced(); };
+  const commit = () => { if(activeTab === 'edge') saveState(); else trSaveState(); };
+
+  // ---------- 整體速度 ----------
+  function scaleAll(k){
+    const t = T();
+    rows().filter(r => !r.grp).forEach(r => {
+      const v = r.get();
+      if(r.unit && r.perLoop && !r.mult && !r.reroll){
+        const n = r.perLoop(v, t) * k;
+        const want = Math.abs(n) < 1 ? (n === 0 ? 0 : Math.sign(n)) : Math.round(n);
+        r.set(clamp(r.toRaw(want, t), r.mn, r.mx));         // round 回整數次，加速完仍然無縫
+      } else {
+        r.set(clamp(v * k, r.mn, r.mx));
+      }
+    });
+    commit(); render();
+    toast(k > 1 ? '整體速度 ×2，有週期的項目已對齊到整數次' : '整體速度 ÷2，有週期的項目已對齊到整數次', 'ok');
+  }
+  $('spdDouble').onclick = () => scaleAll(2);
+  $('spdHalf').onclick = () => scaleAll(0.5);
+  $('spdSnapAll').onclick = () => {
+    const t = T(); let n = 0;
+    rows().filter(r => !r.grp && r.unit && r.perLoop && !r.mult && !r.reroll).forEach(r => {
+      const c = r.perLoop(r.get(), t);
+      if(nearInt(c)) return;
+      const k = Math.round(c) || (c > 0 ? 1 : -1);
+      r.set(clamp(r.toRaw(k, t), r.mn, r.mx)); n++;
+    });
+    commit(); render();
+    toast(n ? ('已把 ' + n + ' 項對齊到整數次，尾幀接首幀不會再跳') : '每一項本來就都是整數次', 'ok');
+  };
+  $('spdUndo').onclick = () => { $('uiUndo').click(); render(); };
+
+  // loop 長度：寫回原本的欄位，讓引擎自己的 onchange 跑
+  function bindLoop(id, get){
+    $(id).onchange = () => {
+      const el = get(); if(!el) return;
+      el.value = $(id).value;
+      el.dispatchEvent(new Event('change', { bubbles:true }));
+      render();
+    };
+  }
+  bindLoop('spdFrames', () => activeTab === 'edge' ? $('seqFrames') : $('trFrames'));
+  bindLoop('spdFps',    () => activeTab === 'edge' ? $('seqFps')    : $('trFps'));
+
+  // ---------- 開關 ----------
+  function open(){ render(); dlg.classList.add('show'); }
+  function close(){ dlg.classList.remove('show'); }
+  $('uiEdgeSpeed').onclick = open;
+  $('uiTrSpeed').onclick = open;
+  dlg.querySelector('[data-close]').onclick = close;
+  dlg.addEventListener('click', e => { if(e.target === dlg) close(); });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && dlg.classList.contains('show')){ e.stopPropagation(); close(); }
+  }, true);
+
+  // ---------- 時間軸上的「無縫」常駐指示 ----------
+  //  以前要發現「尾幀接首幀會跳」只能匯出之後用眼睛看。這顆 badge 每 500ms
+  //  掃一次目前分頁的所有週期性參數，有小數就報幾項，點一下直接開總表。
+  function seamCheck(){
+    const id = activeTab === 'edge' ? 'eSeam' : 'trSeam';
+    const el = $(id); if(!el) return;
+    const t = T();
+    let bad = 0, tot = 0;
+    rows().forEach(r => {
+      if(r.grp || !r.unit || !r.perLoop || r.mult || r.reroll) return;
+      tot++;
+      if(!nearInt(r.perLoop(r.get(), t))) bad++;
+    });
+    el.classList.toggle('ok', tot > 0 && bad === 0);
+    el.classList.toggle('warn', bad > 0);
+    el.textContent = !tot ? '沒有週期性項目'
+                   : bad ? ('⚠ ' + bad + ' 項會跳')
+                         : '✓ 無縫';
+    el.title = !tot ? '這個分頁目前沒有「跑完幾次」這種參數，尾幀接首幀不會因為速度而跳。點一下開速度總表。'
+             : bad ? (bad + ' 項的「每圈次數」不是整數，尾幀接首幀會跳一下。點一下開速度總表，按「全部對齊到整數次」就好。')
+                   : ('全部 ' + tot + ' 項都是整數次，尾幀接首幀接得上。點一下開速度總表。');
+  }
+  ['eSeam', 'trSeam'].forEach(id => { const e = $(id); if(e) e.onclick = open; });
+  setInterval(() => { try{ seamCheck(); }catch(e){} }, 500);
+  seamCheck();
+
+  window.SPDTABLE = { open:open, render:render, rows:rows };
+})();
+
+// ============================================================
+//  速度曲線預視（拖尾）
+//
+//  使用者反映「模式／拖尾長度／速度曲線／淡入淡出要互相搭配才看得出效果，
+//  單看滑桿猜不到結果」。這裡在「動態」區塊最上面放一張小圖，把兩件事畫出來：
+//    藍線 = 頭部走到哪（trHeadS）—— 速度曲線與模式長什麼樣，一眼就看到
+//    青塊 = 這一刻有多亮（trEnvelope）—— 淡入淡出吃掉了哪一段
+//  兩條都是**直接呼叫引擎的函式**取樣 120 點畫出來的，不是示意圖，所以
+//  改任何一個參數、換任何一個模式，圖都一定跟實際算出來的一致。
+//  白線是播放頭，跟著預覽跑。
+// ============================================================
+(function(){
+  const box = $('trEasePrev');
+  if(!box || typeof trHeadS !== 'function' || typeof trEnvelope !== 'function') return;
+  const W = 240, H = 86, PAD = 6, N = 120;
+  const gEl = $('epGrid'), envEl = $('epEnv'), headEl = $('epHead'), nowEl = $('epNow');
+
+  // 格線只畫一次
+  (function grid(){
+    let d = '';
+    for(let i = 0; i <= 4; i++){
+      const x = PAD + (W - PAD * 2) * i / 4;
+      d += '<line class="ep-grid" x1="' + x.toFixed(1) + '" y1="2" x2="' + x.toFixed(1) + '" y2="' + (H - 2) + '"/>';
+    }
+    for(let i = 0; i <= 2; i++){
+      const y = PAD + (H - PAD * 2) * i / 2;
+      d += '<line class="ep-grid" x1="2" y1="' + y.toFixed(1) + '" x2="' + (W - 2) + '" y2="' + y.toFixed(1) + '"/>';
+    }
+    d += '<text class="ep-lab" x="4" y="' + (H - 3) + '">0</text>'
+       + '<text class="ep-lab" x="' + (W - 34) + '" y="' + (H - 3) + '">一圈</text>';
+    gEl.innerHTML = d;
+  })();
+
+  let sig = '';
+  function draw(force){
+    if(!box.offsetParent) return;                    // 區塊收起來就不算
+    const T = trLoopT();
+    const k = [TR.mode, TR.ease, TR.tailLen, TR.fadeIn, TR.fadeOut, TR.delay, TR.closed, T].join(',');
+    if(!force && k === sig) return;
+    sig = k;
+    let hd = '', en = '', maxH = 1;
+    const hs = [], es = [];
+    for(let i = 0; i <= N; i++){
+      const t = T * i / N;
+      let h = 0, e = 0;
+      try{ h = +trHeadS(t) || 0; e = +trEnvelope(t) || 0; }catch(err){}
+      hs.push(h); es.push(e);
+      if(Math.abs(h) > maxH) maxH = Math.abs(h);
+    }
+    const X = i => PAD + (W - PAD * 2) * i / N;
+    const Y = v => H - PAD - (H - PAD * 2) * clamp(v, 0, 1);
+    for(let i = 0; i <= N; i++){
+      hd += (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(hs[i] / maxH).toFixed(1);
+      en += (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(es[i]).toFixed(1);
+    }
+    en += 'L' + X(N).toFixed(1) + ' ' + (H - PAD) + 'L' + X(0).toFixed(1) + ' ' + (H - PAD) + 'Z';
+    headEl.setAttribute('d', hd);
+    envEl.setAttribute('d', en);
+    box.title = '藍線＝頭部走到哪（最遠 ' + maxH.toFixed(2) + ' 圈）；青塊＝那一刻的亮度。'
+              + '兩條都是直接呼叫引擎的 trHeadS／trEnvelope 算的，不是示意圖。';
+  }
+
+  function playhead(){
+    if(!box.offsetParent) return;
+    const T = trLoopT();
+    let u = (TR.t / T) % 1; if(u < 0) u += 1;
+    const x = (PAD + (W - PAD * 2) * u).toFixed(1);
+    if(nowEl.getAttribute('x1') !== x){ nowEl.setAttribute('x1', x); nowEl.setAttribute('x2', x); }
+  }
+
+  const _trFrame = trFrame;
+  trFrame = function(){ const r = _trFrame.apply(this, arguments); draw(); playhead(); return r; };
+  const _trSyncUI = trSyncUI;
+  trSyncUI = function(){ const r = _trSyncUI.apply(this, arguments); draw(true); return r; };
+  // 滑桿拖曳中 trSyncUI 不一定會跑，所以也聽輸入事件
+  ['trTailLen', 'trFadeIn', 'trFadeOut', 'trDelay', 'trEase', 'trMode', 'trClosed']
+    .forEach(id => { const e = $(id); if(e) e.addEventListener('input', () => draw(true)); });
+  draw(true);
 })();
 
 // ============================================================
